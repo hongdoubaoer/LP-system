@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>虎校 LP 管台升级 Demo</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --surface-soft: #f8fafc;
+      --surface-blue: #eef6ff;
+      --text: #142033;
+      --text-2: #556171;
+      --text-3: #8a96a8;
+      --line: #e6ebf2;
+      --line-strong: #d8e0ea;
+      --brand: #2a78d6;
+      --brand-2: #3987e5;
+      --orange: #eb6834;
+      --aqua: #1baf7a;
+      --yellow: #eda100;
+      --red: #d03b3b;
+      --green: #0ca30c;
+      --purple: #6f57d9;
+      --shadow: 0 14px 42px rgba(20, 32, 51, .08);
+      --radius: 18px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color-scheme: light;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top left, #edf6ff 0, transparent 30%), var(--bg);
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 248px 1fr;
+    }
+
+    .sidebar {
+      background: #0f1c2e;
+      color: #d7e2f4;
+      padding: 22px 18px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      box-shadow: 12px 0 36px rgba(15, 28, 46, .16);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #3987e5, #1baf7a);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+    .brand-title { font-size: 17px; font-weight: 800; color: white; }
+    .brand-subtitle { color: #8ea2bd; font-size: 12px; margin-top: 2px; }
+
+    .nav-section-title {
+      font-size: 12px;
+      color: #7487a3;
+      margin: 20px 10px 8px;
+    }
+    .nav-item {
+      border: 0;
+      background: transparent;
+      color: #c9d7eb;
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+      transition: .18s ease;
+    }
+    .nav-item:hover { background: rgba(255,255,255,.07); color: white; }
+    .nav-item.active { background: #203b5f; color: white; }
+    .nav-icon { width: 22px; text-align: center; }
+
+    .main {
+      min-width: 0;
+    }
+    .topbar {
+      height: 72px;
+      padding: 0 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(245, 247, 251, .86);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(230,235,242,.8);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .crumb { color: var(--text-2); font-size: 13px; margin-bottom: 3px; }
+    h1 { font-size: 22px; line-height: 1.2; margin: 0; letter-spacing: -.02em; }
+    .top-actions { display: flex; align-items: center; gap: 10px; }
+    .search {
+      width: 320px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px 12px;
+      box-shadow: 0 6px 18px rgba(20,32,51,.04);
+    }
+    .search input { border: 0; outline: 0; width: 100%; font: inherit; color: var(--text); }
+    .user-pill {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 10px;
+      border-radius: 14px;
+      background: white;
+      border: 1px solid var(--line);
+    }
+    .avatar {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: linear-gradient(135deg, #2a78d6, #e87ba4);
+      color: white; display: grid; place-items: center; font-weight: 800;
+    }
+
+    .page { display: none; padding: 24px 28px 42px; }
+    .page.active { display: block; }
+
+    .grid { display: grid; gap: 16px; }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .layout-student { display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 18px; align-items: start; }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 28px rgba(20, 32, 51, .05);
+      overflow: hidden;
+    }
+    .card-pad { padding: 18px; }
+    .card-header {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .card-title { font-size: 16px; font-weight: 800; letter-spacing: -.01em; }
+    .card-desc { color: var(--text-2); font-size: 12px; margin-top: 3px; }
+
+    .metric-card {
+      padding: 17px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, white, #fbfcff);
+      box-shadow: 0 8px 24px rgba(20,32,51,.045);
+      min-height: 124px;
+      position: relative;
+      overflow: hidden;
+    }
+    .metric-card::after {
+      content: "";
+      position: absolute; right: -35px; top: -40px;
+      width: 110px; height: 110px; border-radius: 50%;
+      background: rgba(42,120,214,.08);
+    }
+    .metric-label { color: var(--text-2); font-size: 13px; display:flex; align-items:center; gap:6px; }
+    .metric-value { font-size: 30px; font-weight: 850; letter-spacing: -.04em; margin: 9px 0 7px; }
+    .metric-foot { display: flex; gap: 8px; align-items: center; color: var(--text-3); font-size: 12px; }
+    .delta { font-weight: 700; color: var(--green); }
+    .delta.bad { color: var(--red); }
+    .delta.warn { color: #a87000; }
+
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .btn {
+      border: 1px solid var(--line-strong);
+      background: white;
+      color: var(--text);
+      border-radius: 12px;
+      padding: 9px 13px;
+      cursor: pointer;
+      font: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: .16s ease;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 18px rgba(20,32,51,.08); }
+    .btn.primary { background: var(--brand); color: white; border-color: var(--brand); }
+    .btn.green { background: #eaf8ec; color: #0a7b0a; border-color: #cbeccf; }
+    .btn.orange { background: #fff3ed; color: #b5481f; border-color: #ffd8c6; }
+    .btn.danger { background: #fff0f0; color: #b42c2c; border-color: #ffd1d1; }
+    .btn.ghost { background: transparent; }
+    .btn.small { padding: 6px 9px; border-radius: 10px; font-size: 12px; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #eef2f7;
+      color: #506174;
+      white-space: nowrap;
+    }
+    .tag.blue { background: #eaf3ff; color: #1f65b7; }
+    .tag.green { background: #e9f8ee; color: #0d7b2d; }
+    .tag.orange { background: #fff2e8; color: #b54f21; }
+    .tag.red { background: #fff0f0; color: #b72f2f; }
+    .tag.purple { background: #f0edff; color: #5d43bb; }
+    .tag.gray { background: #f1f4f8; color: #667386; }
+
+    .section-title { font-size: 18px; font-weight: 850; margin: 24px 0 12px; display:flex; align-items:center; gap:10px; }
+    .section-title:first-child { margin-top: 0; }
+
+    .student-hero {
+      background: linear-gradient(135deg, #ffffff 0%, #f6fbff 60%, #edf6ff 100%);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+    .profile-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+    .student-main { display: flex; gap: 16px; align-items: center; }
+    .student-avatar {
+      width: 72px; height: 72px; border-radius: 24px;
+      background: linear-gradient(135deg, #2a78d6, #1baf7a);
+      color: white; display: grid; place-items: center; font-size: 26px; font-weight: 900;
+      box-shadow: 0 16px 32px rgba(42,120,214,.22);
+    }
+    .student-name { font-size: 28px; font-weight: 900; letter-spacing: -.04em; }
+    .student-meta { margin-top: 8px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .hero-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+
+    .info-list { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 12px; margin-top: 18px; }
+    .info-item { padding: 13px; background: rgba(255,255,255,.75); border:1px solid var(--line); border-radius: 14px; }
+    .info-label { color: var(--text-3); font-size: 12px; }
+    .info-value { margin-top: 5px; font-weight: 750; }
+    .link { color: var(--brand); font-weight: 800; text-decoration: none; cursor: pointer; }
+
+    .kpi-row { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+    .mini-kpi {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      min-height: 96px;
+    }
+    .mini-label { color: var(--text-2); font-size: 12px; }
+    .mini-value { margin-top: 8px; font-size: 22px; font-weight: 900; letter-spacing: -.03em; }
+    .mini-note { margin-top: 5px; color: var(--text-3); font-size: 12px; }
+
+    .progress-wrap { margin-top: 12px; }
+    .progress-top { display:flex; justify-content:space-between; color:var(--text-2); font-size:12px; margin-bottom:8px; }
+    .progress-bar { height: 10px; border-radius: 999px; background: #edf1f7; overflow: hidden; }
+    .progress-fill { height:100%; border-radius:999px; background: linear-gradient(90deg, var(--brand), var(--aqua)); }
+    .progress-fill.orange { background: linear-gradient(90deg, var(--yellow), var(--orange)); }
+    .progress-fill.red { background: linear-gradient(90deg, #ec835a, var(--red)); }
+
+    .tabs { display: flex; gap: 8px; padding: 7px; background: #f2f5f9; border-radius: 14px; }
+    .tab {
+      border: 0; background: transparent; padding: 8px 12px; border-radius: 10px;
+      color: var(--text-2); cursor: pointer; font-weight: 750;
+    }
+    .tab.active { background: white; color: var(--brand); box-shadow: 0 4px 12px rgba(20,32,51,.06); }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
+
+    .task-card {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      background: white;
+      margin-bottom: 12px;
+      position: relative;
+    }
+    .task-card.priority { border-color: #ffd1d1; background: linear-gradient(180deg, #fff, #fff8f8); }
+    .task-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+    .task-title { font-weight: 850; font-size: 15px; margin-top: 8px; }
+    .task-meta { color: var(--text-2); font-size: 12px; margin-top: 7px; display:flex; gap:10px; flex-wrap:wrap; }
+    .task-actions { display:flex; gap:8px; margin-top:12px; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 12px 12px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+    th { color: var(--text-2); font-size: 12px; font-weight: 800; background: #fafcff; }
+    td { color: var(--text); }
+    tr:hover td { background: #fbfdff; }
+
+    .calendar-toolbar { display:flex; justify-content:space-between; gap:12px; align-items:center; padding:16px 18px; border-bottom:1px solid var(--line); }
+    .calendar-grid { display:grid; grid-template-columns: repeat(7, 1fr); background: var(--line); gap:1px; }
+    .dow, .day { background:white; min-height:102px; padding:9px; }
+    .dow { min-height:40px; display:grid; place-items:center; color:var(--text-2); font-weight:800; }
+    .day { position:relative; cursor:pointer; transition:.16s ease; }
+    .day:hover { background:#f8fbff; }
+    .day-number { color:var(--text-3); font-size:12px; font-weight:800; margin-bottom:6px; }
+    .lesson {
+      border-radius: 10px;
+      padding: 7px 8px;
+      margin-top: 5px;
+      background: #eef6ff;
+      border-left: 4px solid var(--brand);
+      font-size: 12px;
+      line-height:1.3;
+    }
+    .lesson.done { background:#edf9f0; border-left-color: var(--green); }
+    .lesson.live { background:#fff7e8; border-left-color: var(--yellow); }
+    .lesson.bad { background:#fff1f1; border-left-color: var(--red); }
+    .lesson.cancel { background:#f1f3f6; border-left-color:#9ba5b4; }
+
+    .popover {
+      position: fixed;
+      z-index: 100;
+      width: 320px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 22px 60px rgba(20,32,51,.18);
+      padding: 14px;
+      display: none;
+    }
+    .popover.active { display:block; }
+    .popover-title { font-size: 16px; font-weight: 900; margin-bottom: 8px; }
+    .kv { display:grid; grid-template-columns: 88px 1fr; gap:8px; padding:7px 0; border-bottom:1px dashed var(--line); }
+    .kv:last-child { border-bottom:0; }
+    .kv-label { color:var(--text-3); }
+    .kv-value { font-weight:750; }
+
+    .chart-card { padding: 18px; }
+    .bar-list { display:grid; gap:12px; }
+    .bar-row { display:grid; grid-template-columns: 80px 1fr 58px; gap:10px; align-items:center; }
+    .bar-track { height: 11px; border-radius: 999px; background:#edf1f7; overflow:hidden; }
+    .bar { height:100%; border-radius:999px; background:var(--brand); }
+    .bar.orange { background:var(--orange); }
+    .bar.aqua { background:var(--aqua); }
+    .bar.yellow { background:var(--yellow); }
+    .bar.red { background:var(--red); }
+    .bar-num { text-align:right; font-weight:850; color:var(--text-2); }
+
+    .line-chart { width:100%; height:220px; overflow:visible; }
+    .axis-text { font-size:11px; fill:#8a96a8; }
+    .gridline { stroke:#e6ebf2; stroke-width:1; }
+    .line-main { fill:none; stroke:#2a78d6; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+    .line-second { fill:none; stroke:#eb6834; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+    .dot { fill:white; stroke-width:3; }
+
+    .contact-grid { display:grid; gap:12px; }
+    .contact-item { display:flex; justify-content:space-between; gap:10px; align-items:center; padding:13px; border:1px solid var(--line); border-radius:14px; background:#fff; }
+    .contact-left { display:flex; gap:11px; align-items:center; }
+    .contact-icon { width:36px; height:36px; border-radius:12px; display:grid; place-items:center; background:#eef6ff; }
+
+    .empty-state { border:1px dashed var(--line-strong); border-radius:16px; padding:22px; color:var(--text-2); text-align:center; background:#fbfcff; }
+
+    .parent-hero { display:grid; grid-template-columns: minmax(0,1fr) 300px; gap:16px; }
+    .student-chip { display:flex; align-items:center; gap:10px; padding:10px; border:1px solid var(--line); border-radius:14px; background:#fbfdff; margin-top:10px; }
+    .chip-avatar { width:36px; height:36px; border-radius:12px; background:linear-gradient(135deg,#2a78d6,#1baf7a); color:white; display:grid; place-items:center; font-weight:900; }
+
+    .drawer-mask {
+      position: fixed; inset: 0; background: rgba(15,28,46,.35); z-index: 200; display:none;
+    }
+    .drawer-mask.active { display:block; }
+    .drawer {
+      position: fixed; right: 0; top:0; height:100vh; width: 520px;
+      background:white; z-index:201; box-shadow: -16px 0 50px rgba(20,32,51,.18);
+      transform: translateX(105%); transition: .22s ease; padding:22px; overflow:auto;
+    }
+    .drawer.active { transform: translateX(0); }
+    .drawer-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+    .form-grid { display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+    .field label { display:block; color:var(--text-2); font-size:12px; font-weight:800; margin-bottom:7px; }
+    .field input, .field select, .field textarea {
+      width:100%; border:1px solid var(--line-strong); border-radius:12px; padding:10px 11px; font:inherit; outline:0; background:white;
+    }
+    .field textarea { min-height:110px; resize:vertical; }
+
+    .toast {
+      position: fixed; right: 24px; bottom: 24px; z-index: 300;
+      background: #0f1c2e; color: white; padding: 13px 16px; border-radius: 14px;
+      box-shadow: 0 18px 48px rgba(15,28,46,.25); display:none;
+    }
+    .toast.active { display:block; animation: toast .25s ease; }
+    @keyframes toast { from { transform: translateY(10px); opacity:0; } to { transform: translateY(0); opacity:1; } }
+
+    @media (max-width: 1180px) {
+      .app { grid-template-columns: 82px 1fr; }
+      .sidebar { padding: 18px 12px; }
+      .brand-title, .brand-subtitle, .nav-text, .nav-section-title { display:none; }
+      .nav-item { justify-content:center; }
+      .layout-student, .parent-hero { grid-template-columns: 1fr; }
+      .kpi-row { grid-template-columns: repeat(3, minmax(0,1fr)); }
+      .info-list { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 820px) {
+      .app { display:block; }
+      .sidebar { position:relative; height:auto; display:flex; overflow:auto; gap:8px; }
+      .brand, .nav-section-title { display:none; }
+      .nav-item { width:auto; white-space:nowrap; }
+      .nav-text { display:inline; }
+      .topbar { position:relative; height:auto; align-items:flex-start; flex-direction:column; padding:18px; gap:12px; }
+      .top-actions, .search { width:100%; }
+      .grid-4, .grid-3, .grid-2 { grid-template-columns:1fr; }
+      .page { padding:18px; }
+      .kpi-row { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .drawer { width:100%; }
+      .calendar-grid { min-width: 760px; }
+      .card.calendar-scroll { overflow:auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">LP</div>
+        <div>
+          <div class="brand-title">虎校 LP 管台</div>
+          <div class="brand-subtitle">服务增长一体化工作台</div>
+        </div>
+      </div>
+      <div class="nav-section-title">一级菜单</div>
+      <button class="nav-item active" data-page="dashboard"><span class="nav-icon">📊</span><span class="nav-text">工作台</span></button>
+      <button class="nav-item" data-page="student"><span class="nav-icon">👦</span><span class="nav-text">学生管理</span></button>
+      <button class="nav-item" data-page="parent"><span class="nav-icon">👩‍👦</span><span class="nav-text">家长管理</span></button>
+      <button class="nav-item" data-page="order"><span class="nav-icon">🧾</span><span class="nav-text">订单详情</span></button>
+      <button class="nav-item" data-page="teacher"><span class="nav-icon">🌍</span><span class="nav-text">外教</span></button>
+      <button class="nav-item" data-page="course"><span class="nav-icon">📅</span><span class="nav-text">课程管理</span></button>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <div class="crumb" id="crumb">首页 / LP 工作台</div>
+          <h1 id="pageTitle">LP 工作台升级 Demo</h1>
+        </div>
+        <div class="top-actions">
+          <div class="search"><span>🔎</span><input placeholder="搜索学生ID / 家长ID / 手机号 / 订单号" /></div>
+          <div class="user-pill"><div class="avatar">王</div><div><b>王娟</b><div style="font-size:12px;color:var(--text-3)">LP · 北京区</div></div></div>
+        </div>
+      </header>
+
+      <section class="page active" id="dashboard">
+        <div class="section-title">📊 今日经营概览</div>
+        <div class="grid grid-4">
+          <div class="metric-card"><div class="metric-label">续费 GMV</div><div class="metric-value">$38,420</div><div class="metric-foot"><span class="delta">↑ 12.4%</span><span>较上月同期</span></div></div>
+          <div class="metric-card"><div class="metric-label">续费净 GMV</div><div class="metric-value">$34,180</div><div class="metric-foot"><span class="delta">↑ 8.1%</span><span>扣除退费</span></div></div>
+          <div class="metric-card"><div class="metric-label">本月课消</div><div class="metric-value">7.8</div><div class="metric-foot"><span class="delta warn">目标 12 节</span><span>人均已消耗</span></div></div>
+          <div class="metric-card"><div class="metric-label">日均通话时长</div><div class="metric-value">126m</div><div class="metric-foot"><span class="delta">↑ 18m</span><span>有效外呼</span></div></div>
+        </div>
+
+        <div class="section-title">🚨 当前优先任务</div>
+        <div class="grid grid-3">
+          <div class="card card-pad">
+            <div class="task-head"><span class="tag red">已超时</span><span class="tag orange">当前优先</span></div>
+            <div class="task-title">王小明 · 首课回访</div>
+            <div class="task-meta"><span>已超时 4 天</span><span>首次完课触发</span></div>
+            <div class="task-actions"><button class="btn primary small" onclick="toast('已发起外呼：王小明家长')">外呼</button><button class="btn small" onclick="openDrawer('follow')">留 Follow</button></div>
+          </div>
+          <div class="card card-pad">
+            <div class="task-head"><span class="tag orange">24h 内</span><span class="tag blue">问题课程</span></div>
+            <div class="task-title">陈一诺 · 学生缺席需安抚</div>
+            <div class="task-meta"><span>09-29 19:30 课程</span><span>老师 Estelle</span></div>
+            <div class="task-actions"><button class="btn primary small">外呼</button><button class="btn small">重新约课</button></div>
+          </div>
+          <div class="card card-pad">
+            <div class="task-head"><span class="tag purple">补差倒计时</span><span class="tag gray">90天节点</span></div>
+            <div class="task-title">李嘉乐 · 还剩 12 天补差</div>
+            <div class="task-meta"><span>首付 $100</span><span>目标二笔 ≥ $100</span></div>
+            <div class="task-actions"><button class="btn orange small">下单</button><button class="btn small">查看话术</button></div>
+          </div>
+        </div>
+
+        <div class="grid grid-2" style="margin-top:18px;">
+          <div class="card chart-card">
+            <div class="card-title">本月任务完成情况</div>
+            <div class="card-desc">按服务节点统计；颜色仅表示不同节点，状态用标签表达</div>
+            <div class="bar-list" style="margin-top:18px;">
+              <div class="bar-row"><b>首通</b><div class="bar-track"><div class="bar" style="width:92%"></div></div><div class="bar-num">92%</div></div>
+              <div class="bar-row"><b>首课</b><div class="bar-track"><div class="bar orange" style="width:76%"></div></div><div class="bar-num">76%</div></div>
+              <div class="bar-row"><b>问题课</b><div class="bar-track"><div class="bar aqua" style="width:68%"></div></div><div class="bar-num">68%</div></div>
+              <div class="bar-row"><b>月回访</b><div class="bar-track"><div class="bar yellow" style="width:61%"></div></div><div class="bar-num">61%</div></div>
+              <div class="bar-row"><b>补差</b><div class="bar-track"><div class="bar red" style="width:42%"></div></div><div class="bar-num">42%</div></div>
+            </div>
+          </div>
+          <div class="card chart-card">
+            <div class="card-title">GMV 与课消趋势</div>
+            <div class="card-desc">近 6 周快照：蓝线 GMV，橙线课消目标完成率</div>
+            <svg class="line-chart" viewBox="0 0 560 220" aria-label="GMV 与课消趋势">
+              <line class="gridline" x1="40" y1="30" x2="540" y2="30"/><line class="gridline" x1="40" y1="80" x2="540" y2="80"/><line class="gridline" x1="40" y1="130" x2="540" y2="130"/><line class="gridline" x1="40" y1="180" x2="540" y2="180"/>
+              <text class="axis-text" x="8" y="34">高</text><text class="axis-text" x="8" y="184">低</text>
+              <path class="line-main" d="M50 150 C90 128,110 120,140 118 S210 82,240 92 S310 138,340 106 S410 58,440 64 S510 52,530 44"/>
+              <path class="line-second" d="M50 168 C90 150,110 148,140 138 S210 122,240 128 S310 112,340 98 S410 86,440 90 S510 72,530 78"/>
+              <g><circle class="dot" cx="50" cy="150" r="5" stroke="#2a78d6"/><circle class="dot" cx="140" cy="118" r="5" stroke="#2a78d6"/><circle class="dot" cx="240" cy="92" r="5" stroke="#2a78d6"/><circle class="dot" cx="340" cy="106" r="5" stroke="#2a78d6"/><circle class="dot" cx="440" cy="64" r="5" stroke="#2a78d6"/><circle class="dot" cx="530" cy="44" r="5" stroke="#2a78d6"/></g>
+              <g><text class="axis-text" x="42" y="208">W1</text><text class="axis-text" x="132" y="208">W2</text><text class="axis-text" x="232" y="208">W3</text><text class="axis-text" x="332" y="208">W4</text><text class="axis-text" x="432" y="208">W5</text><text class="axis-text" x="522" y="208">W6</text></g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="section-title">👥 学员列表 · 需要重点关注</div>
+        <div class="card">
+          <table>
+            <thead><tr><th>学生</th><th>LP / CC</th><th>剩余课时</th><th>课消进展</th><th>最近覆盖</th><th>当前任务</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td><b class="link" onclick="goPage('student')">315014 王小明 / Olivia</b><br><span style="color:var(--text-3)">二年级 · 520L</span></td><td>王娟 / 温晓旭</td><td><b>32</b> 课时</td><td><span class="tag orange">3 / 12</span></td><td>3 天前</td><td><span class="tag red">首课超时</span></td><td><button class="btn small primary" onclick="goPage('student')">查看</button></td></tr>
+              <tr><td><b>398012 陈一诺 / Emma</b><br><span style="color:var(--text-3)">三年级 · 610L</span></td><td>王娟 / 李莉</td><td><b>18</b> 课时</td><td><span class="tag blue">7 / 12</span></td><td>1 天前</td><td><span class="tag orange">问题课程</span></td><td><button class="btn small">查看</button></td></tr>
+              <tr><td><b>280156 李嘉乐 / Jason</b><br><span style="color:var(--text-3)">一年级 · 380L</span></td><td>王娟 / 温晓旭</td><td><b>9</b> 课时</td><td><span class="tag red">2 / 12</span></td><td>12 天前</td><td><span class="tag purple">补差</span></td><td><button class="btn small">查看</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="student">
+        <div class="student-hero">
+          <div class="profile-row">
+            <div class="student-main">
+              <div class="student-avatar">明</div>
+              <div>
+                <div class="student-name">王小明 <span style="font-size:18px;color:var(--text-2);font-weight:700">Olivia</span></div>
+                <div class="student-meta">
+                  <span class="tag blue">SID 315014</span><span class="tag green">原版英语课 0-4</span><span class="tag orange">二年级 · 8岁</span><span class="tag purple">蓝思 520L</span>
+                </div>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <button class="btn primary" onclick="toast('已发起外呼：86-137****9286')">📞 外呼</button>
+              <button class="btn green" onclick="openDrawer('schedule')">📅 约课</button>
+              <button class="btn" onclick="openDrawer('follow')">✍️ 留 Follow</button>
+              <button class="btn" onclick="openDrawer('student')">编辑学生信息</button>
+            </div>
+          </div>
+          <div class="info-list">
+            <div class="info-item"><div class="info-label">家长ID</div><div class="info-value link" onclick="goPage('parent')">363454 →</div></div>
+            <div class="info-item"><div class="info-label">学校</div><div class="info-value">人大附小</div></div>
+            <div class="info-item"><div class="info-label">归属 LP</div><div class="info-value">王娟</div></div>
+            <div class="info-item"><div class="info-label">归属 CC</div><div class="info-value">温晓旭</div></div>
+            <div class="info-item"><div class="info-label">下次课标</div><div class="info-value">OW-L2-U5-LC1-1</div></div>
+            <div class="info-item"><div class="info-label">课时有效期</div><div class="info-value">至 2027-06-30</div></div>
+            <div class="info-item"><div class="info-label">微信</div><div class="info-value">已添加 · 小明妈妈</div></div>
+            <div class="info-item"><div class="info-label">手机号</div><div class="info-value">86-137****9286 <button class="btn small" onclick="toast('已申请解密权限')">解密</button></div></div>
+          </div>
+          <div class="kpi-row">
+            <div class="mini-kpi"><div class="mini-label">剩余课时</div><div class="mini-value">32</div><div class="mini-note">付费 28 · 赠课 4</div></div>
+            <div class="mini-kpi"><div class="mini-label">约课情况</div><div class="mini-value">10/15</div><div class="mini-note">已约 2 节待上</div></div>
+            <div class="mini-kpi"><div class="mini-label">距上次覆盖</div><div class="mini-value">3 天</div><div class="mini-note">09/27 微信沟通</div></div>
+            <div class="mini-kpi"><div class="mini-label">本月课消</div><div class="mini-value">3/12</div><div class="mini-note">需关注课消不足</div></div>
+            <div class="mini-kpi"><div class="mini-label">近四周约课</div><div class="mini-value">1·2·1·0</div><div class="mini-note">上周 / 本周 / 下周</div></div>
+            <div class="mini-kpi"><div class="mini-label">近三月课频</div><div class="mini-value">4.0</div><div class="mini-note">节 / 月</div></div>
+          </div>
+        </div>
+
+        <div class="layout-student" style="margin-top:18px;">
+          <div class="grid" style="gap:18px;">
+            <div class="card calendar-scroll">
+              <div class="calendar-toolbar">
+                <div class="toolbar"><button class="btn small">← 上一月</button><b style="font-size:18px">2026年9月</b><button class="btn small">下一月 →</button><button class="btn small">回到本月</button></div>
+                <div class="toolbar"><button class="btn primary small" onclick="openDrawer('schedule')">约课</button><button class="btn small">导出课表</button></div>
+              </div>
+              <div class="calendar-grid" id="calendar">
+                <div class="dow">周一</div><div class="dow">周二</div><div class="dow">周三</div><div class="dow">周四</div><div class="dow">周五</div><div class="dow">周六</div><div class="dow">周日</div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header"><div><div class="card-title">课程管理</div><div class="card-desc">学生详情内：只展示当前学生的今日待上、已约待上、问题课程、请假申请、课程列表</div></div><div class="tabs"><button class="tab active" data-tab="course-all">课程列表</button><button class="tab" data-tab="course-today">今日待上</button><button class="tab" data-tab="course-wait">已约待上</button><button class="tab" data-tab="course-issue">问题课程</button><button class="tab" data-tab="course-leave">请假申请</button></div></div>
+              <table>
+                <thead><tr><th>课标 / 课程ID</th><th>老师</th><th>上课时间</th><th>状态</th><th>任务</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr><td><b>OW-L4-U2-LC2-1</b><br><span style="color:var(--text-3)">C90821</span></td><td>Estelle · T6033</td><td>09-29 19:30 周一</td><td><span class="tag green">已完成</span></td><td>预习 ✓ / 作业 ✗</td><td><button class="btn small">回放</button><button class="btn small">CF报告</button></td></tr>
+                  <tr><td><b>OW-L4-U2-LC2-2</b><br><span style="color:var(--text-3)">C90822</span></td><td>Estelle · T6033</td><td>10-06 19:30 周一</td><td><span class="tag blue">已约待上</span></td><td>预习 ✗</td><td><button class="btn small">监课</button><button class="btn small danger">请假</button></td></tr>
+                  <tr><td><b>OW-L4-U1-LC4-1</b><br><span style="color:var(--text-3)">C90788</span></td><td>Mike · T5091</td><td>09-22 19:30 周一</td><td><span class="tag red">学生缺席</span></td><td>需安抚 + 重新约课</td><td><button class="btn small primary">外呼</button><button class="btn small">教室</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="card">
+              <div class="card-header"><div><div class="card-title">订单</div><div class="card-desc">保留关键信息，弱化 21 个列表字段的认知负担</div></div><div class="tabs"><button class="tab active">全部</button><button class="tab">已支付</button><button class="tab">退费中</button></div></div>
+              <table>
+                <thead><tr><th>订单号</th><th>类型</th><th>商品</th><th>课时</th><th>状态</th><th>支付时间</th></tr></thead>
+                <tbody>
+                  <tr><td><b class="link">ORD20260630001</b><br><span style="color:var(--text-3)">ID 88201</span></td><td>课时数量</td><td>OW-48课时包</td><td>48</td><td><span class="tag green">已支付</span></td><td>2026-09-20 19:18</td></tr>
+                  <tr><td><b class="link">ORD20260712009</b><br><span style="color:var(--text-3)">ID 88972</span></td><td>请假权益</td><td>请假包 × 1</td><td>—</td><td><span class="tag blue">已支付</span></td><td>2026-07-12 11:30</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <aside class="grid" style="gap:18px;">
+            <div class="card card-pad">
+              <div class="card-title">课时进度</div>
+              <div class="progress-wrap"><div class="progress-top"><span>已学 16 / 总课时 48</span><b>33%</b></div><div class="progress-bar"><div class="progress-fill" style="width:33%"></div></div></div>
+              <div class="grid grid-3" style="margin-top:14px;gap:10px;"><div class="info-item"><div class="info-label">总课时</div><div class="info-value">48</div></div><div class="info-item"><div class="info-label">已学</div><div class="info-value">16</div></div><div class="info-item"><div class="info-label">剩余</div><div class="info-value">32</div></div></div>
+            </div>
+
+            <div class="card card-pad">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div><div class="card-title">当前任务卡</div><div class="card-desc">支持当前 / 已完成切换</div></div></div>
+              <div class="tabs" style="margin-bottom:12px"><button class="tab active" data-tab="tasks-now">当前任务</button><button class="tab" data-tab="tasks-done">已完成任务</button></div>
+              <div class="tab-panel active" id="tasks-now">
+                <div class="task-card priority"><div class="task-head"><span class="tag red">待首课 · 已超时</span><span class="tag orange">当前优先</span></div><div class="task-title">首课后 24 小时内完成首次回访</div><div class="task-meta"><span>已超时 4 天</span><span>09-24 10:12 触发</span></div><div class="task-actions"><button class="btn primary small">外呼</button><button class="btn small">首课话术</button></div></div>
+                <div class="task-card"><div class="task-head"><span class="tag purple">CF03</span><span class="tag gray">48h</span></div><div class="task-title">累计正常完课 3 节后确认课频和老师</div><div class="task-meta"><span>剩余 16 小时</span><span>系统触发</span></div><div class="task-actions"><button class="btn small">查看指南</button></div></div>
+              </div>
+              <div class="tab-panel" id="tasks-done"><div class="empty-state">近 30 天已完成 6 个服务节点，包括首通、问题课程、月度回访。</div></div>
+            </div>
+
+            <div class="card card-pad">
+              <div class="card-title">联系方式</div>
+              <div class="contact-grid" style="margin-top:12px">
+                <div class="contact-item"><div class="contact-left"><div class="contact-icon">💬</div><div><b>微信</b><br><span style="color:var(--text-3)">已添加 · 小明妈妈</span></div></div><span class="tag green">已绑定</span></div>
+                <div class="contact-item"><div class="contact-left"><div class="contact-icon">📱</div><div><b>手机号</b><br><span style="color:var(--text-3)">86-137****9286</span></div></div><button class="btn small">拨打</button></div>
+                <div class="contact-item"><div class="contact-left"><div class="contact-icon">📝</div><div><b>备注联系方式</b><br><span style="color:var(--text-3)">未填写</span></div></div><button class="btn small">添加</button></div>
+              </div>
+            </div>
+
+            <div class="card card-pad">
+              <div class="card-title">家长信息卡片</div>
+              <div class="kv"><div class="kv-label">家长ID</div><div class="kv-value link" onclick="goPage('parent')">363454 →</div></div>
+              <div class="kv"><div class="kv-label">微信昵称</div><div class="kv-value">小明妈妈</div></div>
+              <div class="kv"><div class="kv-label">最近支付</div><div class="kv-value">2026-06-30</div></div>
+              <div class="kv"><div class="kv-label">上次登录</div><div class="kv-value">2026-09-28 21:35</div></div>
+            </div>
+
+            <div class="card card-pad">
+              <div class="card-title">跟进记录</div>
+              <div style="margin-top:12px"><textarea style="width:100%;min-height:88px;border:1px solid var(--line-strong);border-radius:14px;padding:12px;font:inherit" placeholder="记录本次沟通内容，例如：已与家长确认本周六补约课程……"></textarea><button class="btn primary" style="margin-top:10px" onclick="toast('跟进记录已添加')">添加跟进</button></div>
+              <div class="task-card" style="margin-top:12px"><div class="task-meta">9/27 16:20 · 王娟 · 工作手机 · 已接通</div><div class="task-title" style="font-size:14px">与家长微信沟通首课时间，约本周六 10:00 试听。</div><button class="btn small" style="margin-top:10px">语音转文字 · 45″</button></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="page" id="parent">
+        <div class="parent-hero">
+          <div class="student-hero">
+            <div class="profile-row">
+              <div class="student-main"><div class="student-avatar">妈</div><div><div class="student-name">小明妈妈</div><div class="student-meta"><span class="tag blue">家长ID 363454</span><span class="tag green">企微 59810644 xiaoming</span><span class="tag orange">BD-分销-1746</span></div></div></div>
+              <div class="hero-actions"><button class="btn primary">用户解密</button><button class="btn" onclick="openDrawer('parent')">增加备注联系方式</button></div>
+            </div>
+            <div class="info-list">
+              <div class="info-item"><div class="info-label">联系方式</div><div class="info-value">86-137****9286</div></div><div class="info-item"><div class="info-label">登录邮箱</div><div class="info-value">wang****@gmail.com</div></div><div class="info-item"><div class="info-label">最近支付</div><div class="info-value">2026-06-30</div></div><div class="info-item"><div class="info-label">上次登录</div><div class="info-value">2026-09-28 21:35</div></div><div class="info-item"><div class="info-label">邀请码</div><div class="info-value">EF6AQQ223 <button class="btn small" onclick="toast('邀请码已复制')">复制</button></div></div><div class="info-item"><div class="info-label">推荐人老生ID</div><div class="info-value link">280156</div></div><div class="info-item"><div class="info-label">剩余主修课时</div><div class="info-value">32</div></div><div class="info-item"><div class="info-label">注册来源</div><div class="info-value">APP-华为-官方</div></div>
+            </div>
+          </div>
+          <div class="card card-pad">
+            <div class="card-title">关联学生</div>
+            <div class="student-chip" onclick="goPage('student')" style="cursor:pointer"><div class="chip-avatar">明</div><div><b>315014 王小明</b><br><span style="color:var(--text-3)">Olivia · 二年级 · 点击跳转</span></div></div>
+          </div>
+        </div>
+
+        <div class="section-title">🎁 实物赠送 & 收货地址</div>
+        <div class="grid grid-2">
+          <div class="card"><div class="card-header"><div><div class="card-title">实物赠送记录</div><div class="card-desc">展开后可编辑物流与地址</div></div></div><table><thead><tr><th>订单号</th><th>商品</th><th>发货状态</th><th>下单时间</th><th>操作</th></tr></thead><tbody><tr><td><b>ORD20260630002</b><br><span style="color:var(--text-3)">ID 88201</span></td><td>教材礼盒（Level 4）</td><td><span class="tag blue">已发货</span></td><td>2026-06-30 15:20</td><td><button class="btn small">编辑物流</button></td></tr></tbody></table></div>
+          <div class="card card-pad"><div class="card-title">收货地址</div><div class="kv"><div class="kv-label">收货人</div><div class="kv-value">王芳</div></div><div class="kv"><div class="kv-label">手机号</div><div class="kv-value">13799869286</div></div><div class="kv"><div class="kv-label">地区</div><div class="kv-value">北京市 / 朝阳区 / 望京街道</div></div><div class="kv"><div class="kv-label">详细地址</div><div class="kv-value">望京 SOHO T3 1208</div></div><button class="btn" style="margin-top:12px">编辑地址</button></div>
+        </div>
+
+        <div class="section-title">🔁 转介绍 & 渠道</div>
+        <div class="grid grid-2">
+          <div class="card"><div class="card-header"><div><div class="card-title">海报分享审核记录</div><div class="card-desc">用于朋友圈任务、转介绍核销</div></div></div><table><thead><tr><th>记录ID</th><th>上传时间</th><th>审核状态</th><th>发布时间</th><th>截图</th></tr></thead><tbody><tr><td>R40021</td><td>2026-09-16 20:15</td><td><span class="tag green">已通过</span></td><td>2026-09-16 19:50</td><td><button class="btn small">查看</button></td></tr><tr><td>R40022</td><td>2026-09-22 21:11</td><td><span class="tag orange">待审核</span></td><td>2026-09-22 20:48</td><td><button class="btn small">查看</button></td></tr></tbody></table></div>
+          <div class="card"><div class="card-header"><div><div class="card-title">推荐关系</div><div class="card-desc">被推荐人试听与付费转化</div></div></div><table><thead><tr><th>被推荐人</th><th>注册时间</th><th>试听</th><th>付费</th><th>付费时间</th></tr></thead><tbody><tr><td><b class="link">398012</b></td><td>2026-08-10 14:20</td><td>2 次</td><td><span class="tag green">1 次</span></td><td>2026-08-15 11:00</td></tr><tr><td><b class="link">407221</b></td><td>2026-09-02 09:18</td><td>1 次</td><td><span class="tag gray">0 次</span></td><td>—</td></tr></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="page" id="order">
+        <div class="section-title">🧾 订单详情 · LP 名下全部学员汇总</div>
+        <div class="card card-pad" style="margin-bottom:18px;background:linear-gradient(135deg,#fff7ed,#ffffff);border-color:#fed7aa;">
+          <div class="card-title">一级菜单定位</div>
+          <div class="card-desc" style="margin-top:6px">这里不是单个学生的订单详情，而是当前 LP 名下所有学员 / 家长的订单汇总工作台，用来批量查订单、盯退费、补物流、筛异常。</div>
+        </div>
+        <div class="grid grid-4">
+          <div class="metric-card"><div class="metric-label">覆盖学员</div><div class="metric-value">312</div><div class="metric-foot"><span class="delta">LP 名下</span><span>全部学生</span></div></div>
+          <div class="metric-card"><div class="metric-label">本月支付订单</div><div class="metric-value">126</div><div class="metric-foot"><span class="delta">↑ 15%</span><span>续费为主</span></div></div>
+          <div class="metric-card"><div class="metric-label">待跟进退费</div><div class="metric-value">8</div><div class="metric-foot"><span class="delta bad">需处理</span><span>含 3 个高风险</span></div></div>
+          <div class="metric-card"><div class="metric-label">实物待发货</div><div class="metric-value">14</div><div class="metric-foot"><span class="delta warn">物流待补</span><span>教材/礼盒</span></div></div>
+        </div>
+        <div class="card" style="margin-top:18px">
+          <div class="card-header"><div><div class="card-title">全部学员订单汇总</div><div class="card-desc">支持按学生、家长、订单号、订单类型、支付状态、LP 跟进状态筛选</div></div><div class="toolbar"><button class="btn small">全部订单</button><button class="btn small">课时订单</button><button class="btn small">权益订单</button><button class="btn small">实物订单</button><button class="btn small danger">退费中</button><button class="btn primary small">导出</button></div></div>
+          <table>
+            <thead><tr><th>订单号</th><th>学生/家长</th><th>订单类型</th><th>商品</th><th>金额</th><th>状态</th><th>支付/创建时间</th><th>LP 待办</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td><b class="link">ORD20260630001</b><br><span style="color:var(--text-3)">ID 88201</span></td><td><b class="link" onclick="goPage('student')">王小明</b><br>小明妈妈</td><td>课时订单</td><td>OW-48课时包</td><td>$4,800</td><td><span class="tag green">已支付</span></td><td>2026-09-20 19:18</td><td><span class="tag blue">续费回访</span></td><td><button class="btn small" onclick="goPage('student')">查看学生</button></td></tr>
+              <tr><td><b>ORD20260712009</b></td><td>王小明<br>小明妈妈</td><td>权益订单</td><td>请假包 × 1</td><td>$0</td><td><span class="tag blue">已生效</span></td><td>2026-07-12 11:30</td><td><span class="tag gray">无需处理</span></td><td><button class="btn small">查看权益</button></td></tr>
+              <tr><td><b>ORD20260922013</b></td><td>陈一诺<br>陈妈妈</td><td>退费订单</td><td>OW-96课时包</td><td>-$800</td><td><span class="tag orange">退费中</span></td><td>2026-09-22 15:40</td><td><span class="tag red">今日必须跟进</span></td><td><button class="btn small primary">跟进</button></td></tr>
+              <tr><td><b>ORD20261001045</b></td><td>李嘉乐<br>李爸爸</td><td>实物订单</td><td>Level 3 教材礼盒</td><td>$0</td><td><span class="tag orange">待发货</span></td><td>2026-10-01 09:22</td><td><span class="tag orange">补收货地址</span></td><td><button class="btn small">联系家长</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="teacher">
+        <div class="section-title">🌍 外教 · LP 名下全部学员汇总</div>
+        <div class="card card-pad" style="margin-bottom:18px;background:linear-gradient(135deg,#eef2ff,#ffffff);border-color:#c7d2fe;">
+          <div class="card-title">一级菜单定位</div>
+          <div class="card-desc" style="margin-top:6px">这里看的是 LP 名下所有学员与外教的匹配、稳定性、问题课、黑名单冲突；单个学生的推荐老师/黑名单老师/老师偏好仍保留在学生详情内。</div>
+        </div>
+        <div class="grid grid-4">
+          <div class="metric-card"><div class="metric-label">服务中外教</div><div class="metric-value">84</div><div class="metric-foot"><span class="delta">LP 学员已约</span><span>近 30 天</span></div></div>
+          <div class="metric-card"><div class="metric-label">固定老师学员</div><div class="metric-value">186</div><div class="metric-foot"><span class="delta">60%</span><span>老师连续性较好</span></div></div>
+          <div class="metric-card"><div class="metric-label">黑名单冲突</div><div class="metric-value">3</div><div class="metric-foot"><span class="delta bad">需处理</span><span>已约到不适配老师</span></div></div>
+          <div class="metric-card"><div class="metric-label">外教问题课率</div><div class="metric-value">4.2%</div><div class="metric-foot"><span class="delta warn">近30天</span><span>缺席/迟到/设备</span></div></div>
+        </div>
+        <div class="grid grid-2" style="margin-top:18px">
+          <div class="card">
+            <div class="card-header"><div><div class="card-title">外教服务学员汇总</div><div class="card-desc">按外教维度聚合：看每位老师服务了多少 LP 学员、问题课和家长反馈</div></div><div class="toolbar"><button class="btn small">推荐老师</button><button class="btn small danger">黑名单冲突</button></div></div>
+            <table><thead><tr><th>外教</th><th>覆盖学员</th><th>主要级别</th><th>近30天问题课</th><th>家长反馈</th><th>处理建议</th></tr></thead><tbody>
+              <tr><td><b>Estelle</b><br><span style="color:var(--text-3)">T6033 · 菲律宾</span></td><td>42 人</td><td>OW L2-L5</td><td><span class="tag green">1 节</span></td><td>4.9 / 5.0</td><td><span class="tag green">优先稳定</span></td></tr>
+              <tr><td><b>Mike</b><br><span style="color:var(--text-3)">T5091 · 美国</span></td><td>18 人</td><td>OW L3-L6</td><td><span class="tag orange">4 节</span></td><td>节奏偏快</td><td><span class="tag orange">观察/换师</span></td></tr>
+              <tr><td><b>Amy</b><br><span style="color:var(--text-3)">T7120 · 英国</span></td><td>27 人</td><td>自然拼读</td><td><span class="tag green">0 节</span></td><td>4.8 / 5.0</td><td><span class="tag blue">可继续推荐</span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="card">
+            <div class="card-header"><div><div class="card-title">老师偏好/黑名单冲突队列</div><div class="card-desc">聚合所有学生的老师偏好，优先处理已约课冲突</div></div></div>
+            <table><thead><tr><th>学生</th><th>当前已约老师</th><th>偏好/黑名单</th><th>冲突类型</th><th>操作</th></tr></thead><tbody>
+              <tr><td><b class="link" onclick="goPage('student')">王小明</b><br>SID 315014</td><td>Mike</td><td>黑名单：Mike</td><td><span class="tag red">命中黑名单</span></td><td><button class="btn small primary">换老师</button></td></tr>
+              <tr><td><b>陈一诺</b><br>SID 398012</td><td>Amy</td><td>推荐：Amy</td><td><span class="tag green">符合偏好</span></td><td><button class="btn small">查看</button></td></tr>
+              <tr><td><b>李嘉乐</b><br>SID 280156</td><td>未固定</td><td>希望固定老师</td><td><span class="tag orange">连续性不足</span></td><td><button class="btn small">安排固定</button></td></tr>
+            </tbody></table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="course">
+        <div class="section-title">📅 课程管理 · LP 名下全部学员汇总</div>
+        <div class="card card-pad" style="margin-bottom:18px;background:linear-gradient(135deg,#ecfdf5,#ffffff);border-color:#bbf7d0;">
+          <div class="card-title">一级菜单定位</div>
+          <div class="card-desc" style="margin-top:6px">这里是 LP 视角的全量课程队列：今日待上、未来已约、问题课程、请假申请都要跨学生汇总，方便批量处理；学生详情页里才看某个学生自己的课程列表。</div>
+        </div>
+        <div class="grid grid-4">
+          <div class="metric-card"><div class="metric-label">今日待上</div><div class="metric-value">36</div><div class="metric-foot"><span class="delta">全部学员</span><span>含 5 节重点监课</span></div></div>
+          <div class="metric-card"><div class="metric-label">已约待上</div><div class="metric-value">218</div><div class="metric-foot"><span class="delta">未来30天</span><span>全部学员</span></div></div>
+          <div class="metric-card"><div class="metric-label">问题课程</div><div class="metric-value">11</div><div class="metric-foot"><span class="delta bad">待处理</span><span>缺席/老师问题</span></div></div>
+          <div class="metric-card"><div class="metric-label">请假申请</div><div class="metric-value">7</div><div class="metric-foot"><span class="delta warn">需审核</span><span>2-24h 规则</span></div></div>
+        </div>
+        <div class="card" style="margin-top:18px">
+          <div class="card-header"><div><div class="card-title">全部学员课程队列</div><div class="card-desc">按课程状态批量筛选；优先处理今日待上、问题课程、请假申请</div></div><div class="toolbar"><button class="btn small">今日待上</button><button class="btn small">已约待上</button><button class="btn small danger">问题课程</button><button class="btn small">请假申请</button><button class="btn primary small" onclick="openDrawer('schedule')">新增约课</button></div></div>
+          <table>
+            <thead><tr><th>学生</th><th>课程/课标</th><th>外教</th><th>上课时间</th><th>课程状态</th><th>风险/任务</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td><b class="link" onclick="goPage('student')">王小明</b><br>SID 315014</td><td><b>OW-L4-U2-LC2-2</b><br>C90822</td><td>Estelle</td><td>10-06 19:30</td><td><span class="tag blue">已约待上</span></td><td>预习未完成</td><td><button class="btn small">监课</button><button class="btn small danger">请假</button></td></tr>
+              <tr><td><b>陈一诺</b><br>SID 398012</td><td><b>OW-L3-U1-LC1-1</b><br>C90901</td><td>Amy</td><td>10-06 20:00</td><td><span class="tag orange">待确认</span></td><td>老师待确认</td><td><button class="btn small primary">确认</button></td></tr>
+              <tr><td><b>李嘉乐</b><br>SID 280156</td><td><b>OW-L2-U5-LC4-1</b><br>C90788</td><td>Mike</td><td>09-22 19:30</td><td><span class="tag red">学生缺席</span></td><td>需安抚 + 补约</td><td><button class="btn small primary">外呼</button><button class="btn small">补约</button></td></tr>
+              <tr><td><b>周可欣</b><br>SID 407221</td><td><b>OW-L1-U3-LC2-1</b><br>C91002</td><td>待分配</td><td>10-07 18:30</td><td><span class="tag orange">请假申请</span></td><td>距开课 16h，符合规则</td><td><button class="btn small primary">通过</button><button class="btn small">驳回</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="popover" id="popover"></div>
+  <div class="drawer-mask" id="drawerMask" onclick="closeDrawer()"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-head"><h2 id="drawerTitle" style="margin:0">编辑</h2><button class="btn" onclick="closeDrawer()">关闭</button></div>
+    <div id="drawerBody"></div>
+  </aside>
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const titles = {
+      dashboard: ['首页 / 工作台', '工作台'],
+      student: ['学生管理 / 学生详情页 / 315014', '学生管理 · 王小明 Olivia'],
+      parent: ['家长管理 / 家长详情页 / 363454', '家长管理 · 小明妈妈'],
+      order: ['订单详情 / 订单列表', '订单详情'],
+      teacher: ['外教 / 外教列表', '外教'],
+      course: ['课程管理 / 课程列表', '课程管理']
+    };
+
+    function goPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === id));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page === id));
+      document.getElementById('crumb').textContent = titles[id][0];
+      document.getElementById('pageTitle').textContent = titles[id][1];
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => goPage(btn.dataset.page)));
+
+    document.addEventListener('click', e => {
+      if (e.target.matches('.tab')) {
+        const tab = e.target;
+        const parent = tab.closest('.card, .card-pad') || document;
+        const target = tab.dataset.tab;
+        tab.parentElement.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        if (target) {
+          parent.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === target));
+        }
+      }
+      if (!e.target.closest('.popover') && !e.target.closest('.day')) document.getElementById('popover').classList.remove('active');
+    });
+
+    function buildCalendar() {
+      const grid = document.getElementById('calendar');
+      const lessons = {
+        1: [{time:'19:30', teacher:'Estelle', status:'done', text:'已完成'}],
+        6: [{time:'10:00', teacher:'Mike', status:'done', text:'已完成'}],
+        8: [{time:'19:30', teacher:'Estelle', status:'bad', text:'学生缺席'}],
+        15: [{time:'19:30', teacher:'Estelle', status:'done', text:'已完成'}],
+        22: [{time:'19:30', teacher:'Mike', status:'cancel', text:'已取消'}],
+        29: [{time:'19:30', teacher:'Estelle', status:'live', text:'上课中'}]
+      };
+      for (let d = 1; d <= 35; d++) {
+        const dayNum = d <= 30 ? d : '';
+        const cell = document.createElement('div');
+        cell.className = 'day';
+        cell.innerHTML = `<div class="day-number">${dayNum ? '9/' + dayNum : ''}</div>`;
+        if (lessons[dayNum]) {
+          lessons[dayNum].forEach(l => {
+            const div = document.createElement('div');
+            div.className = `lesson ${l.status}`;
+            div.innerHTML = `<b>${l.time}</b> ${l.teacher}<br>${l.text}`;
+            cell.appendChild(div);
+          });
+        }
+        if (dayNum) cell.addEventListener('click', (ev) => showLessonPopover(ev, dayNum, lessons[dayNum]));
+        grid.appendChild(cell);
+      }
+    }
+
+    function showLessonPopover(ev, day, ls) {
+      const pop = document.getElementById('popover');
+      if (!ls) {
+        pop.innerHTML = `<div class="popover-title">9/${day} 暂无课程</div><div style="color:var(--text-2);margin-bottom:12px">点击空白日期可直接进入约课流程，并自动带入该日期。</div><button class="btn primary" onclick="openDrawer('schedule'); document.getElementById('popover').classList.remove('active')">约这一天</button>`;
+      } else {
+        pop.innerHTML = `<div class="popover-title">OW-L4-U2-LC2-1</div><div class="kv"><div class="kv-label">课程ID</div><div class="kv-value">C90821</div></div><div class="kv"><div class="kv-label">老师</div><div class="kv-value">${ls[0].teacher} · T6033</div></div><div class="kv"><div class="kv-label">上课时间</div><div class="kv-value">09-${String(day).padStart(2,'0')} ${ls[0].time} 周一</div></div><div class="kv"><div class="kv-label">课程状态</div><div class="kv-value">${ls[0].text}</div></div><div class="kv"><div class="kv-label">课前课后</div><div class="kv-value">预习视频 ✓ / 教材 ✓ / 作业 ✗</div></div><div class="toolbar" style="margin-top:12px"><button class="btn primary small">监课</button><button class="btn small">课程回放</button><button class="btn danger small">请假</button></div>`;
+      }
+      const rect = ev.currentTarget.getBoundingClientRect();
+      pop.style.left = Math.min(rect.left + 20, window.innerWidth - 340) + 'px';
+      pop.style.top = Math.min(rect.top + 54, window.innerHeight - 330) + 'px';
+      pop.classList.add('active');
+    }
+
+    const drawerTemplates = {
+      student: ['编辑学生信息', `<div class="form-grid"><div class="field"><label>学生姓名</label><input value="王小明"></div><div class="field"><label>英文名</label><input value="Olivia"></div><div class="field"><label>年龄</label><input value="8岁"></div><div class="field"><label>年级</label><select><option>二年级</option><option>三年级</option></select></div><div class="field"><label>学校</label><input value="人大附小"></div><div class="field"><label>蓝思成绩</label><input value="520L"></div></div><button class="btn primary" style="margin-top:18px" onclick="closeDrawer();toast('学生信息已保存')">保存修改</button>`],
+      follow: ['添加跟进记录', `<div class="field"><label>沟通渠道</label><select><option>工作手机</option><option>企微</option><option>微信</option></select></div><div class="field" style="margin-top:14px"><label>沟通结果</label><select><option>已接通</option><option>未接通</option><option>续费意向</option><option>需二次跟进</option></select></div><div class="field" style="margin-top:14px"><label>跟进内容</label><textarea placeholder="输入跟进内容……">与家长沟通本周课频，建议补约 2 节课，家长同意周六上午上课。</textarea></div><button class="btn primary" style="margin-top:18px" onclick="closeDrawer();toast('Follow 已保存，并自动完成对应任务')">添加跟进</button>`],
+      schedule: ['约课流程', `<div class="form-grid"><div class="field"><label>约课日期</label><input type="date" value="2026-10-06"></div><div class="field"><label>上课时间</label><input value="19:30"></div><div class="field"><label>课程课标</label><input value="OW-L4-U2-LC2-2"></div><div class="field"><label>老师偏好</label><select><option>优先推荐老师</option><option>避开黑名单老师</option></select></div></div><div class="empty-state" style="margin-top:16px;text-align:left">系统已自动带入：推荐老师 Estelle；避开外教黑名单 Mike；剩余可约课时 32。</div><button class="btn primary" style="margin-top:18px" onclick="closeDrawer();toast('约课成功：10/06 19:30 Estelle')">确认约课</button>`],
+      parent: ['增加备注联系方式', `<div class="field"><label>联系人称呼</label><input placeholder="如：爸爸 / 外婆 / 紧急联系人"></div><div class="field" style="margin-top:14px"><label>联系方式</label><input placeholder="请输入手机号或微信号"></div><div class="field" style="margin-top:14px"><label>备注</label><textarea placeholder="补充说明"></textarea></div><button class="btn primary" style="margin-top:18px" onclick="closeDrawer();toast('备注联系方式已添加')">保存</button>`]
+    };
+    function openDrawer(type) {
+      const [title, body] = drawerTemplates[type] || drawerTemplates.follow;
+      document.getElementById('drawerTitle').textContent = title;
+      document.getElementById('drawerBody').innerHTML = body;
+      document.getElementById('drawerMask').classList.add('active');
+      document.getElementById('drawer').classList.add('active');
+    }
+    function closeDrawer() {
+      document.getElementById('drawerMask').classList.remove('active');
+      document.getElementById('drawer').classList.remove('active');
+    }
+    function toast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = '✅ ' + msg;
+      el.classList.add('active');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => el.classList.remove('active'), 2400);
+    }
+
+    buildCalendar();
+  </script>
+</body>
+</html>
