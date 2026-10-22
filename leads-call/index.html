@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leads 外呼功能 · 可交互原型</title>
+<style>
+  :root{
+    --teal:#0f9d8f; --teal-dark:#0b7c72; --teal-bg:#e6f5f3;
+    --ink:#1f2d3d; --ink-2:#5e6d82; --ink-3:#909db1;
+    --line:#e4e9f0; --bg:#f5f7fa; --card:#fff;
+    --mark:#ff7a45; --blue:#2f86f6; --blue-bg:#eef5ff;
+    --orange:#ff9a2e; --orange-bg:#fff7e8;
+    --red:#f5222d; --green:#52c41a; --gray-bg:#f7f8fa;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:"PingFang SC","Microsoft YaHei",Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);padding:0 0 120px;}
+  .topbar{background:#1f2d3d;color:#fff;padding:12px 24px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;position:sticky;top:0;z-index:50;}
+  .topbar h1{font-size:16px;font-weight:600;}
+  .topbar .ctrl{display:flex;align-items:center;gap:6px;font-size:12.5px;color:#c8d2de;}
+  .topbar label.radio{display:inline-flex;align-items:center;gap:4px;cursor:pointer;color:#fff;}
+  .topbar input[type=radio]{accent-color:var(--teal);}
+  .topbar select{font-size:12px;padding:3px 6px;border-radius:4px;border:1px solid #43505f;background:#2b3a4b;color:#fff;}
+  .reset-btn{background:#39485a;color:#fff;border:none;border-radius:4px;padding:4px 12px;font-size:12px;cursor:pointer;}
+  .reset-btn:hover{background:#4b5c70;}
+  .scheme-pill{font-size:12px;background:linear-gradient(140deg,#22c3ae,#0e8f82);color:#fff;padding:4px 12px;border-radius:12px;}
+  .guide{background:#fffdf8;border-bottom:1px solid #f0e3cf;padding:10px 24px;font-size:12.5px;color:#8a6a3d;line-height:1.9;}
+  .guide b{color:#c9761c;}
+  /* 评估区 */
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin-bottom:18px;}
+  .flow .step{flex:1;min-width:150px;background:#fbfcfd;border:1px solid var(--line);border-radius:8px;padding:10px 12px;position:relative;margin-right:16px;}
+  .flow .step:last-child{margin-right:0;}
+  .flow .step::after{content:"›";position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:#b9c3d0;font-size:20px;}
+  .flow .step:last-child::after{content:"";}
+  .flow .n{width:18px;height:18px;border-radius:50%;background:var(--teal);color:#fff;font-size:11px;display:inline-flex;align-items:center;justify-content:center;margin-right:6px;}
+  .flow .t{font-size:12.5px;color:var(--ink);font-weight:600;}
+  .flow .d{font-size:11.5px;color:var(--ink-3);margin-top:4px;line-height:1.6;}
+  .eval-tbl{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .eval-tbl th{background:#f2f5f9;color:var(--ink-2);text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);white-space:nowrap;}
+  .eval-tbl td{padding:10px 12px;border-bottom:1px solid #eef2f7;color:var(--ink-2);vertical-align:top;line-height:1.75;}
+  .eval-tbl tr.pick td{background:#f4fbf9;}
+  .tagline{padding:1px 8px;border-radius:9px;font-size:11px;border:1px solid var(--teal);color:var(--teal-dark);background:var(--teal-bg);white-space:nowrap;}
+  .tagline.no{border-color:#c6cdd8;color:#8b95a5;background:var(--gray-bg);}
+  .rules{margin-top:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;}
+  .rule{background:#fbfcfd;border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:0 8px 8px 0;padding:10px 14px;font-size:12.5px;color:var(--ink-2);line-height:1.85;}
+  .rule b{color:var(--ink);}
+  .rule.warn{border-left-color:var(--orange);}
+  .sec-title{font-size:13px;font-weight:600;color:var(--ink);margin:18px 0 8px;display:flex;align-items:center;gap:6px;}
+  .sec-title::before{content:"";width:3px;height:13px;background:var(--teal);border-radius:2px;display:inline-block;}
+  .wrap{max-width:1280px;margin:20px auto;padding:0 24px;}
+
+  .btn{display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:4px;font-size:13px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink-2);}
+  .btn:hover{border-color:#c9d3e0;}
+  .btn.primary{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .btn.primary:hover{background:var(--teal-dark);}
+  .btn.danger{border-color:var(--red);color:var(--red);}
+  .btn.success{background:var(--green);border-color:var(--green);color:#fff;}
+  .input{height:30px;border:1px solid var(--line);border-radius:4px;background:#fff;font-size:12px;color:var(--ink-3);padding:0 10px;display:inline-flex;align-items:center;}
+
+  /* 列表 */
+  table.grid{width:100%;border-collapse:collapse;background:#fff;font-size:12.5px;table-layout:fixed;}
+  table.grid th{background:#f2f5f9;color:var(--ink-2);font-weight:600;padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap;overflow:hidden;}
+  table.grid td{padding:9px 10px;border-bottom:1px solid #eef2f7;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:middle;}
+  table.grid tbody tr:hover{background:#fafcfd;}
+  .cell-flex{display:inline-flex;align-items:center;gap:6px;}
+  .op-btn{padding:3px 10px;border:1px solid var(--line);border-radius:3px;background:#fff;color:var(--ink-2);font-size:12px;cursor:pointer;display:inline-block;margin-right:6px;}
+  .op-btn:hover{background:#f6f9fb;}
+  .card{background:var(--card);border-radius:10px;box-shadow:0 2px 10px rgba(31,45,61,.08);margin-bottom:20px;overflow:hidden;}
+  .card-head{padding:13px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .card-head h2{font-size:15px;}
+  .card-head .desc{font-size:12px;color:var(--ink-3);}
+  .card-body{padding:18px 20px;}
+
+  /* 图标按钮 */
+  .ibtn{width:22px;height:22px;border-radius:50%;border:none;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none;position:relative;padding:0;}
+  .ibtn svg{display:block;}
+  /* 解密：浅蓝底 + 蓝锁/眼 */
+  .ibtn.decrypt{background:var(--blue-bg);border:1px solid #cfe2ff;transition:background .15s,border-color .15s;}
+  .ibtn.decrypt svg{width:12px;height:12px;fill:var(--blue);}
+  .ibtn.decrypt:hover{background:#dceaff;border-color:var(--blue);}
+  .ibtn.decrypt.on{background:#dceaff;}
+  /* 外呼：青绿渐变 + 细致投影 + hover 波纹 */
+  .ibtn.call{background:linear-gradient(140deg,#22c3ae 0%,#0f9d8f 60%,#0b8378 100%);
+    box-shadow:0 2px 5px rgba(15,157,143,.38), inset 0 1px 0 rgba(255,255,255,.35);
+    transition:transform .16s cubic-bezier(.34,1.56,.64,1), box-shadow .16s;}
+  .ibtn.call svg{width:13px;height:13px;fill:#fff;}
+  .ibtn.call::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:1px solid rgba(15,157,143,.5);opacity:0;transition:opacity .2s,transform .3s;transform:scale(.85);}
+  .ibtn.call:hover{transform:translateY(-1px) scale(1.08);box-shadow:0 4px 10px rgba(15,157,143,.5), inset 0 1px 0 rgba(255,255,255,.35);}
+  .ibtn.call:hover::after{opacity:1;transform:scale(1);}
+  .ibtn.call:active{transform:scale(.96);}
+  .ibtn.call.lg{width:26px;height:26px;}
+  .ibtn.call.lg svg{width:15px;height:15px;}
+  .ibtn.call.disabled{background:#dfe4ea;box-shadow:none;cursor:not-allowed;opacity:.7;}
+  .tip{position:relative;}
+  .num-real{color:var(--ink);letter-spacing:.3px;}
+
+  /* Follow 列表 */
+  .follow-card{padding:14px 0 16px;border-bottom:1px solid #eef2f7;font-size:13px;color:var(--ink-2);}
+  .follow-card:last-child{border-bottom:none;}
+  .fc-meta{display:flex;gap:24px;margin-bottom:8px;flex-wrap:wrap;}
+  .fc-meta b{color:var(--ink);font-weight:500;}
+  .fc-line{margin-top:6px;line-height:1.7;}
+  .fc-line .k{color:var(--ink);}
+  .call-block{margin-top:10px;background:var(--teal-bg);border-radius:8px;padding:10px 14px;font-size:12.5px;}
+  .cb-title{font-weight:600;color:var(--teal-dark);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+  .cb-row{display:flex;gap:18px;flex-wrap:wrap;padding:2px 0;}
+  .cb-row b{color:var(--ink);font-weight:500;}
+  .cb-note{margin-top:6px;color:var(--ink-3);}
+  /* 通话明细：统一字段网格 */
+  .det-grid{margin-top:6px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 24px;}
+  .det-row{display:flex;gap:10px;padding:2px 0;line-height:1.8;}
+  .det-row .dk{color:var(--ink-3);min-width:60px;}
+  .det-row .dv{color:var(--ink);font-weight:500;}
+  .det-row .wait{color:#8b95a5;font-weight:400;}
+  .det-row .wait.blue{color:var(--blue);}
+  .det-row .ok{color:var(--teal-dark);}
+  .det-row .no{color:var(--red);}
+  /* 通话状态总览页 */
+  .state-sec{margin-bottom:26px;}
+  .state-h{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:12px;padding-left:8px;border-left:3px solid var(--teal);line-height:1.4;}
+  .state-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px;}
+  .st-card{border:1px solid var(--line);border-radius:8px;padding:14px;background:#fcfdfe;}
+  .st-label{font-size:12px;color:var(--ink-3);line-height:1.7;margin-bottom:10px;}
+  .st-label b{display:block;font-size:12.5px;color:var(--ink);font-weight:600;margin-bottom:2px;}
+  .mock-fc{width:236px;background:#fff;border:1px solid #e7edf3;border-radius:12px;box-shadow:0 8px 20px rgba(31,45,61,.14);padding:12px 14px;}
+  .fc-num-pill{margin-top:9px;display:flex;align-items:center;gap:8px;background:#f4f7fa;border:1px solid #e8edf3;border-radius:6px;padding:5px 10px;}
+  .fc-num-pill .np-k{font-size:11px;color:var(--ink-3);flex:none;}
+  .fc-num-pill b{font-size:12.5px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:.3px;}
+  .mock-row{display:flex;align-items:center;gap:14px;}
+  .mock-mini{width:48px;height:48px;border-radius:50%;background:linear-gradient(140deg,#22c3ae,#0e8f82);display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 6px 14px rgba(15,157,143,.35);flex:none;}
+  .mock-mini svg{width:20px;height:20px;fill:#fff;}
+  .mock-mini .mini-badge{position:absolute;top:-2px;right:-2px;}
+  .mock-mask{background:#eef2f6;border:1px solid #e3e9f0;border-radius:6px;padding:16px;display:flex;justify-content:center;}
+  .mock-mask .modal{width:100%;max-width:520px;box-shadow:0 2px 10px rgba(31,45,61,.12);}
+  .st-card.wide{grid-column:1/-1;}
+  .st-note{margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:12px 16px;}
+  .sn-h{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+  .sn-row{display:flex;gap:12px;font-size:12px;color:var(--ink-2);line-height:1.95;}
+  .sn-row b{flex:none;width:88px;color:var(--ink);font-weight:600;}
+  .sn-foot{margin-top:6px;padding-top:6px;border-top:1px dashed #eef1f6;font-size:11.5px;color:var(--ink-3);line-height:1.8;}
+  /* 流程图（泳道） */
+  .flow{display:flex;flex-direction:column;gap:12px;}
+  .swim{display:grid;grid-template-columns:74px repeat(5,minmax(0,1fr));gap:8px;}
+  .sw-h{background:#eef3f7;border-radius:6px;padding:8px 10px;font-size:12px;font-weight:600;color:var(--ink-2);text-align:center;display:flex;align-items:center;justify-content:center;}
+  .sw-lane{border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;padding:8px 4px;line-height:1.35;}
+  .sw-lane b,.sw-lane span{font-size:12.5px;font-weight:600;}
+  .sw-lane small{font-size:10.5px;opacity:.85;margin-top:2px;}
+  .sw-lane.cc{background:linear-gradient(140deg,#22c3ae,#0e8f82);}
+  .sw-lane.sys{background:linear-gradient(140deg,#5b8def,#3a6fd8);}
+  .sw-lane.ctr{background:linear-gradient(140deg,#8b95a5,#6b7686);}
+  .sw-lane.blank{background:transparent;}
+  .sw-c{background:#fff;border:1px solid var(--line);border-radius:6px;padding:9px 11px;font-size:12px;color:var(--ink);line-height:1.6;box-shadow:0 1px 2px rgba(31,45,61,.04);}
+  .sw-c small{display:block;font-size:11px;color:var(--ink-3);line-height:1.6;margin-top:2px;}
+  .sw-c.hl{border-color:var(--teal);background:var(--teal-bg);}
+  .branch{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:2px;}
+  .bcard{border:1px dashed #d8e0ea;border-radius:6px;padding:10px 14px;background:#fcfdfe;font-size:12px;color:var(--ink-2);line-height:1.85;}
+  .bcard b{color:var(--ink);font-weight:600;}
+  .toast-list{display:flex;flex-direction:column;gap:10px;}
+  .toast-item{display:flex;align-items:center;gap:12px;background:#fcfdfe;border:1px solid var(--line);border-radius:6px;padding:10px 14px;}
+  .mock-toast{flex:none;min-width:300px;background:#1f2d3d;color:#fff;font-size:12.5px;border-radius:6px;padding:9px 18px;box-shadow:0 4px 14px rgba(0,0,0,.18);text-align:center;}
+  .toast-when{font-size:12px;color:var(--ink-3);line-height:1.7;}
+  .player{display:flex;align-items:center;gap:10px;margin-top:8px;background:#fff;border-radius:20px;padding:6px 14px;max-width:400px;}
+  .play-btn{width:24px;height:24px;border-radius:50%;background:var(--teal);flex:none;display:flex;align-items:center;justify-content:center;}
+  .play-btn::after{content:"";border-left:8px solid #fff;border-top:5px solid transparent;border-bottom:5px solid transparent;margin-left:2px;}
+  .track{flex:1;height:4px;background:#e2ecef;border-radius:2px;position:relative;}
+  .track::after{content:"";position:absolute;left:0;top:0;height:4px;width:38%;background:var(--teal);border-radius:2px;}
+  .track::before{content:"";position:absolute;left:38%;top:-3px;width:10px;height:10px;border-radius:50%;background:var(--teal);}
+  .time{font-size:11px;color:var(--ink-3);}
+  .tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:9px;border:1px solid var(--blue);color:var(--blue);margin-left:8px;vertical-align:1px;}
+  .tag.warn{border-color:var(--orange);color:#d97a00;}
+  .tag.ok{border-color:var(--teal);color:var(--teal-dark);}
+  .tag.gray{border-color:#c6cdd8;color:#8b95a5;}
+  .todo-tip{margin-top:8px;background:var(--orange-bg);border:1px dashed var(--orange);border-radius:8px;padding:10px 14px;font-size:12.5px;color:#b26a00;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;}
+  .empty-hint{color:var(--ink-3);font-size:12.5px;line-height:1.9;background:#fafbfc;border-left:3px solid #dfe5ec;padding:10px 14px;border-radius:0 6px 6px 0;}
+  /* 待回传 */
+  .pending-block{margin-top:10px;background:var(--gray-bg);border:1px dashed #c9d2de;border-radius:8px;padding:10px 14px;font-size:12.5px;color:#7a8798;}
+  .pb-title{font-weight:600;color:#6f7c8d;display:flex;align-items:center;gap:6px;}
+  .spinner{width:11px;height:11px;border-radius:50%;border:2px solid #cfd7e3;border-top-color:#7a8798;display:inline-block;animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .thumb-line{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;}
+  .mini-thumb{width:52px;height:52px;border-radius:5px;border:1px solid var(--line);background:#f0f3f7 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='52' height='52'><rect width='52' height='52' fill='%23eef1f6'/><circle cx='20' cy='19' r='5' fill='%23c3cbd8'/><path d='M8 40l13-15 9 10 7-7 7 12z' fill='%23c3cbd8'/></svg>") center/cover;}
+
+  /* 详情 */
+  .detail-wrap{border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-wrap:wrap;}
+  .detail-left{flex:1.1;min-width:320px;border-right:1px solid var(--line);padding:16px 20px;}
+  .detail-right{flex:1;min-width:360px;padding:16px 20px;}
+  .dl{display:flex;font-size:13px;padding:7px 0;border-bottom:1px dashed #f0f3f7;align-items:center;}
+  .dl .k{width:96px;flex:none;color:var(--ink-2);}
+  .dl .v{display:inline-flex;align-items:center;gap:6px;}
+  .chip{display:inline-block;padding:3px 10px;border:1px solid var(--line);border-radius:3px;font-size:11px;color:var(--ink-2);margin:0 6px 8px 0;}
+
+  /* 弹窗 */
+  .mask{position:fixed;inset:0;background:rgba(31,45,61,.55);display:none;align-items:center;justify-content:center;z-index:80;padding:20px;}
+  .mask.show{display:flex;}
+  .modal{background:#fff;border-radius:8px;width:440px;max-width:100%;box-shadow:0 8px 30px rgba(0,0,0,.2);overflow:hidden;}
+  .modal-head{padding:15px 20px;font-size:15px;font-weight:600;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
+  .modal-head .x{cursor:pointer;color:var(--ink-3);font-size:15px;}
+  .modal-body{padding:22px;}
+  .modal-foot{padding:12px 20px 18px;display:flex;justify-content:flex-end;gap:10px;}
+  .call-modal .modal-body{text-align:center;}
+  .avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(140deg,#22c3ae,#0e8f82);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:0 4px 12px rgba(15,157,143,.35);}
+  .avatar svg{width:28px;height:28px;fill:#fff;}
+  .call-num{font-size:20px;font-weight:600;letter-spacing:.5px;}
+  .call-meta{font-size:12px;color:var(--ink-3);margin-top:6px;line-height:1.8;}
+  .status-pill{display:inline-block;background:var(--teal-bg);color:var(--teal-dark);font-size:12px;padding:3px 12px;border-radius:12px;margin-top:10px;}
+  .info-row{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:14px;}
+  .info-row .label{color:var(--ink);width:76px;flex:none;}
+  .copy-link{color:var(--teal);font-size:12px;cursor:pointer;}
+  .lock-row{background:var(--orange-bg);border:1px solid #ffd6ad;border-radius:6px;padding:10px 14px;font-size:12.5px;color:#b26a00;line-height:1.9;margin-bottom:12px;}
+
+  /* 表单 */
+  .tab-line{color:var(--blue);font-size:13px;border-bottom:2px solid var(--blue);display:inline-block;padding-bottom:4px;margin-bottom:14px;font-weight:500;}
+  .f-row{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+  .fk{width:70px;flex:none;color:var(--ink);padding-top:6px;}
+  .fk i{color:var(--red);font-style:normal;margin-right:2px;}
+  .sel{position:relative;}
+  .sel-btn{display:inline-flex;align-items:center;gap:16px;border:1px solid var(--line);border-radius:4px;padding:6px 12px;color:var(--ink-3);min-width:110px;justify-content:space-between;background:#fff;cursor:pointer;font-size:12.5px;}
+  .sel-btn.on{color:var(--ink);border-color:var(--teal);}
+  .sel-menu{position:absolute;left:0;top:34px;z-index:20;border:1px solid #e8ecf2;border-radius:6px;box-shadow:0 4px 16px rgba(31,45,61,.12);background:#fff;padding:6px 0;width:240px;display:none;}
+  .sel-menu.show{display:block;}
+  .sel-menu .opt{padding:7px 14px;font-size:13px;color:var(--ink);cursor:pointer;}
+  .sel-menu .opt:hover{background:var(--teal-bg);}
+  textarea{width:100%;min-height:66px;border:1px solid var(--line);border-radius:4px;font-size:12.5px;color:var(--ink);padding:8px 10px;resize:none;font-family:inherit;}
+  .radio-line{display:flex;gap:16px;flex-wrap:wrap;padding-top:6px;color:var(--ink-2);font-size:13px;}
+  .radio-line span.opt{display:inline-flex;align-items:center;gap:5px;cursor:pointer;}
+  .radio-line span.opt.locked{color:var(--ink-3);cursor:not-allowed;}
+  .r-dot{width:12px;height:12px;border-radius:50%;border:1px solid #c9d3e0;display:inline-block;}
+  .r-dot.on{border:4px solid var(--blue);}
+  .err{color:var(--red);font-size:12px;margin-top:8px;display:none;}
+  .up-grid{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .up-box{width:60px;height:60px;border:1px dashed #c9d3e0;border-radius:6px;background:#fafbfc;color:var(--ink-3);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;}
+  .up-box:hover{border-color:var(--teal);color:var(--teal);}
+  .up-thumb{width:60px;height:60px;border-radius:6px;position:relative;border:1px solid var(--line);
+    background:#eef1f6 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><rect width='60' height='60' fill='%23eef1f6'/><circle cx='23' cy='22' r='6' fill='%23c3cbd8'/><path d='M8 46l15-17 11 12 8-8 10 13z' fill='%23c3cbd8'/></svg>") center/cover;}
+  .up-thumb .del{position:absolute;top:-6px;right:-6px;width:16px;height:16px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .hint{font-size:11px;color:var(--ink-3);margin-top:6px;}
+
+  /* 通话浮条（小卡片，无最小化） */
+  .float-card{position:fixed;right:22px;bottom:22px;z-index:90;width:212px;background:#fff;border-radius:12px;
+    box-shadow:0 10px 28px rgba(31,45,61,.22);border:1px solid #e7edf3;display:none;padding:12px 14px;}
+  .float-card.show{display:block;animation:pop .22s cubic-bezier(.34,1.4,.64,1);}
+  @keyframes pop{from{transform:translateY(8px) scale(.96);opacity:0}to{transform:none;opacity:1}}
+  .fav{width:32px;height:32px;border-radius:50%;background:linear-gradient(140deg,#22c3ae,#0e8f82);display:flex;align-items:center;justify-content:center;flex:none;box-shadow:0 3px 8px rgba(15,157,143,.4);}
+  .fav svg{width:16px;height:16px;fill:#fff;}
+  .fav.fail{background:linear-gradient(140deg,#ff7875,#d9363e);}
+  .fc-head{display:flex;align-items:center;gap:9px;}
+  .fc-name{font-size:13px;font-weight:600;color:var(--ink);}
+  .fc-state{font-size:11.5px;color:var(--ink-3);display:flex;align-items:center;gap:5px;margin-top:2px;}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none;}
+  .dot.ring{background:var(--orange);}
+  .dot.fail{background:var(--red);}
+  .dot.live{animation:blink 1.2s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  .fc-timer{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:1px;margin:8px 0 2px;color:var(--ink);}
+  .fc-acts{display:flex;gap:8px;margin-top:8px;}
+  .fc-btn{flex:1;text-align:center;font-size:12px;padding:6px 0;border-radius:6px;cursor:pointer;border:1px solid var(--line);background:#fff;color:var(--ink-2);}
+  .fc-btn:hover{background:#f5f8fa;}
+  .fc-btn.w{background:var(--teal-bg);border-color:#bfe5e0;color:var(--teal-dark);}
+  .fc-btn.hang{background:var(--red);border-color:var(--red);color:#fff;}
+  .fc-btn.hang:hover{background:#d9363e;}
+  .mini-badge{position:absolute;top:-5px;right:-5px;width:18px;height:18px;border-radius:50%;background:var(--red);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #fff;}
+  .float-mini{position:fixed;right:22px;bottom:22px;z-index:90;width:48px;height:48px;border-radius:50%;background:linear-gradient(140deg,#22c3ae,#0e8f82);color:#fff;display:none;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(15,157,143,.45);cursor:pointer;}
+  .float-mini.show{display:flex;}
+  .float-mini svg{width:22px;height:22px;fill:#fff;}
+  .toast{position:fixed;left:50%;top:64px;transform:translateX(-50%);background:#1f2d3d;color:#fff;font-size:12.5px;border-radius:6px;padding:9px 18px;box-shadow:0 4px 14px rgba(0,0,0,.25);z-index:95;display:none;max-width:80%;text-align:center;}
+  .toast.show{display:block;}
+  .nav-tabs{display:flex;gap:8px;margin-bottom:16px;}
+  .nav-tabs .tab{cursor:pointer;padding:7px 18px;border-radius:4px;background:#fff;border:1px solid var(--line);font-size:13px;color:var(--ink-2);}
+  .nav-tabs .tab.on{background:var(--teal);border-color:var(--teal);color:#fff;}
+  .legend{font-size:11.5px;color:var(--ink-3);display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+  .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>Leads 外呼功能 · 可交互原型</h1>
+  <span class="scheme-pill">最终方案：挂断弹 Follow 表单 · 提交后留存（附通话明细）</span>
+  <div class="ctrl">模拟接通状态：
+    <select id="simConn"><option value="1">接通</option><option value="0">未接通</option></select>
+  </div>
+  <button class="reset-btn" id="resetBtn">重置演示</button>
+</div>
+
+<div class="wrap">
+  <div class="nav-tabs">
+    <div class="tab on" data-page="list">Leads 列表页</div>
+    <div class="tab" data-page="detail">家长详情页（含 Follow）</div>
+    <div class="tab" data-page="states">状态 · 弹窗 · 提示总览</div>
+  </div>
+
+  <div id="pageList" class="card">
+    <div class="card-head">
+      <h2>Leads 管理</h2>
+      <div class="legend">
+        <span><i style="background:var(--blue-bg);border:1px solid #cfe2ff"></i>🔓 解密</span>
+        <span><i style="background:linear-gradient(140deg,#22c3ae,#0b8378)"></i>📞 外呼</span>
+        <span>操作列保持原样（用户信息 / 详情）</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+        <span class="input" style="min-width:90px">家长ID</span>
+        <span class="input" style="min-width:90px">手机号</span>
+        <span class="btn primary">搜索</span><span class="btn">重置</span>
+      </div>
+      <table class="grid">
+        <colgroup>
+          <col style="width:38px"><col style="width:86px"><col style="width:104px"><col style="width:62px">
+          <col style="width:212px"><col style="width:152px"><col style="width:168px"><col style="width:92px"><col style="width:150px">
+        </colgroup>
+        <thead>
+          <tr><th>☐</th><th>家长ID</th><th>学生姓名</th><th>年龄</th><th>手机号</th><th>最近一次跟进时间</th><th>分配来源</th><th>CC姓名</th><th>操作</th></tr>
+        </thead>
+        <tbody id="listBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="pageDetail" class="card" style="display:none">
+    <div class="card-head"><h2 id="detailTitle">家长详情</h2><span class="desc">登录手机号 / 联系方式 后的 📞 图标同样发起外呼；挂断后在本页弹出 Follow 表单</span></div>
+    <div class="card-body">
+      <div class="detail-wrap">
+        <div class="detail-left">
+          <div style="font-size:13px;font-weight:600;margin-bottom:12px">家长基础信息</div>
+          <div><span class="chip">预约试听课</span><span class="chip">添加备注联系方式</span><span class="chip">用户解密</span></div>
+          <div class="dl"><span class="k">家长 ID:</span><span class="v" id="dId"></span></div>
+          <div class="dl"><span class="k">家长姓名:</span><span class="v">—</span></div>
+          <div class="dl"><span class="k">登录手机号:</span><span class="v" id="dPhone"></span></div>
+          <div class="dl"><span class="k">联系方式:</span><span class="v" id="dContact"></span></div>
+          <div class="dl"><span class="k">用户状态:</span><span class="v">NORMAL</span></div>
+          <div class="dl"><span class="k">注册来源:</span><span class="v">PC</span></div>
+        </div>
+        <div class="detail-right">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px;flex-wrap:wrap;">
+            <div style="font-size:13px;font-weight:600">follow 记录</div>
+            <span class="btn" id="newFollowBtn">+ New Follow</span>
+          </div>
+          <div id="followList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 状态 · 弹窗 · 提示总览 -->
+  <div id="pageStates" class="card" style="display:none">
+    <div class="card-head">
+      <h2>状态 · 弹窗 · 提示总览</h2>
+      <span class="desc">汇总所有状态、弹窗与提示文案，供评审对照；静态示例，不参与交互</span>
+    </div>
+    <div class="card-body">
+      <div class="state-sec">
+        <div class="state-h">一、外呼全流程（从点图标到解锁下一通）</div>
+        <div class="flow">
+          <div class="swim">
+            <div class="sw-lane blank"></div>
+            <div class="sw-h">① 发起外呼</div>
+            <div class="sw-h">② 呼叫中 · 振铃中</div>
+            <div class="sw-h">③ 通话中</div>
+            <div class="sw-h">④ 挂断 · 写 Follow</div>
+            <div class="sw-h">⑤ 提交 · 解锁</div>
+
+            <div class="sw-lane cc"><span>CC</span></div>
+            <div class="sw-c">点外呼图标<small>列表 / 用户信息 / 详情三入口</small></div>
+            <div class="sw-c">照常浏览列表 / 详情<small>通话不打断操作</small></div>
+            <div class="sw-c">可点「✍ 写Follow」提前写<small>也可等挂断后再写</small></div>
+            <div class="sw-c hl">填跟进内容 + 结果类型<small>结果类型由 CC 自选，不预填</small></div>
+            <div class="sw-c">提交后直接拨打下一通<small>留在原页面，不跳转</small></div>
+
+            <div class="sw-lane sys">Leads<small>系统</small></div>
+            <div class="sw-c">先做联锁校验<small>有未写 Follow → 拦截</small></div>
+            <div class="sw-c">右下角通话卡片<small>PID + 拨出号码 + 状态</small></div>
+            <div class="sw-c">开始通话计时<small>呼叫中 / 振铃中显示 --:--</small></div>
+            <div class="sw-c hl">挂断就地弹出 Follow 表单<small>渠道锁定「在线外呼」</small></div>
+            <div class="sw-c hl">Follow 留存 · 浮标消失 · 解锁<small>回传后明细自动补全（含录音）</small></div>
+
+            <div class="sw-lane ctr">呼叫中心<small>Call Center</small></div>
+            <div class="sw-c">建立呼叫</div>
+            <div class="sw-c">振铃<small>等待对方接听</small></div>
+            <div class="sw-c">接通 / 未接通<small>结果回传给系统</small></div>
+            <div class="sw-c">释放线路<small>挂断即结束</small></div>
+            <div class="sw-c">整体回传数据包<small>接通状态 + 时长 + 录音，约 1~5 分钟，静默不弹 toast</small></div>
+          </div>
+          <div class="branch">
+            <div class="bcard"><b>分支 A · 未接通</b><br>振铃后对方未接听 → 卡片状态「未接通」，按钮文案变为<b>「关闭」</b> → 点关闭后同样<b>弹出 Follow 表单</b>，提交才留存；该条明细<b>无通话时长、无录音</b>。</div>
+            <div class="bcard"><b>分支 B · 联锁拦截</b><br>若上一通已挂断但未提交 Follow，点任一外呼入口 → 弹<b>「无法发起外呼」</b>（带家长ID / 拨出号码 / 外呼时间）→ 点<b>「去写 Follow」</b>跳转该家长详情页并弹出表单 → 提交后解锁。</div>
+          </div>
+          <div class="sn-foot" style="border:0;padding-top:2px">铁律：每通成功外呼都必须提交一条 Follow；未提交前，三个外呼入口全部被拦截。回传与写 Follow 互不阻塞，回传<b>不新建 Follow</b>。</div>
+        </div>
+      </div>
+      <div class="state-sec">
+        <div class="state-h">二、通话卡片状态（发起外呼后右下角浮窗）</div>
+        <div class="state-grid" id="stateCards"></div>
+        <div class="st-note" id="cardFields"></div>
+      </div>
+      <div class="state-sec">
+        <div class="state-h">三、Follow 中的通话明细状态（回传前 / 回传后）</div>
+        <div class="state-grid" id="stateDetails"></div>
+        <div class="st-note" id="detailFields"></div>
+      </div>
+      <div class="state-sec">
+        <div class="state-h">四、Follow 未写的过渡态（右下角待办浮标）</div>
+        <div class="state-grid" id="stateMini"></div>
+      </div>
+      <div class="state-sec">
+        <div class="state-h">五、弹窗（联锁拦截 / 用户信息 / New Follow 表单）</div>
+        <div class="state-grid" id="stateModals"></div>
+      </div>
+      <div class="state-sec">
+        <div class="state-h">六、Toast 提示（页面顶部居中，约 2.6 秒自动消失）</div>
+        <div class="toast-list" id="stateToasts"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 通话卡片 -->
+<div class="float-card" id="floatBar">
+  <div class="fc-head">
+    <span class="fav" id="fbAv"></span>
+    <div>
+      <div class="fc-name" id="fbName"></div>
+      <div class="fc-state"><span class="dot live" id="fbDot"></span><span id="fbState">呼叫中…</span></div>
+    </div>
+  </div>
+  <div class="fc-timer" id="fbTimer">00:00</div>
+  <div class="fc-acts">
+    <span class="fc-btn w" id="fbWrite">✍ 写Follow</span>
+    <span class="fc-btn hang" id="fbHang">挂断</span>
+  </div>
+</div>
+<div class="float-mini" id="floatMini" title="有待填写的 Follow">
+  <span id="miniIcon"></span><span class="mini-badge" id="miniBadge" style="display:none">1</span>
+</div>
+<div class="toast" id="toast"></div>
+
+<!-- 用户信息弹窗 -->
+<div class="mask" id="mUser"><div class="modal">
+  <div class="modal-head">用户信息 <span class="x" data-close>✕</span></div>
+  <div class="modal-body" id="userBody"></div>
+  <div class="modal-foot"><span class="btn" data-close>取消</span></div>
+</div></div>
+
+<!-- 拦截弹窗 -->
+<div class="mask" id="mLock"><div class="modal">
+  <div class="modal-head">无法发起外呼 <span class="x" data-close>✕</span></div>
+  <div class="modal-body">
+    <div class="lock-row" id="lockMsg"></div>
+  </div>
+  <div class="modal-foot"><span class="btn" data-close>取消</span><span class="btn primary" id="lockGo">去写 Follow</span></div>
+</div></div>
+
+<!-- Follow 表单 -->
+<div class="mask" id="mForm"><div class="modal" style="width:580px">
+  <div class="modal-head">New Follow <span class="x" data-close>✕</span></div>
+  <div class="modal-body">
+    <div class="tab-line">跟进 Follow <span id="formCallTag" class="tag warn" style="display:none"></span></div>
+    <div class="f-row"><span class="fk"><i>*</i>跟进类型</span><div id="typeSels" style="display:flex;gap:10px;flex-wrap:wrap;"></div></div>
+    <div class="f-row"><span class="fk"><i>*</i>跟进内容</span><div style="flex:1"><textarea id="fContent" placeholder="请输入跟进内容…"></textarea></div></div>
+    <div class="f-row"><span class="fk">图片</span>
+      <div style="flex:1">
+        <div class="up-grid" id="upGrid"></div>
+        <div class="hint">支持 jpg / png，最多 3 张，单张不超过 5M</div>
+      </div>
+    </div>
+    <div class="f-row"><span class="fk"><i>*</i>沟通渠道</span><div class="radio-line" id="fChannel"></div></div>
+    <div class="f-row"><span class="fk">结果类型</span><div class="radio-line" id="fResult"></div></div>
+    <div class="err" id="fErr">请填写跟进内容，并至少选择一项跟进类型。</div>
+  </div>
+  <div class="modal-foot"><span class="btn" data-close>取消</span><span class="btn primary" id="fSubmit">提交</span></div>
+</div></div>
+
+<script>
+/* ============ 图标 ============ */
+const ICON_CALL = '<svg viewBox="0 0 24 24"><path d="M18 11l5-5-5-5v3h-4v4h4v3z"/><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.2c.28-.27.36-.66.25-1.01C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg>';
+const ICON_CALL_W = '<svg viewBox="0 0 24 24" style="fill:#fff"><path d="M18 11l5-5-5-5v3h-4v4h4v3z"/><path d="M20 15.5c-1.25 0-2.45-.2-3.57-.57-.35-.11-.74-.03-1.02.24l-2.2 2.2c-2.83-1.44-5.15-3.75-6.59-6.59l2.2-2.2c.28-.27.36-.66.25-1.01C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.5c0-.55-.45-1-1-1z"/></svg>';
+const ICON_LOCK = '<svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 00-5 5v2H6a2 2 0 00-2 2v9a2 2 0 002 2h12a2 2 0 002-2v-9a2 2 0 00-2-2h-1V7a5 5 0 00-5-5zm0 2a3 3 0 013 3v2H9V7a3 3 0 013-3zm-1 8h2v5h-2v-5z"/></svg>';
+const ICON_EYE = '<svg viewBox="0 0 24 24"><path d="M12 5c-5 0-9 4.5-9 7s4 7 9 7 9-4.5 9-7-4-7-9-7zm0 12a5 5 0 110-10 5 5 0 010 10zm0-2a3 3 0 100-6 3 3 0 000 6z"/></svg>';
+
+/* ============ 数据 & 状态 ============ */
+const ROWS = [
+  {id:'413920', name:'student', age:'0岁', phone:'185****7007', real:'18512347007', last:'2026-10-19 17:27:31', src:'TMK团队-TMK-杨…', cc:'陈旭'},
+  {id:'413919', name:'student', age:'0岁', phone:'152****7472', real:'15244567472', last:'2026-10-19 17:59:40', src:'TMK团队-TMK-尹…', cc:'徐耀龙'},
+  {id:'413918', name:'student', age:'0岁', phone:'130****0387', real:'13077880387', last:'2026-10-19 17:57:36', src:'Organic-1508_242…', cc:'辛月尹'},
+  {id:'413917', name:'student', age:'0岁', phone:'183****5160', real:'18322125160', last:'2026-10-19 17:21:52', src:'TMK团队-TMK-赵…', cc:'简俊奇'},
+  {id:'413916', name:'student', age:'0岁', phone:'162****0724', real:'16233440724', last:'2026-10-19 17:20:07', src:'TMK团队-TMK-朱…', cc:'马瑞奇'}
+];
+const TYPE_GROUPS = [
+  {key:'有意向', opts:['有意向-课后-讲解产品，学习方案','有意向-课前-了解学习情况','有意向-约课成功']},
+  {key:'无意向', opts:['无意向-无需求','无意向-仅需资料']},
+  {key:'无法取得联系', opts:['无法取得联系-无人接听','无法取得联系-空号/停机','无法取得联系-拒接']},
+  {key:'勿扰', opts:['勿扰-明确拒绝','勿扰-黑名单']}
+];
+const CHANNELS = ['微信','短信','工作手机','在线外呼','IM','Kakao'];
+const RESULTS = ['未接通','沟通完成','拒接联系'];
+
+const S = {simConn:1, page:'list', parentId:'413920', calling:false, phase:null, callTs:null,
+  timer:null, phases:[], toastId:null, form:null};
+
+const seedFollows = () => ([
+  {kind:'manual', id:'f0', pid:'413920', op:'杨行行(60000592)', ts:Date.now()-1000*60*60*20,
+   types:'转介绍跟进', content:'国内公海 妈妈非比，77 平板电脑-iPad 江苏苏州，小朋友上一年级…',
+   channel:'微信', result:'沟通完成', callId:null, imgs:1}
+]);
+let follows = seedFollows();
+let calls = []; // {id, pid, startTs, endTs, connected, dur, followed, returned, record}
+
+/* ============ 工具 ============ */
+const pad = n => String(n).padStart(2,'0');
+const fmt = ts => { const d=new Date(ts); return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`; };
+const timeOnly = ts => { const d=new Date(ts); return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`; };
+const dur = s => `${pad(Math.floor(s/60))}:${pad(s%60)}`;
+const getParent = id => ROWS.find(r=>r.id===id);
+const hasLock = () => calls.some(c=>c.endTs && !c.followed);
+const lockedCall = () => calls.find(c=>c.endTs && !c.followed);
+const activeCall = () => calls.find(c=>c.endTs===null);
+
+function toast(msg, ms){
+  const t=document.getElementById('toast');
+  t.innerHTML=msg; t.classList.add('show');
+  clearTimeout(S.toastId);
+  S.toastId=setTimeout(()=>t.classList.remove('show'), ms||2600);
+}
+
+/* ============ 渲染 ============ */
+function render(){
+  renderList();
+  renderDetail();
+  renderStates();
+  document.getElementById('pageList').style.display = S.page==='list'?'':'none';
+  document.getElementById('pageDetail').style.display = S.page==='detail'?'':'none';
+  document.getElementById('pageStates').style.display = S.page==='states'?'':'none';
+  document.querySelectorAll('.nav-tabs .tab').forEach(t=>t.classList.toggle('on', t.dataset.page===S.page));
+}
+function phoneCell(pid, field){
+  const p = getParent(pid);
+  return `<span class="cell-flex">
+      <span>${p.phone}</span>
+      <button class="ibtn decrypt" title="点击解密手机号"
+        onclick="event.stopPropagation();openUser('${pid}')">${ICON_LOCK}</button>
+      <button class="ibtn call" title="点击外呼" onclick="event.stopPropagation();tryCallDirect('${pid}')">${ICON_CALL}</button>
+    </span>`;
+}
+function renderList(){
+  document.getElementById('listBody').innerHTML = ROWS.map(r=>`
+    <tr>
+      <td>☐</td><td>${r.id}</td><td>${r.name}</td><td>${r.age}</td>
+      <td>${phoneCell(r.id,'p')}</td>
+      <td>${r.last}</td><td title="${r.src}">${r.src}</td><td>${r.cc}</td>
+      <td><span class="op-btn" onclick="event.stopPropagation();openUser('${r.id}')">用户信息</span><span class="op-btn" onclick="event.stopPropagation();goDetail('${r.id}')">详情</span></td>
+    </tr>`).join('');
+}
+function renderDetail(){
+  const p = getParent(S.parentId);
+  document.getElementById('detailTitle').textContent = `家长详情 · ${p.id}`;
+  document.getElementById('dId').innerHTML = `${p.id} <span class="copy-link">复制</span>`;
+  document.getElementById('dPhone').innerHTML = phoneCell(p.id,'login');
+  document.getElementById('dContact').innerHTML = phoneCell(p.id,'contact');
+  document.getElementById('followList').innerHTML = followListHTML(p.id);
+}
+function followListHTML(pid){
+  const items = [];
+  follows.filter(f=>f.pid===pid).forEach(f=>items.push({ts:f.ts, kind:'manual', f}));
+  // 只有CC提交后才产生记录：挂断不再自动生成空 Follow
+  calls.filter(c=>c.pid===pid && c.record).forEach(c=>items.push({ts:c.startTs, kind:'auto', c}));
+  if(!items.length) return `<div class="empty-hint">暂无 Follow 记录。<br>提示：外呼挂断后系统会<b>弹出 Follow 表单</b>，填写提交后该条 Follow 才留存（自动带通话明细）；通话中也可点「✍ 写Follow」提前写。</div>`;
+  items.sort((a,b)=>b.ts-a.ts);
+  return items.map(it=> it.kind==='manual' ? manualCard(it.f) : autoCard(it.c)).join('');
+}
+/* 通话明细：已回传 / 待回传 两态，字段统一为「拨出号码 / 接通状态 / 通话时长 / 呼出时间」 */
+function detailGrid(list){
+  return `<div class="det-grid">${list.map(([k,v])=>
+    `<div class="det-row"><span class="dk">${k}</span><span class="dv">${v}</span></div>`).join('')}</div>`;
+}
+function callDetailHTML(c, title){
+  const phone = getParent(c.pid).phone;
+  // 接通状态 / 通话时长：通话进行中或未回传时均未知
+  let st, durVal;
+  if(!c.endTs){ st = '<span class="wait blue">● 通话中</span>'; durVal = dur(Math.floor((Date.now()-c.startTs)/1000))+'（计时中）'; }
+  else if(!c.returned){ st = '<span class="wait">待回传</span>'; durVal = '<span class="wait">待回传</span>'; }
+  else { st = c.connected ? '<b class="ok">已接通</b>' : '<b class="no">未接通</b>'; durVal = c.connected ? dur(c.dur) : '—'; }
+  // 拨出号码 = 拨给谁了（家长手机号），一律加密展示（185****7007），不带解密入口
+  const grid = detailGrid([['拨出号码', phone], ['接通状态', st], ['通话时长', durVal], ['呼出时间', timeOnly(c.startTs)]]);
+  if(!c.returned){
+    return `<div class="pending-block">
+      <div class="pb-title"><span class="spinner"></span>通话数据待回传</div>
+      ${grid}
+    </div>`;
+  }
+  const player = c.connected
+    ? `<div class="player"><span class="play-btn"></span><span class="track"></span><span class="time">00:00 / ${dur(c.dur)}</span></div>`
+    : `<div class="cb-note">未接通：无通话时长，无录音。</div>`;
+  return `<div class="call-block">
+    <div class="cb-title">${ICON_CALL.replace('<svg','<svg style="width:12px;height:12px;fill:var(--teal-dark)"')} ${title||'通话明细'}</div>
+    ${grid}${player}
+  </div>`;
+}
+function imgLine(n){
+  if(!n) return '';
+  return `<div class="thumb-line">${Array.from({length:n}).map(()=>'<span class="mini-thumb"></span>').join('')}</div>`;
+}
+function manualCard(f){
+  return `<div class="follow-card" style="border-left:3px solid var(--blue);padding-left:14px">
+    <div class="fc-meta"><span>操作人：<b>${f.op}</b></span><span>操作时间：<b>${fmt(f.ts)}</b></span></div>
+    <div class="fc-line"><span class="k">跟进类型：</span>${f.types}</div>
+    <div class="fc-line"><span class="k">跟进内容：</span>${f.content}</div>
+    <div class="fc-line"><span class="k">沟通渠道：</span>${f.channel}&nbsp;&nbsp;&nbsp;<span class="k">结果类型：</span>${f.result}</div>
+    ${imgLine(f.imgs)}
+  </div>`;
+}
+function autoCard(c){
+  const r = c.record;
+  return `<div class="follow-card" style="border-left:3px solid var(--teal);padding-left:14px">
+    <div class="fc-meta"><span>操作人：<b>陈旭(60000844)</b></span><span>操作时间：<b>${fmt(r.ts || c.startTs)}</b></span></div>
+    <div class="fc-line"><span class="k">跟进类型：</span>${r.types}</div>
+    <div class="fc-line"><span class="k">跟进内容：</span>${r.content}</div>
+    <div class="fc-line"><span class="k">沟通渠道：</span>${r.channel}&nbsp;&nbsp;&nbsp;<span class="k">结果类型：</span>${r.result}</div>
+    ${imgLine(r.imgs)}
+    ${callDetailHTML(c,'📞 通话明细')}
+  </div>`;
+}
+
+/* ============ 通话状态总览页（静态示例，仅供评审对照） ============ */
+function renderStates(){
+  let done = renderStates.done; if(done) return; renderStates.done = true;
+  /* 字段说明小表：[字段名, 说明] */
+  const fieldNote = (rows, foot) => `
+    <div class="sn-h">字段说明</div>
+    ${rows.map(r=>`<div class="sn-row"><b>${r[0]}</b><span>${r[1]}</span></div>`).join('')}
+    ${foot ? `<div class="sn-foot">${foot}</div>` : ''}`;
+  const cardSamples = [
+    {t:'① 呼叫中', s:'呼叫中…', cls:'dot live', timer:'00:00', btn:'挂断', note:'刚点图标拨出，尚未被接起，不计时'},
+    {t:'② 振铃中', s:'振铃中…', cls:'dot ring', timer:'00:03', btn:'挂断', note:'对方已振铃，仍未接通'},
+    {t:'③ 通话中', s:'通话中', cls:'dot live', timer:'00:09', btn:'挂断', note:'已接通开始计费，此处显示通话时长'},
+    {t:'④ 未接通', s:'未接通', cls:'dot fail', timer:'00:00', btn:'关闭', note:'对方未接听 / 拒接：按钮文案变为「关闭」'}
+  ];
+  document.getElementById('stateCards').innerHTML = cardSamples.map(x=>`
+    <div class="st-card">
+      <div class="st-label"><b>${x.t}</b>${x.note}</div>
+      <div class="mock-fc">
+        <div class="fc-head">
+          <span class="fav${x.btn==='关闭'?' fail':''}">${ICON_CALL_W}</span>
+          <div><div class="fc-name">PID：413920</div>
+            <div class="fc-state"><span class="${x.cls}"></span><span>${x.s}</span></div></div>
+        </div>
+        <div class="fc-num-pill"><span class="np-k">拨出号码</span><b>185****7007</b></div>
+        <div class="fc-timer">${x.timer}</div>
+        <div class="fc-acts">
+          <span class="fc-btn w">✍ 写Follow</span>
+          <span class="fc-btn hang">${x.btn}</span>
+        </div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('cardFields').innerHTML = fieldNote([
+    ['PID','家长（Leads）ID，标识这一通拨给谁'],
+    ['拨出号码','家长手机号，脱敏展示（185****7007）；卡片上不提供解密入口'],
+    ['呼叫状态','呼叫中 → 振铃中 → 通话中 / 未接通，由呼叫中心状态驱动'],
+    ['计时','仅「通话中」开始计时；呼叫中 / 振铃中显示 --:--，未接通归零'],
+    ['按钮','进行中文案为「挂断」；未接通变为「关闭」；「✍ 写Follow」可在通话中提前写']
+  ], '卡片常驻右下角：通话期间列表 / 详情页均可继续操作；挂断后卡片消失。');
+
+  const base = new Date(2026,9,20,10,41,7).getTime();
+  const detailSamples = [
+    {t:'① 通话数据待回传', note:'Follow 已提交但呼叫中心尚未回传数据', flag:'pending',
+      c:{pid:'413920', startTs:base, endTs:base+9000, connected:true, dur:9, returned:false}},
+    {t:'② 已回传 · 接通', note:'补上接通状态 / 通话时长，并带上录音播放条', flag:'conn',
+      c:{pid:'413920', startTs:base, endTs:base+9000, connected:true, dur:9, returned:true}},
+    {t:'③ 已回传 · 未接通', note:'无通话时长、无录音；仍是一条完整 Follow', flag:'no',
+      c:{pid:'413920', startTs:base, endTs:base+8000, connected:false, dur:0, returned:true}}
+  ];
+  document.getElementById('stateDetails').innerHTML = detailSamples.map(x=>`
+    <div class="st-card">
+      <div class="st-label"><b>${x.t}</b>${x.note}</div>
+      <div class="follow-card" style="border-left:3px solid var(--teal);padding-left:14px;background:#fff">
+        <div class="fc-meta"><span>操作人：<b>陈旭(60000844)</b></span><span>操作时间：<b>2026-10-20 10:52:33</b></span></div>
+        <div class="fc-line"><span class="k">跟进类型：</span>有意向-约课成功</div>
+        <div class="fc-line"><span class="k">跟进内容：</span>家长确认周日下午到店试听，已加微信发送校区地址。</div>
+        <div class="fc-line"><span class="k">沟通渠道：</span>在线外呼&nbsp;&nbsp;&nbsp;<span class="k">结果类型：</span>沟通完成</div>
+        ${callDetailHTML(x.c,'📞 通话明细')}
+      </div>
+    </div>`).join('');
+
+  document.getElementById('detailFields').innerHTML = fieldNote([
+    ['拨出号码','拨给谁的手机号，脱敏展示（185****7007）；明细区不带解密入口'],
+    ['接通状态','回传后才有值（已接通 / 未接通）；未回传显示「待回传」'],
+    ['通话时长','回传后才有值；未接通显示「—」；未回传显示「待回传」'],
+    ['呼出时间','CC 点外呼图标的时刻，本地即时生成，不依赖回传'],
+    ['录音','仅「已接通且已回传」才有播放条；未接通无录音']
+  ], '回传是整体一次性的：未回传时只有「拨出号码 / 呼出时间」有值，其余字段显示「待回传」；回传后整块替换为完整明细，<b>不新建 Follow</b>。');
+
+  document.getElementById('stateMini').innerHTML = `
+    <div class="st-card">
+      <div class="st-label"><b>待办浮标（红点）</b>挂断后关掉表单或未提交 Follow 时出现；<b>点击跳转该家长详情页并弹出 Follow 表单</b>。此期间三个外呼入口全部被拦截。</div>
+      <div class="mock-row">
+        <div class="mock-mini">${ICON_CALL_W}<span class="mini-badge">1</span></div>
+        <div style="font-size:12.5px;color:var(--ink-2);line-height:1.8">
+          位置：页面右下角常驻<br>条件：存在「已挂断但未提交 Follow」的外呼<br>          消失：该通 Follow 提交后立即消失
+        </div>
+      </div>
+    </div>`;
+
+  /* 四、弹窗预览：直接克隆真实弹窗结构，保证与线上完全一致 */
+  const cloneModal = sel => {
+    const m = document.querySelector(sel + ' .modal').cloneNode(true);
+    m.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));
+    m.querySelectorAll('[onclick]').forEach(e=>e.removeAttribute('onclick'));
+    const host = document.createElement('div'); host.className='mock-mask'; host.appendChild(m);
+    return host.outerHTML;
+  };
+  const lockTs = new Date(2026,9,20,11,49,31).getTime();
+  openLock({pid:'413920', startTs:lockTs});
+  const lockHTML = cloneModal('#mLock');
+  document.getElementById('mLock').classList.remove('show');
+
+  openUser('413920');
+  const userHTML = cloneModal('#mUser');
+  document.getElementById('mUser').classList.remove('show');
+
+  const pv = {id:'__pv__', pid:'413920', startTs:base, endTs:base+39000, connected:true, dur:39,
+    followed:false, returned:false, record:null};
+  calls.push(pv);
+  openForm({kind:'record', cid:pv.id});
+  // 用 textContent（而非 value）才能在克隆出的静态预览里显示出来
+  document.getElementById('fContent').textContent = '家长确认周日下午到店试听，已加微信发送校区地址。';
+  const tb = document.querySelector('#typeSels .sel-btn[data-g="0"]');
+  if(tb){ tb.innerHTML = '有意向-约课成功 <span>▾</span>'; tb.classList.add('on'); }
+  const formHTML = cloneModal('#mForm');
+  document.getElementById('mForm').classList.remove('show');
+  calls.splice(calls.indexOf(pv), 1);
+
+  document.getElementById('stateModals').innerHTML = `
+    <div class="st-card">
+      <div class="st-label"><b>① 无法发起外呼（联锁拦截）</b>存在「已挂断但未提交 Follow」的外呼时，列表 / 用户信息弹窗 / 家长详情三个入口点击外呼均弹此窗。按钮：取消 / 去写 Follow（跳转该家长详情页并弹出表单）。</div>
+      ${lockHTML}
+    </div>
+    <div class="st-card">
+      <div class="st-label"><b>② 用户信息（点解密图标弹出）</b>展示明文手机号与联系方式，行内保留外呼图标可直接拨打；点「复制」复制带区号的号码。</div>
+      ${userHTML}
+    </div>
+    <div class="st-card wide">
+      <div class="st-label"><b>③ New Follow 表单（挂断后自动弹出 / 通话中点「✍ 写Follow」）</b>沟通渠道锁定「在线外呼」不可改；<b>结果类型不预填</b>，由 CC 按实际沟通结果选择；标题行带「关联通话：10:41:07 拨打」。未填完关掉表单 → 右下角出现待办浮标并持续拦截下一通。</div>
+      ${formHTML}
+    </div>`;
+
+  /* 五、Toast 提示 */
+  const toastList = [
+    ['📞 已发起外呼','点任一外呼图标直呼成功时'],
+    ['📞 通话进行中，请结束当前通话后再发起','通话中再次点外呼图标'],
+    ['📴 通话已结束 · 请填写本次沟通记录，提交后即可拨打下一通','挂断 / 未接通点「关闭」后（表单随即就地弹出）'],
+    ['✅ Follow 已保存，可以拨打下一通外呼','外呼 Follow 提交成功（联锁解除，不跳转页面）'],
+    ['本次由外呼触发，沟通渠道已锁定为「在线外呼」','表单内点其他渠道']
+  ];
+  document.getElementById('stateToasts').innerHTML = toastList.map(t=>`
+    <div class="toast-item">
+      <span class="mock-toast">${t[0]}</span>
+      <span class="toast-when">触发时机：${t[1]}</span>
+    </div>`).join('')
+    + `<div class="st-label" style="margin:12px 0 0">注：通话数据回传是后台静默行为，<b>不弹 toast</b>，只把 Follow 里的通话明细从「待回传」替换为完整明细（含录音）。</div>`;
+}
+
+/* ============ 外呼流程 ============ */
+function tryCallDirect(pid){
+  if(S.calling){ toast('📞 通话进行中，请结束当前通话后再发起'); return; }
+  const lk = hasLock();
+  if(lk){ openLock(lockedCall()); return; }
+  S.parentId = pid;
+  startCall(pid);
+}
+function setPhase(phase){
+  S.phase = phase;
+  const map = {
+    dialing:{text:'呼叫中…', cls:'ring', timer:'--:--'},
+    ringing:{text:'振铃中 · 等待接听', cls:'ring', timer:'--:--'},
+    talking:{text:'通话中', cls:'live', timer:'00:00'},
+    failed:{text:'未接通 · 对方未接听', cls:'fail', timer:'00:00'}
+  };
+  const cfg = map[phase];
+  document.getElementById('fbState').textContent = cfg.text;
+  const dot = document.getElementById('fbDot');
+  dot.className = 'dot ' + (phase==='talking'?'live':cfg.cls);
+  const av = document.getElementById('fbAv');
+  av.className = 'fav' + (phase==='failed'?' fail':'');
+  if(cfg.timer) document.getElementById('fbTimer').textContent = cfg.timer;
+  const hang = document.getElementById('fbHang');
+  hang.textContent = phase==='failed' ? '关闭' : '挂断';
+}
+function startCall(pid){
+  document.getElementById('mUser').classList.remove('show');
+  const c = {id:'c'+Date.now(), pid, startTs:Date.now(), endTs:null, connected:!!S.simConn, dur:0, followed:false, returned:false, record:null};
+  calls.push(c);
+  S.calling = true; S.callTs = c.startTs;
+  document.getElementById('fbName').textContent = getParent(pid).phone;
+  document.getElementById('fbAv').innerHTML = ICON_CALL_W;
+  document.getElementById('floatBar').classList.add('show');
+  document.getElementById('floatMini').classList.remove('show');
+  setPhase('dialing');
+  toast('📞 已发起外呼');
+  render();
+  // 状态流转：呼叫中 → 振铃中 → 通话中 / 未接通
+  const t1 = setTimeout(()=>{ if(activeCall()!==c) return; setPhase('ringing'); }, 900);
+  const t2 = setTimeout(()=>{
+    if(activeCall()!==c) return;
+    if(c.connected){
+      setPhase('talking');
+      S.timer = setInterval(()=>{
+        const s = Math.floor((Date.now()-S.callTs)/1000);
+        document.getElementById('fbTimer').textContent = dur(s);
+      }, 1000);
+    } else {
+      setPhase('failed');
+    }
+  }, 2400);
+  S.phases = [t1, t2];
+  // 未接通时 2.4s 后无需自动挂断，由用户点「关闭」
+};
+document.getElementById('fbWrite').onclick = () => { openForm({kind:'draft'}); };
+document.getElementById('fbHang').onclick = () => {
+  const c = activeCall(); if(!c) return;
+  S.phases.forEach(clearTimeout);
+  if(S.phase==='failed'){ endCall(c); return; }
+  endCall(c);
+};
+function endCall(c){
+  c.endTs = Date.now();
+  c.dur = Math.max(1, Math.floor((c.endTs-c.startTs)/1000));
+  S.calling = false; S.phase = null; clearInterval(S.timer);
+  document.getElementById('floatBar').classList.remove('show');
+  // 挂断【不跳转页面】：CC停留在当前所在页面（Leads 列表 / 家长详情），就地弹出表单，
+  // 提交后弹窗关闭即可继续拨打下一通。只有「被拦截后点『去写 Follow』」才跳转该家长详情页。
+  S.parentId = c.pid; render();
+  // 挂断【不】自动生成 Follow 记录：直接弹出 Follow 表单，由CC填写，提交后才留存。
+  // 挂断瞬间通话结果尚未回传，系统不知道是否接通，因此结果类型留空由CC填写。
+  toast('📴 通话已结束 · 请填写本次沟通记录，提交后即可拨打下一通', 2400);
+  render();
+  // 未填写时：直接弹出 Follow 表单 + 右下角待办浮标
+  if(!c.followed){ showPendingMini(); openForm({kind:'record', cid:c.id}); }
+  // 回传（演示 3 秒）
+  setTimeout(()=>{
+    const cur = calls.find(x=>x.id===c.id); if(!cur) return;
+    cur.returned = true;
+    // 回传为后台行为：不弹 toast，静默替换 Follow 中的通话明细
+    if(!cur.followed) showPendingMini();
+    render();
+  }, 3000);
+}
+function showPendingMini(){
+  document.getElementById('miniIcon').innerHTML = ICON_CALL_W;
+  document.getElementById('floatMini').classList.add('show');
+  document.getElementById('miniBadge').style.display='flex';
+}
+document.getElementById('floatMini').onclick = () => {
+  const c = lockedCall(); if(!c) return;
+  // 跳转该家长详情页，并在详情页弹出 Follow 表单
+  S.parentId = c.pid; S.page='detail'; render();
+  openForm({kind:'record', cid:c.id});
+};
+
+/* ============ 拦截 & 表单 ============ */
+function openLock(c){
+  const p = getParent(c.pid);
+  document.getElementById('lockMsg').innerHTML = `⛔ 上一通外呼（家长ID：${p.id} · 拨出号码：${p.phone} · 外呼时间：${timeOnly(c.startTs)}）尚未填写 Follow，写完才能拨打下一通。`;
+  document.getElementById('mLock').classList.add('show');
+}
+document.getElementById('lockGo').onclick = () => {
+  document.getElementById('mLock').classList.remove('show');
+  const c = lockedCall(); if(!c) return;
+  S.parentId = c.pid; S.page='detail'; render();
+  openForm({kind:'record', cid:c.id});
+};
+document.getElementById('newFollowBtn').onclick = () => { openForm({kind:'manual'}); };
+
+function renderUploads(){
+  const imgs = S.form.imgs;
+  const n = imgs.length;
+  document.getElementById('upGrid').innerHTML =
+    imgs.map((_,i)=>`<span class="up-thumb"><span class="del" data-i="${i}">✕</span></span>`).join('')
+    + (n<3 ? `<span class="up-box" id="upBox">＋</span>` : '')
+    + `<span class="hint" style="margin-left:6px">${n}/3</span>`;
+  const box = document.getElementById('upBox');
+  if(box) box.onclick = () => {
+    if(S.form.imgs.length>=3){ toast('最多上传 3 张图片'); return; }
+    S.form.imgs.push('demo'+Date.now()); renderUploads(); toast('📎 已添加图片（原型占位示意）',1600);
+  };
+  document.querySelectorAll('#upGrid .up-thumb .del').forEach(d=>d.onclick=e=>{
+    S.form.imgs.splice(+d.dataset.i,1); renderUploads(); e.stopPropagation();
+  });
+}
+function openForm(target){
+  const c = target.cid ? calls.find(x=>x.id===target.cid) : (target.kind==='manual' ? null : activeCall());
+  // 外呼 Follow 与普通业务 Follow 是两条平行线：只有 target.kind!=='manual' 才归属本通通话。
+  const isAuto = target.kind!=='manual';
+  // 结果类型由CC按照现有 Follow 流程填写：
+  // 呼叫中心回传的接通状态【不预填、不修改】表单结果类型，通话数据不参与表单预填。
+  S.form = {target, channel: isAuto?'在线外呼':'微信', auto:isAuto,
+    result: isAuto ? '' : '沟通完成', types:{}, imgs:[]};
+  document.getElementById('fContent').value='';
+  document.getElementById('fErr').style.display='none';
+  document.getElementById('typeSels').innerHTML = TYPE_GROUPS.map((g,i)=>`
+    <div class="sel"><div class="sel-btn" data-g="${i}">${g.key} <span>▾</span></div>
+      <div class="sel-menu" data-g="${i}">${g.opts.map(o=>`<div class="opt" data-v="${o}">${o}</div>`).join('')}</div></div>`).join('');
+  Object.keys(S.form.types).forEach(i=>{
+    const btn = document.querySelector(`#typeSels .sel-btn[data-g="${i}"]`);
+    if(btn){ btn.innerHTML = `${S.form.types[i]} <span>▾</span>`; btn.classList.add('on'); }
+  });
+  document.querySelectorAll('#typeSels .sel-btn').forEach(b=>b.onclick=e=>{
+    const i=b.dataset.g; document.querySelector(`#typeSels .sel-menu[data-g="${i}"]`).classList.toggle('show'); e.stopPropagation();
+  });
+  document.querySelectorAll('#typeSels .opt').forEach(o=>o.onclick=e=>{
+    const menu=o.closest('.sel-menu'), i=menu.dataset.g;
+    S.form.types[i]=o.dataset.v;
+    menu.previousElementSibling.innerHTML = `${o.dataset.v} <span>▾</span>`;
+    menu.previousElementSibling.classList.add('on');
+    menu.classList.remove('show'); e.stopPropagation();
+  });
+  document.getElementById('fChannel').innerHTML = CHANNELS.map(ch=>`<span class="opt ${isAuto&&ch!=='在线外呼'?'locked':''}" data-ch="${ch}"><span class="r-dot ${S.form.channel===ch?'on':''}"></span>${ch}${isAuto&&ch==='在线外呼'?'（锁定）':''}</span>`).join('');
+  document.querySelectorAll('#fChannel .opt').forEach(el=>el.onclick=()=>{
+    if(isAuto && el.dataset.ch!=='在线外呼'){ toast('本次由外呼触发，沟通渠道已锁定为「在线外呼」'); return; }
+    S.form.channel=el.dataset.ch; document.querySelectorAll('#fChannel .r-dot').forEach(d=>d.classList.remove('on')); el.querySelector('.r-dot').classList.add('on');
+  });
+  document.getElementById('fResult').innerHTML = RESULTS.map(r=>`<span class="opt" data-r="${r}"><span class="r-dot ${S.form.result===r?'on':''}"></span>${r}</span>`).join('');
+  document.querySelectorAll('#fResult .opt').forEach(el=>el.onclick=()=>{
+    S.form.result=el.dataset.r; document.querySelectorAll('#fResult .r-dot').forEach(d=>d.classList.remove('on')); el.querySelector('.r-dot').classList.add('on');
+  });
+  const tag=document.getElementById('formCallTag');
+  if(c && isAuto){
+    tag.style.display='inline-block';
+    tag.textContent=`关联通话：${timeOnly(c.startTs)} 拨打`;
+  } else tag.style.display='none';
+  renderUploads();
+  document.getElementById('mForm').classList.add('show');
+}
+document.getElementById('mForm').onclick = e => { if(e.target.id==='mForm') document.getElementById('mForm').classList.remove('show'); };
+document.getElementById('fSubmit').onclick = () => {
+  const content = document.getElementById('fContent').value.trim();
+  const types = Object.values(S.form.types).filter(Boolean);
+  const isAuto = !!S.form.auto;
+  const err = document.getElementById('fErr');
+  if(!content || !types.length){ err.textContent='请填写跟进内容，并至少选择一项跟进类型。'; err.style.display='block'; return; }
+  if(isAuto && !S.form.result){ err.textContent='请选择结果类型。'; err.style.display='block'; return; }
+  const tsTypes = types.join('，');
+  const target = S.form.target;
+  const imgs = S.form.imgs.length;
+  const c = target.cid ? calls.find(x=>x.id===target.cid) : (target.kind==='manual' ? null : activeCall());
+  if(isAuto && c){
+    // 提交即留存：这一通外呼的 Follow 在此刻才生成，一通电话只留一条完整记录。
+    // record.ts = CC提交 Follow 的时间（卡片「操作时间」用它展示，外呼时间在明细区单独展示）。
+    c.record = {ts:Date.now(), types:tsTypes, content, channel:'在线外呼', result:S.form.result, imgs};
+    c.followed = true;
+    document.getElementById('mForm').classList.remove('show');
+    document.getElementById('floatMini').classList.remove('show');
+    document.getElementById('miniBadge').style.display='none';
+    render();   // 不跳转：留在当前页面（列表 / 详情），弹窗关闭即可继续拨打下一通
+    toast('✅ Follow 已保存，可以拨打下一通外呼');
+    return;
+  }
+  // 纯人工业务 Follow（例如微信沟通）：只进 Follow 列表，
+  // 与外呼任务分开处理，【不解除】本次外呼联锁，也不影响右下角待办浮标。
+  follows.push({kind:'manual', id:'f'+Date.now(), pid:S.parentId, op:'陈旭(60000844)', ts:Date.now(),
+    types:tsTypes, content, channel:S.form.channel, result:S.form.result, imgs});
+  document.getElementById('mForm').classList.remove('show');
+  render();
+  toast('✅ Follow 已保存');
+};
+
+/* ============ 用户信息弹窗（点解密图标弹出 · 保持原逻辑） ============ */
+function openUser(pid){
+  S.parentId = pid; const p = getParent(pid);
+  const phoneRow = label => `
+    <div class="info-row"><span class="label">${label}：</span>
+      <span class="num-real">86-${p.real}</span>
+      <span class="copy-link" onclick="event.stopPropagation();toast('已复制：86-${p.real}')">复制</span>
+      <button class="ibtn call" title="点击外呼" onclick="event.stopPropagation();tryCallDirect('${pid}')">${ICON_CALL}</button>
+    </div>`;
+  document.getElementById('userBody').innerHTML = `
+    <div class="info-row"><span class="label">邮箱：</span><span>—</span><span class="copy-link" onclick="event.stopPropagation();toast('已复制')">复制</span></div>
+    ${phoneRow('手机号')}
+    ${phoneRow('联系方式')}`;
+  document.getElementById('mUser').classList.add('show');
+}
+function goDetail(pid){ S.parentId=pid; S.page='detail'; render(); }
+
+/* ============ 事件绑定 ============ */
+document.querySelectorAll('[data-close]').forEach(el=>el.onclick=()=>el.closest('.mask').classList.remove('show'));
+document.querySelectorAll('.mask').forEach(m=>m.onclick=e=>{ if(e.target===m) m.classList.remove('show'); });
+document.querySelectorAll('.nav-tabs .tab').forEach(t=>t.onclick=()=>{ S.page=t.dataset.page; render(); });
+document.getElementById('simConn').onchange = e => { S.simConn = +e.target.value; toast('下一次外呼将模拟：'+(S.simConn?'接通':'未接通')); };
+document.getElementById('resetBtn').onclick = () => {
+  calls=[]; follows=seedFollows(); S.calling=false; S.phase=null; S.parentId='413920'; S.page='list';
+  clearInterval(S.timer); S.phases.forEach(clearTimeout); S.phases=[];
+  document.getElementById('floatBar').classList.remove('show');
+  document.getElementById('floatMini').classList.remove('show');
+  document.getElementById('miniBadge').style.display='none';
+  render(); toast('演示已重置');
+};
+document.getElementById('miniIcon').innerHTML = ICON_CALL_W;
+render();
+</script>
+</body>
+</html>
