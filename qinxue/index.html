@@ -172,6 +172,13 @@ tr:hover td { background: #fafafa; }
             <div class="form-label">备注</div>
             <div class="form-control"><textarea id="create-remark" placeholder="活动说明，不展示给学生">秋季促销活动</textarea></div>
           </div>
+          <div class="form-row">
+            <div class="form-label">自动开启时间</div>
+            <div class="form-control">
+              <input id="create-auto-enable" class="dt-picker" placeholder="请选择自动启用时间" readonly style="max-width:220px;cursor:pointer;">
+              <div class="hint">选填。配置后系统在指定时间自动启用；不配置则需手动启用</div>
+            </div>
+          </div>
         </div>
         <div class="form-section">
           <h3>参与商品包</h3>
@@ -186,6 +193,20 @@ tr:hover td { background: #fafafa; }
         </div>
         <div class="form-section">
           <h3>考核规则配置</h3>
+          <div class="form-row">
+            <div class="form-label"><span class="required">*</span>考核月数量</div>
+            <div class="form-control">
+              <select id="assessment-month-count" onchange="syncRuleCount()" style="max-width:200px;">
+                <option value="1">1 个月</option>
+                <option value="2" selected>2 个月</option>
+                <option value="3">3 个月</option>
+                <option value="4">4 个月</option>
+                <option value="5">5 个月</option>
+                <option value="6">6 个月</option>
+              </select>
+              <div class="hint" id="rule-count-hint">下方需配置 2 个考核月，数量需与上方一致</div>
+            </div>
+          </div>
           <div style="margin-bottom:16px;">
             <button class="btn btn-primary" onclick="addRuleCard()">+ 添加考核月</button>
           </div>
@@ -214,6 +235,7 @@ tr:hover td { background: #fafafa; }
           <div class="tab-item" onclick="switchDetailTab(1)">勤学奖参与记录</div>
           <div class="tab-item" onclick="switchDetailTab(2)">勤学奖考核结果</div>
           <div class="tab-item" onclick="switchDetailTab(3)">数据统计</div>
+          <div class="tab-item" onclick="switchDetailTab(4)">操作日志</div>
         </div>
 
         <!-- Tab 0: 活动信息 -->
@@ -228,6 +250,7 @@ tr:hover td { background: #fafafa; }
                 <div><span style="color:#999;font-size:12px;">活动名称</span><div style="font-size:14px;margin-top:4px;">7月勤学奖</div></div>
                 <div><span style="color:#999;font-size:12px;">状态</span><div style="margin-top:4px;"><span class="tag tag-green">启用</span></div></div>
                 <div><span style="color:#999;font-size:12px;">购课时间</span><div style="font-size:14px;margin-top:4px;">2026-07-01 ~ 2026-07-31</div></div>
+                <div><span style="color:#999;font-size:12px;">自动开启时间</span><div style="font-size:14px;margin-top:4px;">-</div></div>
                 <div><span style="color:#999;font-size:12px;">参与人数</span><div style="font-size:14px;margin-top:4px;">156人</div></div>
                 <div><span style="color:#999;font-size:12px;">创建时间</span><div style="font-size:14px;margin-top:4px;">2026-07-01 10:30</div></div>
               </div>
@@ -347,6 +370,29 @@ tr:hover td { background: #fafafa; }
               <div style="font-size:13px;color:#999;">总赠课节数</div>
               <div style="font-size:28px;font-weight:600;margin-top:8px;color:#13c2c2;">1528</div>
             </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: 操作日志 -->
+        <div class="tab-content" id="detail-tab-4">
+          <div class="search-bar" style="padding:0 0 16px;background:transparent;">
+            <label>PID</label>
+            <input placeholder="请输入PID" style="width:120px;">
+            <label>操作类型</label>
+            <select><option value="">全部</option><optgroup label="活动操作"><option>创建活动</option><option>编辑活动</option><option>启用活动</option><option>停用活动</option><option>自动启用</option></optgroup><optgroup label="参与资格"><option>自动参与</option><option>增加考核机会</option><option>设为失效</option><option>恢复有效</option></optgroup><optgroup label="考核规则"><option>调整考核月份</option></optgroup></select>
+            <label>日期</label>
+            <input type="date" style="width:150px;">
+            <span style="color:#999;">至</span>
+            <input type="date" style="width:150px;">
+            <button class="btn btn-primary">查询</button>
+            <button class="btn">重置</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th style="width:170px;">日期</th><th style="width:120px;">账号</th><th style="width:120px;">账号ID</th><th style="width:130px;">操作类型</th><th>操作说明</th></tr></thead>
+              <tbody id="operation-log-tbody"></tbody>
+            </table>
+            <div class="pagination" id="operation-log-pagination">共 0 条  10条/页  &lt; 1 &gt;</div>
           </div>
         </div>
       </div>
@@ -610,12 +656,15 @@ function switchDetailTab(n) {
   document.querySelectorAll('.admin-content > .view').forEach(function(v) { v.classList.remove('active'); });
   document.getElementById('page-detail').classList.add('active');
   document.querySelectorAll('#detail-tabs .tab-item').forEach(function(t, i) { t.classList.toggle('active', i === n); });
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < 5; i++) {
     var tc = document.getElementById('detail-tab-' + i);
     if (tc) tc.classList.toggle('active', i === n);
   }
   if (n === 1) {
     renderParticipationList();
+  }
+  if (n === 4) {
+    renderOperationLog();
   }
 }
 function showModal(id) { document.getElementById(id).classList.add('show'); }
@@ -625,8 +674,8 @@ function closeModal(id) { document.getElementById(id).classList.remove('show'); 
 // 演示数据。editable 由「购课开始时间是否已到」决定
 var activityList = [
   { id: 101, name: '7月勤学奖',   buyStart: '2026-07-01 00:00', buyEnd: '2026-07-31 23:59', count: 156, months: ['2026-08', '2026-09'], enabled: true,  created: '2026-07-01 10:30' },
-  { id: 100, name: '11月勤学奖',  buyStart: '2026-11-01 00:00', buyEnd: '2026-11-30 23:59', count: 0,   months: ['2026-12', '2027-01'], enabled: true,  created: '2026-10-20 09:20' },
-  { id: 99,  name: '9月勤学奖',   buyStart: '2026-09-01 00:00', buyEnd: '2026-09-30 23:59', count: 187, months: ['2026-10', '2026-11'], enabled: false, created: '2026-08-20 14:15' }
+  { id: 100, name: '11月勤学奖',  buyStart: '2026-11-01 00:00', buyEnd: '2026-11-30 23:59', count: 0,   months: ['2026-12', '2027-01'], enabled: true,  created: '2026-10-20 09:20', autoEnableTime: '2026-10-25 09:00' },
+  { id: 99,  name: '9月勤学奖',   buyStart: '2026-09-01 00:00', buyEnd: '2026-09-30 23:59', count: 187, months: ['2026-10', '2026-11'], enabled: false, created: '2026-08-20 14:15', autoEnableTime: '' }
 ];
 
 // 演示用「当前时间」，与页面数据的时点保持一致（2026-10-27）
@@ -646,7 +695,9 @@ function renderActivityList() {
 
     var stateTag = a.enabled
       ? '<span class="tag tag-green">启用</span>'
-      : '<span class="tag tag-gray">停用</span>';
+      : (a.autoEnableTime
+          ? '<span class="tag tag-orange" title="' + a.autoEnableTime + ' 自动启用">待自动启用</span>'
+          : '<span class="tag tag-gray">停用</span>');
 
     var toggleBtn = a.enabled
       ? '<button class="btn-link" style="color:#ff4d4f" onclick="toggleEnableBtn(this,' + idx + ')">停用</button>'
@@ -732,7 +783,7 @@ function addRuleCard(data) {
 
   card.innerHTML = '<div class="rule-header">'
     + '<h4><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1890ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="6" x2="12" y2="12"/></svg> 考核月 ' + ruleIndex + '</h4>'
-    + '<button class="btn-link" style="color:#ff4d4f" onclick="this.closest(\'.rule-card\').remove()">删除</button>'
+    + '<button class="btn-link" style="color:#ff4d4f" onclick="removeRuleCard(this)">删除</button>'
     + '</div>'
     + '<div class="rule-fields">'
     + '<div class="rule-field"><label><span style="color:#ff4d4f;">*</span> 考核年份</label>'
@@ -762,8 +813,79 @@ function confirmRewardProductSelect() {
   }
   closeModal('reward-product-select-modal');
 }
+
+// ===== 考核月数量联动 =====
+function getRuleCount() {
+  return document.querySelectorAll('#rules-container .rule-card').length;
+}
+
+// 数量选择器变化时，自动增删卡片到目标数量
+function syncRuleCount() {
+  var target = parseInt(document.getElementById('assessment-month-count').value, 10);
+  var current = getRuleCount();
+
+  if (current < target) {
+    for (var i = current; i < target; i++) addRuleCard();
+  } else if (current > target) {
+    var cards = document.querySelectorAll('#rules-container .rule-card');
+    for (var j = cards.length - 1; j >= target; j--) {
+      cards[j].remove();
+    }
+    renumberRules();
+  }
+  updateRuleCountHint();
+}
+
+// 重新编号（删除中间卡片后保持序号连续）
+function renumberRules() {
+  var cards = document.querySelectorAll('#rules-container .rule-card');
+  ruleIndex = 0;
+  cards.forEach(function(card) {
+    ruleIndex++;
+    var h4 = card.querySelector('.rule-header h4');
+    if (h4) {
+      h4.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1890ff" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="6" x2="12" y2="12"/></svg> 考核月 ' + ruleIndex;
+    }
+  });
+}
+
+// 更新提示文案与颜色
+function updateRuleCountHint() {
+  var target = parseInt(document.getElementById('assessment-month-count').value, 10);
+  var current = getRuleCount();
+  var hint = document.getElementById('rule-count-hint');
+  if (!hint) return;
+
+  if (current === target) {
+    hint.textContent = '已配置 ' + current + ' 个考核月，与选择一致';
+    hint.style.color = '#52c41a';
+  } else {
+    hint.textContent = '已配置 ' + current + ' 个考核月，需与上方选择的 ' + target + ' 个保持一致';
+    hint.style.color = '#ff4d4f';
+  }
+}
+
+// 删除单张卡片时同步
+function removeRuleCard(btn) {
+  btn.closest('.rule-card').remove();
+  renumberRules();
+  updateRuleCountHint();
+}
 function saveActivity() {
-  alert('保存成功！活动当前为"停用"状态，请在活动列表中点击"启用"开启活动。');
+  var target = parseInt(document.getElementById('assessment-month-count').value, 10);
+  var current = getRuleCount();
+
+  if (current !== target) {
+    alert('考核月数量不一致：上方选择了 ' + target + ' 个，下方实际配置了 ' + current + ' 个，请调整后保存');
+    return;
+  }
+
+  var autoEnable = document.getElementById('create-auto-enable').value;
+  var msg = '保存成功！活动当前为"停用"状态。';
+  msg += autoEnable
+    ? '\n系统将在 ' + autoEnable + ' 自动启用。'
+    : '\n未设置自动开启时间，请在活动列表中点击"启用"开启活动。';
+  alert(msg);
   showAdminPage('list');
 }
 
@@ -804,6 +926,17 @@ function openEditActivity(idx) {
       reward: '勤学奖学金赠课8节'
     });
   });
+
+  // 回填考核月数量
+  document.getElementById('assessment-month-count').value = String(a.months.length);
+  updateRuleCountHint();
+
+  // 回填自动开启时间
+  var autoEnable = document.getElementById('create-auto-enable');
+  if (autoEnable._flatpickr) autoEnable._flatpickr.clear();
+  if (a.autoEnableTime && autoEnable._flatpickr) {
+    autoEnable._flatpickr.setDate(a.autoEnableTime);
+  }
 
   showAdminPage('create');
 }
@@ -933,6 +1066,74 @@ function renderGlobalParticipationList() {
 function refreshParticipation() {
   renderParticipationList();
   renderGlobalParticipationList();
+}
+
+/* ===== 操作日志 ===== */
+// 演示数据。activityId 用于按活动筛选；操作说明为已组装好的文案
+var operationLogs = [
+  { activityId: 101, time: '2026-10-28 14:32:10', account: '王娅婷2', accountId: '59628065', type: '调整考核月份',
+    desc: '修改参与记录, PID:60293109, 考核月份:2026-09→2026-11; 2026-10→2026-12, 原因:家长出国' },
+  { activityId: 101, time: '2026-10-28 11:20:45', account: '王琨', accountId: '600000894', type: '设为失效',
+    desc: '修改参与记录, PID:59942921, 状态:有效→失效, 原因:系统误判到错误活动' },
+  { activityId: 101, time: '2026-10-27 16:05:33', account: '王娅婷2', accountId: '59628065', type: '增加考核机会',
+    desc: '添加参与记录, PID:60293109, 来源:手动添加, 原因:家长漏掉活动报名' },
+  { activityId: 101, time: '2026-10-25 09:00:00', account: '系统', accountId: '-', type: '自动启用',
+    desc: '修改勤学奖活动:8月勤学奖, 状态:启用(自动开启时间到达)' },
+  { activityId: 101, time: '2026-07-25 10:02:18', account: '罗曼', accountId: '58638735', type: '启用活动',
+    desc: '修改勤学奖活动:7月勤学奖, 状态:启用' },
+  { activityId: 101, time: '2026-07-22 14:30:52', account: '罗曼', accountId: '58638735', type: '编辑活动',
+    desc: '修改勤学奖活动:7月勤学奖, 考核规则2026-09达标课消:12节→15节' },
+  { activityId: 101, time: '2026-07-21 09:40:11', account: '罗曼', accountId: '58638735', type: '编辑活动',
+    desc: '修改勤学奖活动:7月勤学奖, 购课时间:2026-07-01~2026-07-31→2026-07-05~2026-07-31; 参与商品包:新增96课包' },
+  { activityId: 101, time: '2026-07-20 09:15:07', account: '罗曼', accountId: '58638735', type: '创建活动',
+    desc: '添加勤学奖活动, 名称:7月勤学奖' },
+  { activityId: 101, time: '2026-07-18 09:15:40', account: '系统', accountId: '-', type: '自动参与',
+    desc: '添加参与记录, PID:46654543, 来源:购课, 订单号:ORD202607050045' },
+  { activityId: 101, time: '2026-07-16 14:20:05', account: '系统', accountId: '-', type: '自动参与',
+    desc: '添加参与记录, PID:59942921, 来源:购课, 订单号:ORD202607020023' },
+  { activityId: 101, time: '2026-07-15 10:30:22', account: '系统', accountId: '-', type: '自动参与',
+    desc: '添加参与记录, PID:60293109, 来源:购课, 订单号:ORD202607010001' },
+
+  { activityId: 99, time: '2026-09-12 16:45:30', account: '系统', accountId: '-', type: '自动参与',
+    desc: '添加参与记录, PID:59942921, 来源:购课, 订单号:ORD202609120033' },
+  { activityId: 99, time: '2026-09-08 11:20:18', account: '系统', accountId: '-', type: '自动参与',
+    desc: '添加参与记录, PID:60293109, 来源:购课, 订单号:ORD202609080012' },
+  { activityId: 99, time: '2026-08-20 14:15:02', account: '王琨', accountId: '600000894', type: '创建活动',
+    desc: '添加勤学奖活动, 名称:9月勤学奖' },
+
+  { activityId: 100, time: '2026-10-25 09:00:00', account: '系统', accountId: '-', type: '自动启用',
+    desc: '修改勤学奖活动:11月勤学奖, 状态:启用(自动开启时间到达)' },
+  { activityId: 100, time: '2026-10-20 09:20:44', account: '王娅婷2', accountId: '59628065', type: '创建活动',
+    desc: '添加勤学奖活动, 名称:11月勤学奖' }
+];
+
+// 按活动渲染操作日志（时间倒序）
+function renderOperationLog() {
+  var tbody = document.getElementById('operation-log-tbody');
+  if (!tbody) return;
+  var logs = operationLogs
+    .filter(function(l) { return l.activityId === currentDetailActivity.id; })
+    .sort(function(a, b) { return a.time < b.time ? 1 : -1; });
+
+  var html = '';
+  logs.forEach(function(l) {
+    var isSystem = l.account === '系统';
+    html += '<tr>'
+      + '<td>' + l.time + '</td>'
+      + '<td>' + (isSystem ? '<span style="color:#999;">系统</span>' : l.account) + '</td>'
+      + '<td>' + (isSystem ? '<span style="color:#999;">-</span>' : l.accountId) + '</td>'
+      + '<td>' + l.type + '</td>'
+      + '<td>' + l.desc + '</td>'
+      + '</tr>';
+  });
+
+  if (logs.length === 0) {
+    html = '<tr><td colspan="5" style="text-align:center;color:#999;padding:40px;">暂无操作日志</td></tr>';
+  }
+
+  tbody.innerHTML = html;
+  document.getElementById('operation-log-pagination').innerHTML =
+    '共 ' + logs.length + ' 条  10条/页  &lt; 1 &gt;';
 }
 
 /* ===== 手动设为失效 ===== */
@@ -1203,8 +1404,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initDatePickers();
   renderActivityList();
   refreshParticipation();
-  addRuleCard();
-  addRuleCard();
+  syncRuleCount();
 });
 </script>
 </body>
