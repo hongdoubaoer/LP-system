@@ -173,10 +173,10 @@ tr:hover td { background: #fafafa; }
             <div class="form-control"><textarea id="create-remark" placeholder="活动说明，不展示给学生">秋季促销活动</textarea></div>
           </div>
           <div class="form-row">
-            <div class="form-label">自动开启时间</div>
+            <div class="form-label"><span class="required">*</span>自动开启时间</div>
             <div class="form-control">
               <input id="create-auto-enable" class="dt-picker" placeholder="请选择自动启用时间" readonly style="max-width:220px;cursor:pointer;">
-              <div class="hint">选填。配置后系统在指定时间自动启用；不配置则需手动启用</div>
+              <div class="hint">必填。系统将在该时间点自动启用活动</div>
             </div>
           </div>
         </div>
@@ -872,6 +872,12 @@ function removeRuleCard(btn) {
   updateRuleCountHint();
 }
 function saveActivity() {
+  var name = document.getElementById('create-activity-name').value.trim();
+  if (!name) { alert('请填写活动名称'); return; }
+
+  var autoEnable = document.getElementById('create-auto-enable').value;
+  if (!autoEnable) { alert('请选择自动开启时间'); return; }
+
   var target = parseInt(document.getElementById('assessment-month-count').value, 10);
   var current = getRuleCount();
 
@@ -880,12 +886,7 @@ function saveActivity() {
     return;
   }
 
-  var autoEnable = document.getElementById('create-auto-enable').value;
-  var msg = '保存成功！活动当前为"停用"状态。';
-  msg += autoEnable
-    ? '\n系统将在 ' + autoEnable + ' 自动启用。'
-    : '\n未设置自动开启时间，请在活动列表中点击"启用"开启活动。';
-  alert(msg);
+  alert('保存成功！活动当前为"停用"状态。\n系统将在 ' + autoEnable + ' 自动启用。');
   showAdminPage('list');
 }
 
