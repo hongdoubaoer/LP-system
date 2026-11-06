@@ -371,8 +371,8 @@ td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
 .par-remain.low{color:var(--no)}
 .par-remain span{font-size:10.5px;font-weight:500;color:var(--muted)}
 .par-two-line{display:flex;flex-direction:column;gap:3px;min-width:0;font-size:10.5px;white-space:nowrap}
-.par-two-line .main{color:var(--text-2);overflow:hidden;text-overflow:ellipsis}
-.par-two-line .sub{color:var(--muted);overflow:hidden;text-overflow:ellipsis}
+.par-two-line .par-primary{color:var(--text-2);overflow:hidden;text-overflow:ellipsis}
+.par-two-line .par-secondary{color:var(--muted);overflow:hidden;text-overflow:ellipsis}
 .par-list-table td:nth-child(4),.par-list-table th:nth-child(4){text-align:center}
 .par-pagination{margin:0 18px;padding-top:11px}
 
@@ -1696,9 +1696,8 @@ table.tbl tbody tr:hover td:first-child{box-shadow:inset 2px 0 0 var(--brand)}
 .stu-hours-line strong.low{background:var(--no-weak);padding:0 6px;border-radius:5px;margin-left:-2px}
 .par-remain.low{width:max-content;margin:0 auto;padding:0 9px;border-radius:6px;background:var(--no-weak)}
 .stu-booked-count{line-height:1.3}
-.par-two-line .main{margin-left:0!important}
 .par-two-line{gap:2px;font-size:12px}
-.par-two-line .sub{font-size:11px}
+.par-two-line .par-secondary{font-size:11px}
 .par-pagination{margin:0;padding:12px 4px 16px}
 /* 行内操作：幽灵按钮（替代纯文字链接） */
 table.tbl .btn.xs{height:24px;padding:0 9px;border:1px solid transparent;background:transparent;color:var(--text-2);
@@ -4082,6 +4081,69 @@ window.LP_THEMES=[{"k":"glass","n":"磨砂玻璃","d":"半透层次 · 清透轻
 @media(max-width:900px){#view-ordDetail{padding:18px 16px 22px}.lp-order-doc-head{margin-bottom:20px}.lp-order-document .lp-order-section+.lp-order-section{margin-top:24px}}
 @media(max-width:580px){#view-ordDetail{padding:16px 12px 20px}.lp-order-doc-head h1{font-size:18px}.lp-order-doc-head{gap:10px}.lp-order-document .lp-order-section-head h3{font-size:13px}}
 </style>
+<style id="lp-order-management-style">
+#view-ordList .v3-orderfilters{gap:14px;padding:18px}
+#view-ordList .lp-manage-search{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#view-ordList .lp-manage-search .filter-search{flex:1;max-width:580px;min-width:260px}
+#view-ordList .lp-manage-search .btn{height:34px}
+#view-ordList .lp-manage-primary{display:grid;grid-template-columns:repeat(4,minmax(140px,190px));gap:12px;align-items:end}
+#view-ordList .lp-manage-primary label{display:flex;flex-direction:column;gap:6px;min-width:0;font-size:11px;color:var(--muted)}
+#view-ordList .lp-manage-primary select{width:100%;height:34px;padding:0 28px 0 10px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-s);font:inherit;font-size:12px;color:var(--text-2)}
+#view-ordList #v3OrderAdvanced{margin-top:0;padding-top:14px;border-top:1px solid var(--line)}
+#view-ordList #v3OrderAdvanced .filter-field{min-width:0}
+#view-ordList .lp-manage-filter-error{color:var(--danger);font-size:11px;line-height:1.7}
+#view-ordList .lp-manage-filter-error:empty{display:none}
+#view-ordList #v3OrderSummary{display:flex;align-items:center;gap:8px;padding:12px 18px;background:none;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+#view-ordList #v3OrderSummary h2{font-size:13px;font-weight:600;color:var(--text);margin:0}
+#view-ordList #v3OrderSummary .lp-manage-result-count{font-size:11px;color:var(--muted)}
+#view-ordList #v3OrderSummary .lp-manage-sort{margin-left:auto;font-size:11px;color:var(--muted)}
+#view-ordList .v3-ordercard>.tbl-scroll{max-height:min(54vh,560px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+#view-ordList table.lp-order-table th{position:sticky;top:0;z-index:2;min-width:0;width:auto;background:var(--section);border-bottom:1px solid var(--line);text-align:left}
+#view-ordList table.lp-order-table th:nth-child(6){text-align:center}
+#view-ordList table.lp-order-table th:last-child{min-width:62px;text-align:right}
+#view-ordList table.lp-order-table td{padding-top:12px;padding-bottom:12px}
+#view-ordList #v3OrderPagination{flex-wrap:wrap;gap:10px;padding:12px 18px}
+#view-ordList #v3OrderPagination .lp-manage-pager-controls{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+#view-ordList #v3OrderPagination label{display:flex;align-items:center;gap:5px;font-size:11px;white-space:nowrap}
+#view-ordList #v3OrderPagination input{width:50px;height:28px;border:1px solid var(--line);border-radius:var(--r-s);padding:0 4px;text-align:center;background:var(--card);color:var(--text-2);font:inherit;font-size:11px}
+#view-ordList #v3OrderPagination .btn[aria-current=page]{font-weight:600;color:var(--action);border-color:var(--brand-line);background:var(--brand-weak)}
+#view-ordList #v3OrderPagination .btn:disabled{opacity:.4;cursor:default}
+@media(max-width:900px){#view-ordList .lp-manage-primary{grid-template-columns:repeat(4,minmax(0,1fr))}#view-ordList #v3OrderPagination .lp-manage-pager-controls{width:100%}}
+@media(max-width:640px){#view-ordList .v3-orderfilters{padding:14px}#view-ordList .lp-manage-primary{grid-template-columns:1fr 1fr}#view-ordList .lp-manage-search .filter-search{flex-basis:100%;max-width:none;min-width:0}#view-ordList #v3OrderSummary,#view-ordList #v3OrderPagination{padding-left:14px;padding-right:14px}}
+</style>
+<style id="lp-list-filter-refine">
+:is(#view-ordList,#view-teacher,#view-course) .lp-search-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;width:100%}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-field{display:flex;flex-direction:column;gap:6px;min-width:0;margin:0;font-size:11px;color:var(--muted)}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-field>span{line-height:1.4}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-field :is(input,select){width:100%;min-width:0;max-width:none;height:35px;padding:0 10px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--card);color:var(--text);font:inherit;font-size:12px;box-sizing:border-box;outline:none}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-field select{padding-right:25px}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-field input::placeholder{color:var(--muted);opacity:.75;font-size:11px}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-field :is(input,select):focus-visible{border-color:var(--action);box-shadow:0 0 0 2px var(--brand-weak)}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-filters{display:flex;flex-direction:column;align-items:stretch;gap:14px;width:100%;padding:18px;box-sizing:border-box}
+#view-course .card-bd.tight{padding:0}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-actions .btn{height:34px;gap:6px;white-space:nowrap}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-reset{color:var(--text-2)}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-reset .i{width:15px;height:15px}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-filter-note{font-size:11px;color:var(--muted);margin-left:auto}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-advanced{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;width:100%;margin:0;padding-top:14px;border-top:1px solid var(--line)}
+:is(#view-ordList,#view-teacher,#view-course) .lp-list-advanced[hidden]{display:none!important}
+#view-ordList .lp-manage-primary{grid-template-columns:repeat(4,minmax(0,1fr))}
+#view-course .lp-course-selects{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#view-course .lp-manage-filter-error{font-size:11px;color:var(--danger);line-height:1.6}
+#view-course .lp-manage-filter-error:empty{display:none}
+:is(#view-teacher,#view-course) .tbl-scroll{max-height:min(56vh,600px);overflow:auto;overscroll-behavior:contain;scrollbar-width:thin}
+:is(#view-teacher,#view-course) .tbl thead th{position:sticky;top:0;z-index:2;background:var(--section);box-shadow:0 1px 0 var(--line)}
+#view-course .tbl-cou{min-width:1050px}
+#view-course .tbl-cou .tcell .v3-link{display:block;text-align:left;max-width:100%;line-height:1.65}
+#view-course .lp-student-id{font-size:11px;font-variant-numeric:tabular-nums;text-decoration:underline;text-underline-offset:3px}
+#view-course .lp-student-name{font-size:12px;font-weight:600}
+#view-teacher #lpTeacherPagination{padding:12px 18px;flex-wrap:wrap;gap:10px}
+#view-teacher .tbl-tea{min-width:1180px}
+@media(max-width:1000px){:is(#view-ordList,#view-teacher,#view-course) .lp-list-advanced{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){:is(#view-ordList,#view-teacher,#view-course) .lp-search-grid,:is(#view-ordList,#view-teacher,#view-course) .lp-list-advanced{grid-template-columns:repeat(2,minmax(0,1fr))}:is(#view-ordList,#view-teacher,#view-course) .lp-list-filter-note{flex-basis:100%;margin-left:0}}
+@media(max-width:580px){:is(#view-ordList,#view-teacher,#view-course) .lp-list-filters{padding:14px}#view-course .lp-course-selects{grid-template-columns:1fr 1fr}#view-course .lp-course-selects>label:last-child{grid-column:1/-1}}
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -4634,16 +4696,18 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
   <div class="v3-pagehead"><div><h1>订单管理</h1><p>查询学员订单，查看商品、付款与关联记录。</p></div></div>
   <div class="card v3-ordercard">
     <div class="card-bd v3-orderfilters">
-      <div class="filter-primary">
-        <label class="filter-search"><svg class="i s"><use href="#i-search"/></svg><input id="okw" type="search" placeholder="搜索订单号、订单 ID、SID、PID 或商品" aria-label="搜索订单"></label>
-        <select class="of" data-f="st" aria-label="订单状态"><option value="">全部订单状态</option><option>待支付</option><option>已支付</option><option>付定金</option><option>已取消</option><option>退费单</option><option>退费中</option><option>已退费</option></select>
-        <select class="of" data-f="type" aria-label="商品类型"><option value="">全部商品类型</option><option>课时数量</option><option>课程有效期</option><option>考试报名</option><option>实物商品</option></select>
-        <button class="btn" id="v3OrderMore" aria-expanded="false" onclick="toggleFilterPanel('v3OrderAdvanced',this)"><svg class="i s"><use href="#i-filter"/></svg>更多筛选</button>
-        <button class="btn" onclick="resetOrdFilter()">重置</button>
+      <div class="lp-search-grid"><label class="lp-list-field"><span>订单号</span><input class="of" data-f="no" id="okw" type="search" placeholder="输入完整订单号" aria-label="订单号"></label><label class="lp-list-field"><span>学员 SID</span><input class="of" data-f="sid" id="osid" type="search" placeholder="输入完整 SID" aria-label="学员 SID"></label><label class="lp-list-field"><span>家长 PID</span><input class="of" data-f="pid" id="opid" type="search" placeholder="输入完整 PID" aria-label="家长 PID"></label><label class="lp-list-field"><span>家长手机号</span><input class="of" data-f="phone" id="ophone" type="search" placeholder="输入完整手机号" aria-label="家长手机号" inputmode="tel" autocomplete="off"></label></div>
+      <div class="lp-manage-primary">
+        <label><span>订单状态</span><select class="of" data-f="st" aria-label="订单状态"><option value="">全部订单状态</option><option>待支付</option><option>已支付</option><option>付定金</option><option>已取消</option><option>退费中</option><option>已退费</option></select></label>
+        <label><span>商品类型</span><select class="of" data-f="type" aria-label="商品类型"><option value="">全部商品类型</option><option>课时数量</option><option>课程有效期</option><option>考试报名</option><option>实物商品</option></select></label>
+        <label><span>发货状态</span><select class="of" data-f="delivery" aria-label="发货状态"><option value="">全部发货状态</option><option>已购买</option><option>已发放</option><option>已填写物流信息</option><option>已发货</option><option>未发送</option><option>发送成功</option><option>发送失败</option><option>作废订单</option><option>发送中</option></select></label>
+        <label><span>课时类型</span><select class="of" data-f="hourType" aria-label="课时类型"><option value="">全部课时类型</option><option>1V1试听课时</option><option>1V1正式课时</option></select></label>
       </div>
-      <div class="filter-advanced" id="v3OrderAdvanced" hidden>
-        <label class="filter-field"><span>发货状态</span><select class="of" data-f="delivery"><option value="">全部发货状态</option><option>已购买</option><option>已发放</option><option>已填写物流信息</option><option>已发货</option><option>未发送</option><option>发送成功</option><option>发送失败</option><option>作废订单</option><option>发送中</option></select></label>
-        <label class="filter-field"><span>课时类型</span><select class="of" data-f="hourType"><option value="">全部课时类型</option><option>1V1试听课时</option><option>1V1正式课时</option></select></label>
+      <div class="lp-list-actions"><button class="btn pri" onclick="renderOrderList()"><svg class="i s" aria-hidden="true"><use href="#i-search"/></svg>查询</button><button class="btn" id="v3OrderMore" aria-controls="v3OrderAdvanced" aria-expanded="false" onclick="toggleFilterPanel('v3OrderAdvanced',this)"><svg class="i s" aria-hidden="true"><use href="#i-filter"/></svg>更多筛选</button><button class="btn lp-list-reset" onclick="resetOrdFilter()"><svg class="i s" aria-hidden="true"><use href="#i-reset"/></svg>重置</button><span class="lp-list-filter-note">多个条件同时满足</span></div>
+      <div class="filter-advanced lp-list-advanced" id="v3OrderAdvanced" hidden>
+<label class="lp-list-field"><span>订单 ID</span><input class="of" data-f="id" id="oidFilter" type="search" placeholder="输入完整订单 ID" aria-label="订单 ID"></label><label class="lp-list-field"><span>商品名称</span><input class="of" data-f="goods" id="ogoods" type="search" placeholder="支持关键词" aria-label="商品名称"></label>
+
+
         <label class="filter-field"><span>支付方式</span><select class="of" data-f="payType"><option value="">全部支付方式</option><option>微信支付</option><option>支付宝</option><option>信用卡</option><option>对公转账</option><option>余额</option><option>赠送</option></select></label>
         <label class="filter-field"><span>订单来源</span><select class="of" data-f="src"><option value="">全部订单来源</option><option>管台下单</option><option>APP下单</option><option>活动下单</option><option>系统赠单</option></select></label>
         <label class="filter-field"><span>组织机构</span><select class="of" data-f="org"><option value="">全部组织机构</option><option>虎校·北京</option><option>虎校·上海</option><option>虎校·华南</option><option>BD-分销</option></select></label>
@@ -4651,6 +4715,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
         <label class="filter-field"><span>下单开始日期</span><input class="of" data-f="from" type="date" aria-label="下单开始日期"></label>
         <label class="filter-field"><span>下单结束日期</span><input class="of" data-f="to" type="date" aria-label="下单结束日期"></label>
       </div>
+      <div class="lp-manage-filter-error" id="lpManageFilterError" role="alert"></div>
       <div id="v3OrderChips" class="filter-chips" hidden></div>
     </div>
     <div id="v3OrderSummary" class="v3-order-summary"></div>
@@ -4664,41 +4729,30 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
 </section>
 <!-- ============ 外教 ============ -->
 <section class="view" id="view-teacher">
-  <div class="card">
-    <div class="card-bd" style="padding-bottom:16px">
-      <div class="tfilter">
-        <div class="ff"><label>老师ID</label><input id="tidF" placeholder="请输入" /></div>
-        <div class="ff"><label>性别</label><select id="tsexF"><option value="">请选择</option><option value="男">男</option><option value="女">女</option></select></div>
-        <div class="ff"><label>状态</label><select id="tstF"><option value="">请选择</option><option value="normal">正常</option><option value="rec">推荐名单</option><option value="black">黑名单</option></select></div>
-        <div class="ff"><label>teacher name</label><input id="tkw" placeholder="请输入" /></div>
-      </div>
-      <div class="row" style="margin-top:16px">
-        <button class="btn pri" onclick="renderTeachers()"><svg class="i s" aria-hidden="true"><use href="#i-search"/></svg>查询</button>
-        <button class="btn" onclick="resetTeacherFilter()"><svg class="i s" aria-hidden="true"><use href="#i-refresh"/></svg>重置</button>
-        <div class="spacer"></div>
-        <button class="btn" onclick="openModal('mBlack')"><svg class="i s" aria-hidden="true"><use href="#i-ban"/></svg>新增黑名单</button>
-        <button class="btn" onclick="openModal('mRec')"><svg class="i s" aria-hidden="true"><use href="#i-star"/></svg>新增推荐</button>
-        <button class="btn"><svg class="i s" aria-hidden="true"><use href="#i-calplus"/></svg>约课计划</button>
-        <button class="btn pri" onclick="toast('打开约课流程')"><svg class="i s" aria-hidden="true"><use href="#i-calplus"/></svg>约课</button>
-      </div>
-    </div>
-  </div>
+  <div class="v3-pagehead"><div><h1>外教管理</h1><p>查询外教档案与课程回放。</p></div></div>
+  <div class="card"><div class="card-bd lp-list-filters" id="lpTeacherFilters">
+    <div class="lp-search-grid"><label class="lp-list-field"><span>外教编号</span><input class="tf" data-f="tid" id="tidF" type="search" placeholder="输入完整编号" aria-label="外教编号"></label><label class="lp-list-field"><span>展示名称</span><input class="tf" data-f="show" id="tkw" type="search" placeholder="支持关键词" aria-label="展示名称"></label><label class="lp-list-field"><span>真实姓名</span><input class="tf" data-f="real" id="trealF" type="search" placeholder="支持关键词" aria-label="真实姓名"></label><label class="lp-list-field"><span>性别</span><select class="tf" data-f="sex" id="tsexF" aria-label="性别"><option value="">全部性别</option><option value="男">男</option><option value="女">女</option></select></label></div>
+    <div class="lp-list-actions"><button class="btn pri" onclick="renderTeachers()"><svg class="i s" aria-hidden="true"><use href="#i-search"/></svg>查询</button><button class="btn" id="lpTeacherMore" aria-controls="lpTeacherAdvanced" aria-expanded="false" onclick="toggleFilterPanel('lpTeacherAdvanced',this)"><svg class="i s" aria-hidden="true"><use href="#i-filter"/></svg>更多筛选</button><button class="btn lp-list-reset" onclick="resetTeacherFilter()"><svg class="i s" aria-hidden="true"><use href="#i-reset"/></svg>重置</button><span class="lp-list-filter-note">多个条件同时满足</span></div>
+    <div class="lp-list-advanced" id="lpTeacherAdvanced" hidden><label class="lp-list-field"><span>外教状态</span><select class="tf" data-f="mark" id="tstF" aria-label="外教状态"><option value="">全部状态</option><option value="normal">正常</option><option value="rec">推荐名单</option><option value="black">黑名单</option></select></label><label class="lp-list-field"><span>国家</span><select class="tf" data-f="country" aria-label="国家"><option value="">全部国家</option><option value="USA">美国</option><option value="UK">英国</option><option value="Canada">加拿大</option><option value="South Africa">南非</option><option value="Philippines">菲律宾</option></select></label><label class="lp-list-field"><span>平台黑 / 灰名单</span><select class="tf" data-f="gmark" aria-label="平台黑 / 灰名单"><option value="">全部名单</option><option value="normal">正常</option><option value="gray">灰名单</option><option value="black">黑名单</option></select></label><label class="lp-list-field"><span>证书级别</span><input class="tf" data-f="cert" type="search" placeholder="输入证书关键词" aria-label="证书级别"></label></div>
+    <div class="filter-chips" id="lpTeacherChips" hidden></div>
+  </div></div>
 
   <div class="card">
     <div class="card-hd"><h2><svg class="i s" aria-hidden="true"><use href="#i-tea"/></svg>外教列表</h2>
-      <span class="hint">共 <b id="teaCount">14</b> 条 · TS 工单为 0 时灰色显示</span>
+      <span class="hint">共 <b id="teaCount">14</b> 位外教</span>
       <div class="right"></div>
     </div>
     <div class="tbl-scroll"><table class="tbl tbl-tea">
       <thead><tr>
-        <th style="width:96px">老师ID</th><th style="width:122px">Show Name</th><th style="width:168px">Real Name</th>
+        <th style="width:96px">外教编号</th><th style="width:122px">展示名称</th><th style="width:168px">真实姓名</th>
         <th style="width:76px">头像</th><th style="width:56px">性别</th><th style="width:118px">证书级别</th>
         <th style="width:104px">国家</th><th style="width:66px" title="教龄：平台在册教学年限">教龄</th>
         <th style="width:96px" title="学生黑名单：被该学生家长拉黑的次数">学生黑名单</th><th style="width:110px" title="全局黑/灰名单：平台级标记">全局黑/灰名单</th>
-        <th class="num" style="width:84px" title="TS Count：名下未关闭的学生投诉工单数">TS 工单</th><th style="width:92px">操作</th>
+        <th class="num" style="width:84px" title="名下未关闭的学生投诉工单数">投诉工单</th><th style="width:92px">操作</th>
       </tr></thead>
       <tbody id="teaTbody"></tbody>
     </table></div>
+    <div class="stu-pagination" id="lpTeacherPagination" aria-label="外教列表分页"></div>
   </div>
 </section>
 
@@ -4712,15 +4766,13 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
   </div>
   <div class="card">
     <div class="card-bd tight">
-      <div class="filters">
-        <input id="ckw" placeholder="搜索学生 / 老师 / 课标 / 课程ID" style="width:250px" />
-        <select class="cf" data-f="range"><option value="">全部时间</option><option value="today">今日</option><option value="week">本周</option>
-          <option value="month">本月</option><option value="last">历史</option></select>
-        <select class="cf" data-f="status" aria-label="课程管理课程状态"><option value="">全部课程状态</option></select>
-        <select class="cf" data-f="by" aria-label="课程管理约课人"><option value="">全部约课人</option></select>
-        <button class="btn" onclick="resetCourseFilter()"><svg class="i s" aria-hidden="true"><use href="#i-refresh"/></svg>重置</button>
-        <div class="spacer"></div>
-        <button class="btn pri" onclick="toast('打开约课流程')"><svg class="i s" aria-hidden="true"><use href="#i-calplus"/></svg>约课</button>
+      <div class="filters lp-list-filters" id="lpCourseFilters">
+        <div class="lp-search-grid"><label class="lp-list-field"><span>课程编号</span><input class="cf" data-f="cid" id="ckw" type="search" placeholder="输入完整课程编号" aria-label="课程编号"></label><label class="lp-list-field"><span>学员 SID</span><input class="cf" data-f="sid" id="csid" type="search" placeholder="输入完整 SID" aria-label="学员 SID"></label><label class="lp-list-field"><span>家长 PID</span><input class="cf" data-f="pid" id="cpid" type="search" placeholder="输入完整 PID" aria-label="家长 PID"></label><label class="lp-list-field"><span>家长手机号</span><input class="cf" data-f="phone" id="cphone" type="search" placeholder="输入完整手机号" aria-label="家长手机号" inputmode="tel" autocomplete="off"></label></div>
+        <div class="lp-course-selects"><label class="lp-list-field"><span>上课时间</span><select class="cf" data-f="range" aria-label="上课时间"><option value="">全部时间</option><option value="today">今日</option><option value="week">本周</option><option value="month">本月</option></select></label><label class="lp-list-field"><span>课程状态</span><select class="cf" data-f="status" aria-label="课程状态"><option value="">全部课程状态</option></select></label><label class="lp-list-field"><span>约课人</span><select class="cf" data-f="by" aria-label="约课人"><option value="">全部约课人</option></select></label></div>
+        <div class="lp-list-actions"><button class="btn pri" onclick="renderCourses()"><svg class="i s" aria-hidden="true"><use href="#i-search"/></svg>查询</button><button class="btn" id="lpCourseMore" aria-controls="lpCourseAdvanced" aria-expanded="false" onclick="toggleFilterPanel('lpCourseAdvanced',this)"><svg class="i s" aria-hidden="true"><use href="#i-filter"/></svg>更多筛选</button><button class="btn lp-list-reset" onclick="resetCourseFilter()"><svg class="i s" aria-hidden="true"><use href="#i-reset"/></svg>重置</button><span class="lp-list-filter-note">多个条件同时满足</span><button class="btn pri" onclick="toast('打开约课流程')"><svg class="i s" aria-hidden="true"><use href="#i-calplus"/></svg>约课</button></div>
+        <div class="lp-list-advanced" id="lpCourseAdvanced" hidden><label class="lp-list-field"><span>外教编号</span><input class="cf" data-f="tid" type="search" placeholder="输入完整外教编号" aria-label="外教编号"></label><label class="lp-list-field"><span>外教姓名</span><input class="cf" data-f="teacher" type="search" placeholder="支持关键词" aria-label="外教姓名"></label><label class="lp-list-field"><span>学员姓名</span><input class="cf" data-f="student" type="search" placeholder="中文名或英文名" aria-label="学员姓名"></label><label class="lp-list-field"><span>课标</span><input class="cf" data-f="level" type="search" placeholder="支持关键词" aria-label="课标"></label><label class="lp-list-field"><span>上课开始日期</span><input class="cf" data-f="from" type="date" placeholder="" aria-label="上课开始日期"></label><label class="lp-list-field"><span>上课结束日期</span><input class="cf" data-f="to" type="date" placeholder="" aria-label="上课结束日期"></label></div>
+        <div id="lpCourseFilterError" class="lp-manage-filter-error" role="alert"></div>
+        <div class="filter-chips" id="lpCourseChips" hidden></div>
       </div>
     </div>
     <div class="tabs">
@@ -5861,14 +5913,13 @@ function courseRows(list,withStu){
     const marks=`<span class="mks" title="${taskList.map(([n,ok])=>n+(ok?'✓':'✗')).join(' · ')}">`+
       taskList.map(([n,ok])=>`<i class="${ok?'on':''}"></i>`).join('')+
       `<b>${taskDone}/5</b></span>`;
-    const ops=c.st==='live'?['监课','教室','取消']:c.st==='done'?['课程回放','CF 报告','教室']:c.st==='noshow'?['教室']:['重新约课'];
-    const stuCell = c.sname?`<div class="tcell"><a class="link" onclick="openStu('${c.sid}')">${c.sname}</a><span>${c.sid}</span></div>`:'—';
+    const stuCell = c.sid?`<div class="tcell"><button class="v3-link lp-student-name" onclick="openStu('${c.sid}')">${v3E(c.sname||'学员')}</button><button class="v3-link lp-student-id" aria-label="查看学员 ${c.sid} 详情" onclick="openStu('${c.sid}')">${c.sid}</button></div>`:'—';
     return `<tr><td><b class="nw">${c.lv}</b></td><td class="muted nw">${c.cid}</td>
       <td><div class="tcell"><a class="link" onclick="toast('查看外教 ${c.te}')">${c.te}</a><span>${c.tid}</span></div></td>
       ${withStu?`<td>${stuCell}</td>`:''}
       <td class="small nw">${c.time}</td><td><span class="tag ${s.tag}" title="${s.description||s.t}">${s.t}</span></td><td class="small">${c.by}</td>
       <td class="small">${marks}</td>
-      <td style="text-align:right;white-space:nowrap"><button class="btn xs" onclick="v3CourseDetail('${c.cid}','${c.sid}')">详情</button> ${ops.map((o,i)=>`<button class="btn xs ${i===0?'pri':''}" onclick="toast('${o}')">${o}</button>`).join(' ')}</td></tr>`;}).join('');
+      <td style="text-align:right;white-space:nowrap"><button class="btn xs" onclick="v3CourseDetail('${c.cid}','${c.sid}')">详情</button></td></tr>`;}).join('');
 }
 /* 课时包 / 账单：数字全部由「总 / 已学 / 剩余」推导，
    合计与首屏学情总览的「节可用」严格相等，全站只有一个"剩余"口径。 */
@@ -6228,8 +6279,8 @@ function renderParList(){
       <td><div class="par-student-list">${kidsHtml}</div></td>
       <td><div class="par-remain${p.remain<=15?' low':''}">${p.remain}<span> 节</span></div></td>
       <td><span class="par-payment-date" title="最近支付 ${p.pay||'—'}">${p.pay||'—'}</span></td>
-      <td><div class="par-two-line"><span class="main">${follow?follow.t:'—'}</span><span class="sub">${follow?follow.res:'暂无 Follow'}</span></div></td>
-      <td><div class="par-two-line"><span class="main" title="LP：${htmlSafe(ownerLp)}">${htmlSafe(ownerLp)}</span><span class="sub" title="CC：${htmlSafe(ownerCc)}">${htmlSafe(ownerCc)}</span></div></td></tr>`;}).join('')
+      <td><div class="par-two-line"><span class="par-primary">${follow?follow.t:'—'}</span><span class="par-secondary">${follow?follow.res:'暂无 Follow'}</span></div></td>
+      <td><div class="par-two-line"><span class="par-primary" title="LP：${htmlSafe(ownerLp)}">${htmlSafe(ownerLp)}</span><span class="par-secondary" title="CC：${htmlSafe(ownerCc)}">${htmlSafe(ownerCc)}</span></div></td></tr>`;}).join('')
     :`<tr><td colspan="7"><div class="empty"><svg class="i s" aria-hidden="true"><use href="#i-inbox"/></svg>没有符合条件的家长<div class="small">可调整或清空筛选条件后再试</div><button class="btn sm" onclick="resetParFilter()">重置筛选</button></div></td></tr>`;
   renderParPagination(rows.length,pageCount);
 }
@@ -6387,8 +6438,6 @@ function renderOrderList(){
   $('ordTbody').innerHTML=rows.length?orderRows(rows):`<tr><td colspan="21"><div class="empty"><svg class="i s" aria-hidden="true"><use href="#i-inbox"/></svg>没有符合条件的订单<div class="small">可调整或清空筛选条件后再试</div><button class="btn sm" onclick="resetOrdFilter()">重置筛选</button></div></td></tr>`;
 }
 function resetOrdFilter(){$('okw').value='';document.querySelectorAll('.of').forEach(s=>s.value='');renderOrderList()}
-$('okw').addEventListener('input',renderOrderList);
-document.querySelectorAll('.of').forEach(s=>s.addEventListener('change',renderOrderList));
 function openOrder(no){curOrder=ORDERS.find(o=>o.no===no)||ORDERS[0];go('ordDetail')}
 function renderOrderDetail(o){
   if(!o)return;
@@ -6463,48 +6512,32 @@ function renderOrderDetail(o){
 
 /* ==================== 外教 ==================== */
 const ST_TXT={normal:'正常',rec:'推荐名单',black:'黑名单'};
+function lpListFilterValues(view,cls){const f={};document.querySelectorAll('#view-'+view+' .'+cls).forEach(el=>f[el.dataset.f]=el.value.trim());return f}
+function lpListPhone(value){const digits=String(value||'').replace(/[^0-9]/g,'');return digits.length===13&&digits.startsWith('86')?digits.slice(2):digits}
+function lpListPhoneMatch(parent,value){if(!value)return true;const query=lpListPhone(value);if(!/^1\d{10}$/.test(query))return false;return [parent?.phone,parent?.loginPhone].filter(Boolean).some(raw=>lpListPhone(PHONE_FULL[raw]||raw)===query)}
+function lpListChips(view,cls,target){const els=[...document.querySelectorAll('#view-'+view+' .'+cls)].filter(el=>el.value.trim()),holder=$(target);if(!holder)return;holder.hidden=!els.length;holder.innerHTML=els.map(el=>{const label=el.closest('label')?.querySelector('span')?.textContent||el.getAttribute('aria-label')||'',value=el.tagName==='SELECT'?el.selectedOptions[0]?.textContent:el.value;return `<button class="filter-chip" aria-label="清除${v3E(label)}筛选" onclick="lpClearListFilter('${view}','${cls}','${el.dataset.f}')">${v3E(label)}：${v3E(value)} <span aria-hidden="true">×</span></button>`}).join('');const advanced=document.querySelector('#view-'+view+' .lp-list-advanced'),button=document.querySelector('#view-'+view+' [aria-controls="'+advanced?.id+'"]');if(advanced&&button){const count=[...advanced.querySelectorAll('.'+cls)].filter(el=>el.value.trim()).length;button.innerHTML=ic('filter','s')+'更多筛选'+(count?' <span class="badge">'+count+'</span>':'')}}
+function lpClearListFilter(view,cls,key){const el=document.querySelector('#view-'+view+' .'+cls+'[data-f="'+key+'"]');if(!el)return;el.value='';if(view==='ordList'){V3.orderPage=1;renderOrderList()}else if(view==='course')renderCourses();else{lpTeacherPage=1;renderTeachers()}}
+function lpListPageNumbers(page,max){if(max<=7)return Array.from({length:max},(_,i)=>i+1);const values=[1,...[page-1,page,page+1].filter(p=>p>1&&p<max),max];return [...new Set(values)].sort((a,b)=>a-b).flatMap((p,i,a)=>i&&p>a[i-1]+1?['…',p]:[p])}
+let lpTeacherPage=1,lpTeacherSize=10,lpTeacherSignature='';
+function lpTeacherGo(page){lpTeacherPage=page;renderTeachers()}
+function lpTeacherPageSize(value){lpTeacherSize=Number(value)||10;lpTeacherPage=1;renderTeachers()}
 function renderTeachers(){
-  const idq=($('tidF').value||'').trim();
-  const kw=($('tkw').value||'').trim().toLowerCase();
-  const sex=$('tsexF').value, st=$('tstF').value;
-  const rows=TEACHERS.filter(t=>{
-    if(idq&&!String(t.tid).includes(idq))return false;
-    if(sex&&t.sex!==sex)return false;
-    if(st&&t.mark!==st)return false;
-    if(kw&&!((t.show+' '+t.real).toLowerCase().includes(kw)))return false;
-    return true;
-  });
-  $('teaCount').textContent=rows.length;
-  $('teaTbody').innerHTML=rows.length?rows.map(t=>{
-    const stTag=t.mark==='black'?'<span class="tag r">黑名单</span>'
-      :t.mark==='rec'?'<span class="tag g">推荐名单</span>':'<span class="muted small">正常</span>';
-    const sb=t.stuBlack?`<span style="color:var(--no);font-weight:600">${t.stuBlack} 名</span>`:'<span class="muted small">正常</span>';
-    const gm=t.gmark==='black'?'<span class="tag r">黑名单</span>'
-      :t.gmark==='gray'?'<span class="tag">灰名单</span>':'<span class="muted small">正常</span>';
-    return `<tr>
-      <td class="small">${t.tid}</td>
-      <td class="small" style="font-weight:600">${t.show}</td>
-      <td class="small">${t.real}</td>
-      <td><div class="tphoto ${t.mark==='black'?'r':''}">${t.show.slice(0,1)}</div></td>
-      <td class="small">${t.sex}</td>
-      <td class="cert">${t.cert}</td>
-      <td class="small">${t.country}</td>
-      <td class="small">${t.years} 年</td>
-      <td>${sb}</td>
-      <td>${gm}</td>
-      <td class="num"><span class="${t.ts?'':'ts-zero'}">${t.ts}</span></td>
-      <td><div class="opc">
-        <button class="btn xs" onclick="toast('编辑档案 · ${t.show}')">${ic('edit','xs')}编辑</button>
-        <button class="btn xs" onclick="v11TeacherReplay('${t.tid}')">${ic('play','xs')}回放 · 最近3节</button>
-      </div></td></tr>`;
-  }).join('')
-    :`<tr><td colspan="12"><div class="empty"><svg class="i" aria-hidden="true"><use href="#i-inbox"/></svg>没有符合条件的外教<div class="small">可调整或清空筛选条件后再试</div><button class="btn sm" onclick="resetTeacherFilter()">重置筛选</button></div></td></tr>`;
+ const f=lpListFilterValues('teacher','tf'),signature=JSON.stringify(f);if(signature!==lpTeacherSignature){lpTeacherSignature=signature;lpTeacherPage=1}
+ const contains=(text,q)=>!q||String(text||'').toLocaleLowerCase().includes(q.toLocaleLowerCase());
+ const rows=TEACHERS.filter(t=>(!f.tid||String(t.tid).replace(/^T/i,'')===f.tid.replace(/^T/i,''))&&contains(t.show,f.show)&&contains(t.real,f.real)&&contains(t.cert,f.cert)&&['sex','mark','gmark','country'].every(k=>!f[k]||t[k]===f[k]));
+ const pages=Math.max(1,Math.ceil(rows.length/lpTeacherSize));lpTeacherPage=Math.max(1,Math.min(lpTeacherPage,pages));const offset=(lpTeacherPage-1)*lpTeacherSize;
+ $('teaCount').textContent=rows.length;
+ $('teaTbody').innerHTML=rows.length?rows.slice(offset,offset+lpTeacherSize).map(t=>{
+ const sb=t.stuBlack?`<span style="color:var(--no);font-weight:600">${t.stuBlack} 名</span>`:'<span class="muted small">正常</span>';
+ const gm=t.gmark==='black'?'<span class="tag r">黑名单</span>':t.gmark==='gray'?'<span class="tag">灰名单</span>':'<span class="muted small">正常</span>';
+ const country={USA:'美国',UK:'英国',Canada:'加拿大','South Africa':'南非',Philippines:'菲律宾'}[t.country]||t.country;
+ return `<tr><td class="small">${v3E(t.tid)}</td><td class="small" style="font-weight:600">${v3E(t.show)}</td><td class="small">${v3E(t.real)}</td><td><div class="tphoto ${t.mark==='black'?'r':''}">${v3E(t.show.slice(0,1))}</div></td><td class="small">${t.sex}</td><td class="cert">${v3E(t.cert)}</td><td class="small">${v3E(country)}</td><td class="small">${t.years} 年</td><td>${sb}</td><td>${gm}</td><td class="num"><span class="${t.ts?'':'ts-zero'}">${t.ts}</span></td><td><button class="btn xs" onclick="v11TeacherReplay('${t.tid}')">回放</button></td></tr>`
+ }).join(''):`<tr><td colspan="12"><div class="empty">没有符合条件的外教<div class="small">可调整或清空筛选条件后再试</div><button class="btn sm" onclick="resetTeacherFilter()">重置筛选</button></div></td></tr>`;
+ $('lpTeacherPagination').innerHTML=`<div class="stu-page-summary">共 ${rows.length} 位${rows.length?' · 显示 '+(offset+1)+'–'+Math.min(offset+lpTeacherSize,rows.length)+' 位':''}</div><div class="stu-page-tools"><label class="stu-page-size">每页<select aria-label="每页外教数" onchange="lpTeacherPageSize(this.value)">${[10,20,50].map(n=>`<option ${n===lpTeacherSize?'selected':''}>${n}</option>`).join('')}</select></label><button class="stu-page-btn nav" ${lpTeacherPage===1?'disabled':''} onclick="lpTeacherGo(${lpTeacherPage-1})">上一页</button>${lpListPageNumbers(lpTeacherPage,pages).map(n=>n==='…'?'<span class="stu-page-ellipsis">…</span>':`<button class="stu-page-btn ${n===lpTeacherPage?'current':''}" ${n===lpTeacherPage?'aria-current="page"':''} onclick="lpTeacherGo(${n})">${n}</button>`).join('')}<button class="stu-page-btn nav" ${lpTeacherPage===pages?'disabled':''} onclick="lpTeacherGo(${lpTeacherPage+1})">下一页</button></div>`;
+ lpListChips('teacher','tf','lpTeacherChips');
 }
-function resetTeacherFilter(){$('tidF').value='';$('tkw').value='';$('tsexF').value='';$('tstF').value='';renderTeachers();}
-$('tkw').addEventListener('input',renderTeachers);
-$('tidF').addEventListener('input',renderTeachers);
-$('tsexF').addEventListener('change',renderTeachers);
-$('tstF').addEventListener('change',renderTeachers);
+function resetTeacherFilter(){document.querySelectorAll('#view-teacher .tf').forEach(el=>el.value='');lpTeacherPage=1;renderTeachers()}
+['input','change'].forEach(event=>document.querySelector('#lpTeacherFilters').addEventListener(event,e=>{if(e.target.matches('.tf')&&(event==='change'?e.target.tagName==='SELECT':e.target.tagName!=='SELECT'))renderTeachers()}));
 
 /* ==================== 课程管理 ==================== */
 let couTab='all';
@@ -6559,8 +6592,7 @@ function renderCourses(){
 }
 $('ckw').addEventListener('input',renderCourses);
 document.querySelectorAll('.cf').forEach(s=>s.addEventListener('change',renderCourses));
-function resetCourseFilter(){$('ckw').value='';document.querySelectorAll('.cf').forEach(s=>s.value='');couTab='all';
-  document.querySelectorAll('#view-course .tabs button').forEach((x,i)=>x.classList.toggle('on',i===0));renderCourses()}
+function resetCourseFilter(){document.querySelectorAll('#view-course .cf').forEach(el=>el.value='');couTab='all';couPage=1;document.querySelectorAll('#view-course .tabs button').forEach((x,i)=>x.classList.toggle('on',i===0));renderCourses()}
 
 /* ==================== Linear v3 / Reconstructed workflows ====================
    Local interactive prototype. Sample fixtures below are not backend enum definitions.
@@ -6596,11 +6628,11 @@ function v3OrderById(id){return ORDERS.find(o=>o.id===String(id))}
 function v3OpenOrderId(id){const o=v3OrderById(id);if(o)openOrder(o.no);else toast('未关联订单')}
 function v3Qty(o){return o.type==='课时数量'?`${o.num} 节`:/请假|休学/.test(o.type)?`${o.num} 次`:o.type==='实物商品'?`${o.num} 件`:o.type==='课程有效期'?(o.goods.match(/\d+\s*天/)||['—'])[0]:String(o.num||'—')}
 function v3OrderSummary(list){return `<div class="v3-mini"><span>匹配订单</span><strong>${list.length}<small>笔</small></strong></div><div class="v3-mini"><span>成交金额合计</span><strong>${v3Money(list.reduce((a,o)=>a+v3Num(o.p1),0))}</strong><em>含待支付、已取消订单</em></div><div class="v3-mini"><span>累计实付合计</span><strong>${v3Money(list.reduce((a,o)=>a+v3Num(o.paid),0))}</strong><em>未扣除退款，不作为净收入</em></div><div class="v3-mini"><span>待支付 / 退费中</span><strong>${list.filter(o=>o.st==='待支付').length}<small>/</small> ${list.filter(o=>o.st==='退费中').length}<small>笔</small></strong></div>`}
-function v3FilteredOrders(){const q=$('okw').value.trim().toLowerCase(),f={};document.querySelectorAll('#view-ordList .of').forEach(el=>f[el.dataset.f]=el.value);return ORDERS.filter(o=>{const st=STUDENTS.find(s=>s.id===o.sid)||{};return (!q||[o.no,o.id,o.sid,st.pid,st.name,o.goods].join(' ').toLowerCase().includes(q))&&['st','type','src','org','payType','saleType'].every(k=>!f[k]||(k==='st'&&f[k]==='退费单'?['退费中','已退费'].includes(o.st):o[k]===f[k]))&&(!f.from||v3Date(o.ct)>=f.from)&&(!f.to||v3Date(o.ct)<=f.to)})}
+function v3FilteredOrders(){const q=$('okw').value.trim().toLowerCase(),f={};document.querySelectorAll('#view-ordList .of').forEach(el=>f[el.dataset.f]=el.value);return ORDERS.filter(o=>{const st=STUDENTS.find(s=>s.id===o.sid)||{};return (!q||[o.no,o.id,o.sid,st.pid,st.name,o.goods].join(' ').toLowerCase().includes(q))&&['st','type','src','org','payType','saleType'].every(k=>!f[k]||o[k]===f[k])&&(!f.from||v3Date(o.ct)>=f.from)&&(!f.to||v3Date(o.ct)<=f.to)})}
 function orderRows(list,withStudent=true){return list.map(o=>{const s=STUDENTS.find(x=>x.id===o.sid);return `<tr><td><div class="v3-cell"><button class="v3-link" onclick="openOrder('${o.no}')">${v3E(o.no)}</button><small>ID ${o.id}${o.main&&o.main!=='—'?` · 关联主单 ${o.main}`:''}</small></div></td>${withStudent?`<td><div class="v3-cell"><button class="v3-link" onclick="openStu('${o.sid}')">${v3E(s?s.name:o.sid)}</button><small>SID ${o.sid}</small></div></td>`:''}<td><div class="v3-cell"><span class="v3-product">${v3E(o.goods)}</span><div class="v3-pillrow"><span class="tag gray">${v3E(o.type)}</span><small>${v3Qty(o)}</small></div></div></td><td class="num"><div class="v3-cell"><span class="v3-amount">${v3E(o.p1)}</span><small>实付 ${v3E(o.paid)}</small></div></td><td>${v3Status(o.st)}</td><td><div class="v3-cell"><span>${v3E(o.payType)}</span><small>${v3Date(o.pt)}${v3Time(o.pt)?'<br>'+v3Time(o.pt):''}</small></div></td><td><div class="v3-cell"><span>${v3Date(o.ct)}</span><small>${v3Time(o.ct)}</small></div></td><td><button class="btn xs" onclick="openOrder('${o.no}')">详情</button></td></tr>`}).join('')}
 function renderOrderList(){const list=v3FilteredOrders(),max=Math.max(1,Math.ceil(list.length/V3.orderSize));V3.orderPage=Math.min(Math.max(1,V3.orderPage),max);const start=(V3.orderPage-1)*V3.orderSize;$('ordTbody').innerHTML=list.length?orderRows(list.slice(start,start+V3.orderSize)):`<tr><td colspan="8">${v3Empty('没有符合条件的订单','调整筛选条件，或点击重置。')}</td></tr>`;$('v3OrderSummary').innerHTML=v3OrderSummary(list);$('v3OrderPagination').innerHTML=`<span>共 ${list.length} 笔${list.length?` · 显示 ${start+1}–${Math.min(start+V3.orderSize,list.length)}`:''}</span><div class="row"><span>每页</span><select aria-label="每页订单数" onchange="V3.orderSize=Number(this.value);V3.orderPage=1;renderOrderList()">${[5,10,20].map(n=>`<option ${n===V3.orderSize?'selected':''}>${n}</option>`).join('')}</select><button class="btn" ${V3.orderPage===1?'disabled':''} onclick="V3.orderPage--;renderOrderList()">上一页</button><span style="padding:0 7px">${V3.orderPage} / ${max}</span><button class="btn" ${V3.orderPage===max?'disabled':''} onclick="V3.orderPage++;renderOrderList()">下一页</button></div>`;const chips=[...document.querySelectorAll('#view-ordList .of')].filter(e=>e.value);$('v3OrderChips').hidden=!chips.length;$('v3OrderChips').innerHTML=chips.map(e=>`<button class="filter-chip" onclick="v3ClearOrderFilter('${e.dataset.f}')">${v3E(e.closest('label')?.querySelector('span')?.textContent||e.getAttribute('aria-label'))}：${v3E(e.value)} ×</button>`).join('')}
 function v3ClearOrderFilter(k){const el=document.querySelector('#view-ordList .of[data-f="'+k+'"]');if(el)el.value='';V3.orderPage=1;renderOrderList()}
-function resetOrdFilter(){$('okw').value='';document.querySelectorAll('#view-ordList .of').forEach(s=>s.value='');V3.orderPage=1;renderOrderList()}
+function resetOrdFilter(){document.querySelectorAll('#view-ordList .of').forEach(s=>s.value='');V3.orderPage=1;renderOrderList()}
 function v3ExportOrders(){const rows=v3FilteredOrders();if(!rows.length){toast('当前没有可导出的订单');return}downloadCsv('订单查询结果.csv',['订单ID','订单号','SID','商品','商品类别','数量','成交价','实付金额','订单状态','支付方式','支付时间','下单时间','主单ID'],rows.map(o=>[o.id,o.no,o.sid,o.goods,o.type,v3Qty(o),o.p1,o.paid,o.st,o.payType,o.pt,o.ct,o.main]));toast('已导出 '+rows.length+' 笔订单')}
 function openOrder(no){const o=ORDERS.find(o=>o.no===no);if(!o){toast('未找到订单');return}v3RememberPageTab();const view=document.querySelector('.view.on')?.id.replace('view-','');if(view!=='ordDetail')V3.orderFrom={view:view||'ordList',sid:curStu.id,pid:curPid,tab:stuTab,parentTab:pTab,sub:{...V3.sub}};curOrder=o;V3.orderTab='goods';const existing=V3_PAGE_TABS.items.find(t=>t.view==='ordDetail'&&t.context?.orderNo===o.no);if(existing)existing.context={...existing.context,orderNo:o.no,orderFrom:v3CloneState(V3.orderFrom),orderTab:'goods'};V3_PAGE_TABS.skipCapture=true;go('ordDetail');V3_PAGE_TABS.skipCapture=false}
 function v3BackOrder(){const f=V3.orderFrom;if(f.view==='stuDetail'){curStu=STUDENTS.find(s=>s.id===f.sid)||curStu;go('stuDetail');V3.sub={...f.sub};switchStuTab(f.tab||'order');$('stuTabs').scrollIntoView({block:'start',behavior:'smooth'})}else if(f.view==='parDetail'){curPid=f.pid||curPid;pTab=f.parentTab||pTab;go('parDetail')}else{go(f.view==='dash'?'dash':'ordList')}}
@@ -6639,7 +6671,7 @@ function renderStuTab(target){const box=target||$('stuTabBody');if(!box)return;c
  if(active==='service'&&V3.sub.service==='follow')renderFollow();
 }
 function v3StudentOrders(){const mine=ORDERS.filter(o=>o.sid===curStu.id),list=mine.filter(o=>(!V3.studentOrderStatus||o.st===V3.studentOrderStatus)&&(!V3.studentOrderType||o.type===V3.studentOrderType));return `<div class="v3-tabheading"><div><h3>学员订单</h3><p>SID ${curStu.id} · 共 ${mine.length} 笔订单</p></div><button class="btn sm" onclick="v3AllStudentOrders()">在订单管理中查看 ${ic('right','xs')}</button></div><div class="v3-toolbar"><select class="sel" aria-label="学员订单状态" onchange="V3.studentOrderStatus=this.value;renderStuTab()"><option value="">全部订单状态</option>${['待支付','已支付','付定金','已取消','退费中','已退费'].map(x=>`<option ${V3.studentOrderStatus===x?'selected':''}>${x}</option>`).join('')}</select><select class="sel" aria-label="学员商品类别" onchange="V3.studentOrderType=this.value;renderStuTab()"><option value="">全部商品类别</option>${[...new Set(mine.map(o=>o.type))].map(x=>`<option ${V3.studentOrderType===x?'selected':''}>${x}</option>`).join('')}</select><span class="v3-caption">匹配 ${list.length} 笔</span></div>${v3Table(['订单','商品与数量','成交 / 实付','订单状态','支付信息','下单时间','操作'],orderRows(list,false),'v3-student-orders v3-compact')}`}
-function v3AllStudentOrders(){go('ordList');resetOrdFilter();$('okw').value=curStu.id;renderOrderList()}
+function v3AllStudentOrders(){go('ordList');resetOrdFilter();$('osid').value=curStu.id;renderOrderList()}
 function v3Courses(){
  const all=COURSES_ALL.filter(c=>c.sid===curStu.id);
  const list=all.filter(c=>(!V3.courseStatus||(V3.courseStatus==='issue'?['noshow','teacher'].includes(c.st):c.st===V3.courseStatus))&&(!V3.courseQuery||[c.cid,c.lv,c.te].join(' ').toLowerCase().includes(V3.courseQuery.toLowerCase()))).sort((a,b)=>b.time.localeCompare(a.time));
@@ -6719,8 +6751,7 @@ function v3ActivityRecords(){v3Modal('活动审核记录',v3Table(['上传时间
 // Scope legacy shortcut bridges to the new information architecture.
 function quickAction(action){closeQuickMenu();const actions={order:gotoOrder,coupon:()=>{V3.sub.history='coupons';gotoDetail('history')},level:()=>toast('修改定级入口沿用现有流程'),leave:()=>v3RightsAction('请假权益'),suspend:()=>v3RightsAction('休学权益'),edit:openStudentEdit,sms:()=>toast('短信发送入口沿用现有流程'),copy:()=>toast('当前资料未提供可复制的微信号'),parent:()=>openParent(curStu.pid),export:()=>{const list=COURSES_ALL.filter(c=>c.sid===curStu.id);downloadCsv('学员课程记录.csv',['课程ID','课标','老师','上课时间','课程状态'],list.map(c=>[c.cid,c.lv,c.te,c.time,ST[c.st]?.t||c.st]));toast('已导出课程记录')},poster:()=>gotoDetail('history'),history:()=>gotoDetail('logs')};if(actions[action])actions[action]()}
 // Keep counts accurate after queries. Existing input listeners invoke the new renderer.
-$('okw').addEventListener('input',()=>{V3.orderPage=1;renderOrderList()});
-document.querySelectorAll('#view-ordList .of').forEach(el=>el.addEventListener('change',()=>{V3.orderPage=1;renderOrderList()}));
+['input','change'].forEach(event=>document.querySelector('#view-ordList .v3-orderfilters').addEventListener(event,e=>{if(e.target.matches('.of')&&(event==='change'?e.target.tagName==='SELECT':e.target.tagName!=='SELECT')){V3.orderPage=1;renderOrderList()}}));
 
 /* ==================== LP 列表配置与工作台补充 ==================== */
 /* 本轮确认项：月度数据、独立筛选、课程资料与最近三节回放。静态示例沿用原页面统计日期。 */
@@ -6805,7 +6836,7 @@ function v11VideoPlayer(c){return `<div class="v11-video"><video controls preloa
 /* Independent recording fixtures: each teacher's most recent completed lessons; no course URLs were supplied. */
 const V11_TEACHER_RECORDINGS=Object.fromEntries(TEACHERS.map(t=>[t.tid,[25,23,21].map((day,i)=>({cid:`RC${t.tid}${day}`,lv:['OW-L2-U3-LC1-1','OW-L3-U2-LC2-1','OW-L1-U4-LC3-1'][i],time:`2026-10-${day} ${['19:30','20:00','18:30'][i]}`,duration:['25:00','25:00','25:00'][i],teacher:t.show,url:''}))]));
 let v11ReplayTeacher='',v11ReplayIndex=0;
-function v11TeacherReplay(tid,index=0){const teacher=TEACHERS.find(t=>t.tid===tid);if(!teacher)return;const list=(V11_TEACHER_RECORDINGS[tid]||[]).slice().sort((a,b)=>b.time.localeCompare(a.time)).slice(0,3);v11ReplayTeacher=tid;v11ReplayIndex=Math.min(index,Math.max(0,list.length-1));if(!list.length){v3Modal(teacher.show+' · 最近3节课回放',v3Empty('暂无上课视频'));return}const selected=list[v11ReplayIndex];v3Modal(teacher.show+' · 最近3节课回放',`<div class="v11-replay-meta"><span>外教 ID ${tid}</span><span>按上课时间倒序 · 最近 ${list.length} 节</span></div><div class="v11-replay-layout"><div class="v11-replay-list">${list.map((c,i)=>`<button class="v11-replay-card ${i===v11ReplayIndex?'on':''}" onclick="v11TeacherReplay('${tid}',${i})"><span class="v11-replay-cover">${ic('play')}<small>${c.duration}</small></span><span><b>第 ${i+1} 节 · ${v3E(c.lv)}</b><small>${c.time}</small><small>课程 ID ${c.cid}</small></span></button>`).join('')}</div><div class="v11-replay-player">${v11VideoPlayer(selected)}<h3>${v3E(selected.lv)}</h3><p>${selected.time} · ${v3E(teacher.show)} · ${selected.duration}</p></div></div>`)}
+function v11TeacherReplay(tid,index=0){const teacher=TEACHERS.find(t=>t.tid===tid);if(!teacher)return;const list=(V11_TEACHER_RECORDINGS[tid]||[]).slice().sort((a,b)=>b.time.localeCompare(a.time)).slice(0,3);v11ReplayTeacher=tid;v11ReplayIndex=Math.min(index,Math.max(0,list.length-1));if(!list.length){v3Modal(teacher.show+' · 回放',v3Empty('暂无上课视频'));return}const selected=list[v11ReplayIndex];v3Modal(teacher.show+' · 回放',`<div class="v11-replay-meta"><span>外教 ID ${tid}</span><span>按上课时间倒序 · 共 ${list.length} 节</span></div><div class="v11-replay-layout"><div class="v11-replay-list">${list.map((c,i)=>`<button class="v11-replay-card ${i===v11ReplayIndex?'on':''}" onclick="v11TeacherReplay('${tid}',${i})"><span class="v11-replay-cover">${ic('play')}<small>${c.duration}</small></span><span><b>第 ${i+1} 节 · ${v3E(c.lv)}</b><small>${c.time}</small><small>课程 ID ${c.cid}</small></span></button>`).join('')}</div><div class="v11-replay-player">${v11VideoPlayer(selected)}<h3>${v3E(selected.lv)}</h3><p>${selected.time} · ${v3E(teacher.show)} · ${selected.duration}</p></div></div>`)}
 
 function v11LogisticsHtml(pid,key='gift'){return typeof lpRenderFulfillment==='function'?lpRenderFulfillment(pid,key):''}
 
@@ -6933,7 +6964,7 @@ function v3ParentColumnValue(parent,key){
  if(key==='payment')return`<span class="par-payment-date" title="最近支付 ${v3E(parent.pay||'—')}">${v3E(parent.pay||'—')}</span>`;
  if(key==='follow')return`<div class="par-list-follow">${v3FollowCell(follow)}</div>`;
  if(key==='followTime')return v3FollowTimeCell(follow);
- if(key==='owner')return`<div class="par-two-line"><span class="main" title="LP：${v3E(lp)}">${v3E(lp)}</span><span class="sub" title="CC：${v3E(cc)}">${v3E(cc)}</span></div>`;
+ if(key==='owner')return`<div class="par-two-line"><span class="par-primary" title="LP：${v3E(lp)}">${v3E(lp)}</span><span class="par-secondary" title="CC：${v3E(cc)}">${v3E(cc)}</span></div>`;
  return'—';
 }
 function renderParList(){
@@ -7685,6 +7716,7 @@ v12SyncCallBind();
 </script>
 <script id="lp-order-fields-flow">
 /* Orders: product taxonomy, delivery facts and the full order-detail sections. */
+const LP_ORDER_STATUSES=['待支付','已支付','付定金','已取消','退费中','已退费'];
 const LP_ORDER_TYPES=['课时数量','课程有效期','考试报名','实物商品'];
 const LP_DELIVERY_STATUSES=['已购买','已发放','已填写物流信息','已发货','未发送','发送成功','发送失败','作废订单','发送中'];
 const LP_ORDER_HOUR_TYPES=['1V1试听课时','1V1正式课时'];
@@ -7728,11 +7760,24 @@ function lpSetStudentOrderFilter(key,value){if(key==='status')V3.studentOrderSta
 function lpResetStudentOrderFilters(){V3.studentOrderStatus='';V3.studentOrderType='';LP_STUDENT_ORDER_FILTER.delivery='';LP_STUDENT_ORDER_FILTER.hourType='';renderStuTab()}
 function v3StudentOrders(){
  const mine=ORDERS.filter(o=>o.sid===curStu.id),list=mine.filter(o=>(!V3.studentOrderStatus||o.st===V3.studentOrderStatus)&&(!V3.studentOrderType||o.type===V3.studentOrderType)&&(!LP_STUDENT_ORDER_FILTER.delivery||o.delivery===LP_STUDENT_ORDER_FILTER.delivery)&&(!LP_STUDENT_ORDER_FILTER.hourType||o.hourType===LP_STUDENT_ORDER_FILTER.hourType));
- const filters=[['status','订单状态',['待支付','已支付','付定金','已取消','退费中','已退费'],V3.studentOrderStatus],['type','商品类型',LP_ORDER_TYPES,V3.studentOrderType],['delivery','发货状态',LP_DELIVERY_STATUSES,LP_STUDENT_ORDER_FILTER.delivery],['hourType','课时类型',LP_ORDER_HOUR_TYPES,LP_STUDENT_ORDER_FILTER.hourType]];
+ const filters=[['status','订单状态',LP_ORDER_STATUSES,V3.studentOrderStatus],['type','商品类型',LP_ORDER_TYPES,V3.studentOrderType],['delivery','发货状态',LP_DELIVERY_STATUSES,LP_STUDENT_ORDER_FILTER.delivery],['hourType','课时类型',LP_ORDER_HOUR_TYPES,LP_STUDENT_ORDER_FILTER.hourType]];
  return `<div class="v3-tabheading"><div><h3>学员订单</h3><p>SID ${v3E(curStu.id)} · 共 ${mine.length} 笔订单</p></div><button class="btn sm" onclick="v3AllStudentOrders()">在订单管理中查看 ${ic('right','xs')}</button></div><div class="lp-order-filters">${filters.map(([key,label,opts,current])=>`<label><span>${label}</span><select aria-label="学员${label}" onchange="lpSetStudentOrderFilter('${key}',this.value)">${lpOrderSelect(opts,current,'全部'+label)}</select></label>`).join('')}<button class="btn sm" onclick="lpResetStudentOrderFilters()">重置</button><span class="lp-order-filter-count">匹配 ${list.length} 笔</span></div>${v3Table(lpOrderHeads(false),orderRows(list,false),'lp-order-table v3-student-orders v3-compact')}`;
 }
-function v3FilteredOrders(){const q=$('okw').value.trim().toLowerCase(),f={};document.querySelectorAll('#view-ordList .of').forEach(e=>f[e.dataset.f]=e.value);return ORDERS.filter(o=>{const s=STUDENTS.find(s=>s.id===o.sid)||{};return(!q||[o.no,o.id,o.sid,s.pid,s.name,o.goods].join(' ').toLowerCase().includes(q))&&['st','type','src','org','payType','saleType','delivery','hourType'].every(k=>!f[k]||(k==='st'&&f[k]==='退费单'?['退费中','已退费'].includes(o.st):o[k]===f[k]))&&(!f.from||v3Date(o.ct)>=f.from)&&(!f.to||v3Date(o.ct)<=f.to)})}
-function renderOrderList(){const list=v3FilteredOrders(),max=Math.max(1,Math.ceil(list.length/V3.orderSize));V3.orderPage=Math.min(Math.max(1,V3.orderPage),max);const start=(V3.orderPage-1)*V3.orderSize;$('ordTbody').innerHTML=list.length?orderRows(list.slice(start,start+V3.orderSize)):`<tr><td class="lp-order-empty-row" colspan="${lpOrderHeads(true).length}">没有符合条件的订单，请调整或重置筛选。</td></tr>`;$('v3OrderSummary').innerHTML=v3OrderSummary(list);$('v3OrderPagination').innerHTML=`<span>共 ${list.length} 笔${list.length?` · 显示 ${start+1}–${Math.min(start+V3.orderSize,list.length)}`:''}</span><div class="row"><span>每页</span><select aria-label="每页订单数" onchange="V3.orderSize=Number(this.value);V3.orderPage=1;renderOrderList()">${[5,10,20].map(n=>`<option ${n===V3.orderSize?'selected':''}>${n}</option>`).join('')}</select><button class="btn" ${V3.orderPage===1?'disabled':''} onclick="V3.orderPage--;renderOrderList()">上一页</button><span style="padding:0 7px">${V3.orderPage} / ${max}</span><button class="btn" ${V3.orderPage===max?'disabled':''} onclick="V3.orderPage++;renderOrderList()">下一页</button></div>`;const chips=[...document.querySelectorAll('#view-ordList .of')].filter(e=>e.value);$('v3OrderChips').hidden=!chips.length;$('v3OrderChips').innerHTML=chips.map(e=>`<button class="filter-chip" onclick="v3ClearOrderFilter('${e.dataset.f}')">${v3E(e.closest('label')?.querySelector('span')?.textContent||e.getAttribute('aria-label'))}：${v3E(e.value)} ×</button>`).join('')}
+function lpOrderNewest(a,b){return String(b.ct||'').localeCompare(String(a.ct||''))||String(b.id).localeCompare(String(a.id),undefined,{numeric:true})}
+function lpManageOrderFilters(){const filters={};document.querySelectorAll('#view-ordList .of').forEach(e=>filters[e.dataset.f]=e.value.trim());return filters}
+function lpManageOrderRangeValid(){const f=lpManageOrderFilters(),valid=!f.from||!f.to||f.from<=f.to;const error=$('lpManageFilterError');if(error)error.textContent=valid?'':'下单开始日期不能晚于结束日期，请调整日期范围。';return valid}
+function v3FilteredOrders(){const f=lpManageOrderFilters();if(!lpManageOrderRangeValid())return [];return ORDERS.filter(o=>{const student=STUDENTS.find(s=>s.id===o.sid)||{},pid=student.pid||o.pid,parent=PARENTS.find(p=>p.pid===pid);return (!f.no||o.no===f.no)&&(!f.id||String(o.id)===f.id)&&(!f.sid||String(o.sid)===f.sid)&&(!f.pid||String(pid)===f.pid)&&lpListPhoneMatch(parent,f.phone)&&(!f.goods||String(o.goods||'').toLocaleLowerCase().includes(f.goods.toLocaleLowerCase()))&&['st','type','src','org','payType','saleType','delivery','hourType'].every(key=>!f[key]||o[key]===f[key])&&(!f.from||v3Date(o.ct)>=f.from)&&(!f.to||v3Date(o.ct)<=f.to)}).sort(lpOrderNewest)}
+function v3OrderSummary(list){return `<h2>查询结果</h2><span class="lp-manage-result-count">${list.length} 笔订单</span><span class="lp-manage-sort">按下单时间倒序</span>`}
+function lpManagePageNumbers(page,max){if(max<=7)return Array.from({length:max},(_,i)=>i+1);const values=[1,...[page-1,page,page+1].filter(p=>p>1&&p<max),max];return [...new Set(values)].sort((a,b)=>a-b).flatMap((p,i,a)=>i&&p>a[i-1]+1?['…',p]:[p])}
+function lpManageOrderPage(page){const n=Number(page);if(!Number.isFinite(n))return;V3.orderPage=Math.max(1,Math.trunc(n));renderOrderList();document.querySelector('#v3OrderPagination [aria-current="page"]')?.focus({preventScroll:true})}
+function lpManageOrderJump(button){const input=button.closest('#v3OrderPagination').querySelector('input');if(!input.value||!input.reportValidity())return;lpManageOrderPage(input.value)}
+function renderOrderList(){
+ const list=v3FilteredOrders(),max=Math.max(1,Math.ceil(list.length/V3.orderSize));V3.orderPage=Math.min(Math.max(1,V3.orderPage),max);const start=(V3.orderPage-1)*V3.orderSize;
+ $('ordTbody').innerHTML=list.length?orderRows(list.slice(start,start+V3.orderSize)):`<tr><td class="lp-order-empty-row" colspan="${lpOrderHeads(true).length}">${lpManageOrderRangeValid()?'没有符合条件的订单，请调整或重置筛选。':'下单日期范围无效，请调整后查看订单。'}</td></tr>`;
+ $('v3OrderSummary').innerHTML=v3OrderSummary(list);
+ $('v3OrderPagination').innerHTML=`<span>共 ${list.length} 笔${list.length?` · 显示 ${start+1}–${Math.min(start+V3.orderSize,list.length)} 笔`:''}</span><div class="lp-manage-pager-controls"><label>每页<select aria-label="每页订单数" onchange="V3.orderSize=Number(this.value);V3.orderPage=1;renderOrderList()">${[5,10,20,50].map(n=>`<option value="${n}" ${n===V3.orderSize?'selected':''}>${n} 条</option>`).join('')}</select></label><button class="btn" ${V3.orderPage===1?'disabled':''} onclick="lpManageOrderPage(${V3.orderPage-1})">上一页</button>${lpManagePageNumbers(V3.orderPage,max).map(n=>n==='…'?'<span>…</span>':`<button class="btn" ${n===V3.orderPage?'aria-current="page"':''} aria-label="订单第${n}页" onclick="lpManageOrderPage(${n})">${n}</button>`).join('')}<button class="btn" ${V3.orderPage===max?'disabled':''} onclick="lpManageOrderPage(${V3.orderPage+1})">下一页</button><label>跳至<input type="number" min="1" max="${max}" step="1" value="${V3.orderPage}" aria-label="订单跳转页码" onkeydown="if(event.key==='Enter'){event.preventDefault();lpManageOrderJump(this.nextElementSibling)}"><button class="btn" onclick="lpManageOrderJump(this)">跳转</button></label><span>共 ${max} 页</span></div>`;
+ lpListChips('ordList','of','v3OrderChips');
+}
 function lpOrderKVs(items){return `<div class="lp-order-kvs">${items.map(([key,value,html])=>{const v=lpOrderValue(value);return `<div class="lp-order-kv"><span class="k">${v3E(key)}</span><div class="v ${v==='—'?'lp-order-empty':''}">${html||v3E(v)}</div></div>`}).join('')}</div>`}
 function lpOrderSection(id,title,icon,body,extra=''){return `<section class="lp-order-section" id="${id}" aria-labelledby="${id}Title"><div class="lp-order-section-head">${ic(icon,'s')}<h3 id="${id}Title">${title}</h3>${extra}</div>${body}</section>`}
 function lpOrderPID(o){return STUDENTS.find(s=>s.id===o.sid)?.pid||o.pid||''}
@@ -7764,6 +7809,7 @@ function lpViewOrderAddress(id){const o=v3OrderById(id);if(!o?.address)return;v3
 function lpViewOrderLogistics(id){const o=v3OrderById(id);if(!o?.logistics)return;v3Modal('物流信息',lpOrderKVs([['商品名称',o.goods],['发货状态',o.delivery],['物流公司',o.logistics.carrier],['物流单号',o.logistics.number],['发货时间',o.logistics.sentAt]]))}
 function lpViewDeliveryFailure(id){const o=v3OrderById(id);if(!o)return;v3Modal('发送失败原因',`<p class="lp-order-empty-note">${v3E(o.deliveryFailure||'未记录失败原因')}</p>`)}
 /* Refresh already-mounted views after loading the new order model. */
+[['st',LP_ORDER_STATUSES,'全部订单状态'],['type',LP_ORDER_TYPES,'全部商品类型'],['delivery',LP_DELIVERY_STATUSES,'全部发货状态'],['hourType',LP_ORDER_HOUR_TYPES,'全部课时类型']].forEach(([key,values,label])=>{const el=document.querySelector('#view-ordList .of[data-f="'+key+'"]');el.innerHTML=lpOrderSelect(values,values.includes(el.value)?el.value:'',label)});
 const lpOrderListTable=$('ordTbody').closest('table');lpOrderListTable.classList.add('lp-order-table');lpOrderListTable.querySelector('thead').innerHTML='<tr>'+lpOrderHeads(true).map(h=>'<th>'+h+'</th>').join('')+'</tr>';
 renderOrderList();v11RenderDashOrders();
 if(document.querySelector('#view-stuDetail.on'))renderStuTab();
@@ -7831,24 +7877,31 @@ function v3CourseDetail(cid,sid){
  v3Modal('课程详情 · '+cid,v3KVs([['课程 ID',c.cid],['学员 SID',c.sid],['课标',c.lv],['老师',c.te+' · '+c.tid],['上课时间（北京时间）','2026-'+c.time],['课程状态',status.t||'未记录'],['约课人',c.by],['约课操作时间（北京时间）',c.bookedAt||'—'],['约课方式',c.bookingMode],...(isCancelled?[['约课取消人',c.cancelBy||'—'],['约课取消时间',c.cancelAt||'—']]:[])])+`<p class="lp-course-detail-note">${v3E(status.description||'课程状态未记录。')}</p><div class="v11-detail-course"><div><h3>课前与课后</h3>${v11TaskList(c)}</div><div><h3>回放与报告</h3><div class="v11-resource-list">${v11ResourceButtons(c)}</div></div></div>`);
  $('v3ModalBody').querySelector('.v3-kvs')?.classList.add('lp-course-detail-kvs');
 }
+function lpCourseDate(c){const text=String(c.time||'');return /^\d{4}-/.test(text)?text.slice(0,10):CAL_TODAY.getFullYear()+'-'+text.slice(0,5)}
 function renderCourses(){
- const kw=($('ckw').value||'').trim().toLowerCase(),f={};document.querySelectorAll('#view-course .cf').forEach(s=>f[s.dataset.f]=s.value);
- const scoped=COURSES_ALL.filter(c=>{
-  if(kw&&![c.sname,c.sid,c.te,c.lv,c.cid].join(' ').toLowerCase().includes(kw))return false;
-  if(f.by&&c.by!==f.by)return false;if(f.status&&c.st!==f.status)return false;
-  if(f.range==='today'&&!c.time.startsWith('10-26'))return false;
-  if(f.range==='week'){const[m,d]=c.time.slice(0,5).split('-').map(Number);if(!((m===10&&d>=26)||(m===11&&d<=1)))return false}
-  if(f.range==='month'&&!c.time.startsWith('10-'))return false;if(f.range==='last'&&c.st!=='done')return false;return true;
- });
+ const f=lpListFilterValues('course','cf'),valid=!f.from||!f.to||f.from<=f.to;
+ $('lpCourseFilterError').textContent=valid?'':'上课开始日期不能晚于结束日期，请调整日期范围。';
+ const format=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),today=format(CAL_TODAY),weekStart=new Date(CAL_TODAY),weekEnd=new Date(CAL_TODAY);weekStart.setDate(weekStart.getDate()-((weekStart.getDay()+6)%7));weekEnd.setTime(weekStart.getTime());weekEnd.setDate(weekEnd.getDate()+6);
+ const contains=(text,q)=>!q||String(text||'').toLocaleLowerCase().includes(q.toLocaleLowerCase());
+ const scoped=valid?COURSES_ALL.filter(c=>{const student=STUDENTS.find(s=>s.id===c.sid)||{},pid=student.pid,parent=PARENTS.find(p=>p.pid===pid),date=lpCourseDate(c);
+ if(f.cid&&c.cid!==f.cid)return false;if(f.sid&&String(c.sid)!==f.sid)return false;if(f.pid&&String(pid)!==f.pid)return false;if(!lpListPhoneMatch(parent,f.phone))return false;
+ if(f.tid&&String(c.tid).replace(/^T/i,'')!==f.tid.replace(/^T/i,''))return false;
+ if(!contains(c.te,f.teacher)||!contains([c.sname,student.en,student.name].join(' '),f.student)||!contains(c.lv,f.level))return false;
+ if(f.by&&c.by!==f.by)return false;if(f.status&&c.st!==f.status)return false;
+ if(f.from&&date<f.from||f.to&&date>f.to)return false;
+ if(f.range==='today'&&date!==today)return false;if(f.range==='week'&&(date<format(weekStart)||date>format(weekEnd)))return false;
+ if(f.range==='month'&&date.slice(0,7)!==today.slice(0,7))return false;return true;
+ }).sort((a,b)=>lpCourseDate(b).localeCompare(lpCourseDate(a))||b.time.localeCompare(a.time)):[];
  document.querySelectorAll('#view-course .tabs [data-ct]').forEach(button=>{const key=button.dataset.ct,rows=key==='all'?scoped:key==='issue'?scoped.filter(lpIsProblemCourse):scoped.filter(c=>c.st===key),badge=button.querySelector('.badge');if(badge)badge.textContent=rows.length});
- const rows=scoped.filter(c=>couTab==='all'||(couTab==='issue'?lpIsProblemCourse(c):c.st===couTab)),paged=couPaginate(rows,kw+'|'+JSON.stringify(f)+'|'+couTab);
- $('couTbody').innerHTML=paged.length?courseRows(paged):`<tr><td colspan="9">${v3Empty('没有符合条件的课程','可调整或重置筛选条件。')}</td></tr>`;
+ const rows=scoped.filter(c=>couTab==='all'||(couTab==='issue'?lpIsProblemCourse(c):c.st===couTab)),paged=couPaginate(rows,JSON.stringify(f)+'|'+couTab);
+ $('couTbody').innerHTML=paged.length?courseRows(paged):`<tr><td colspan="9"><div class="empty">${valid?'没有符合条件的课程':'上课日期范围无效'}<div class="small">请调整或重置筛选条件。</div><button class="btn sm" onclick="resetCourseFilter()">重置筛选</button></div></td></tr>`;
+ lpListChips('course','cf','lpCourseChips');
 }
 const lpCourseBookerSelect=document.querySelector('#view-course .cf[data-f="by"]');
 lpCourseBookerSelect.innerHTML='<option value="">全部约课人</option>'+[...new Set(COURSES_ALL.map(c=>c.by).filter(n=>n&&n!=='—'))].sort((a,b)=>a==='家长'?-1:b==='家长'?1:a.localeCompare(b,'zh')).map(n=>'<option>'+v3E(n)+'</option>').join('');
 const lpCourseStatusSelect=document.querySelector('#view-course .cf[data-f="status"]');if(lpCourseStatusSelect)lpCourseStatusSelect.innerHTML='<option value="">全部课程状态</option>'+LP_COURSE_STATES.map(([key,label])=>`<option value="${key}">${label}</option>`).join('');
 const lpCourseFilters=document.querySelector('#view-course .filters');
-['change','input'].forEach(event=>lpCourseFilters.addEventListener(event,e=>{if(e.target.matches('.cf,#ckw')){e.stopPropagation();renderCourses()}},true));
+['change','input'].forEach(event=>lpCourseFilters.addEventListener(event,e=>{if(e.target.matches('.cf')){e.stopPropagation();if(event==='change'?e.target.tagName!=='SELECT':e.target.tagName==='SELECT')return;if(e.target.dataset.f==='range'&&e.target.value){lpCourseFilters.querySelectorAll('[data-f=from],[data-f=to]').forEach(el=>el.value='')}else if(['from','to'].includes(e.target.dataset.f)&&e.target.value)lpCourseFilters.querySelector('[data-f=range]').value='';renderCourses()}},true));
 // The release has no leave/suspension UI, including stale shortcut entry points.
 V3_ALIASES.rights=['assets','balance'];
 v3RightsAction=function(){toast('请假与休学功能暂未开放')};
