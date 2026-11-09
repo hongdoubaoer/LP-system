@@ -79,8 +79,11 @@
   .nc-meta .ava{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;background:#e8f3ff;flex-shrink:0;}
   .nc-meta .dot{color:#d5ddd8;}
   .nc-bar{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:11px;border-top:1px dashed var(--line);}
-  .nc-task{font-size:11.5px;color:var(--sub);display:flex;align-items:center;gap:5px;}
+  .nc-task{font-size:11.5px;color:#8a6a4c;display:inline-flex;align-items:center;gap:4px;background:#fff4e8;padding:5px 10px;border-radius:999px;font-weight:700;}
   .nc-task b{color:#f07a1f;font-weight:800;}
+  .nc-seg{display:inline-flex;gap:3px;margin-left:5px;}
+  .nc-seg i{width:10px;height:4px;border-radius:2px;background:#f0dcc6;display:block;}
+  .nc-seg i.on{background:#f07a1f;}
   .nc-bar .btn{margin-left:auto;padding:7px 15px;font-size:12.5px;}
   .nc-go{margin-left:auto;width:36px;height:36px;border:none;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 3px 8px rgba(14,196,99,.3);flex-shrink:0;transition:.15s;}
   .nc-go:active{transform:scale(.94);}
@@ -97,8 +100,9 @@
   /* banner carousel */
   .carousel{border-radius:var(--r-lg);overflow:hidden;position:relative;box-shadow:0 12px 26px -14px rgba(255,110,40,.55);}
   .slides{display:flex;transition:transform .45s ease;}
-  .slide{min-width:100%;height:122px;padding:19px 18px 16px;color:#fff;position:relative;overflow:hidden;cursor:pointer;}
-  .slide h3{font-size:19px;font-weight:900;line-height:1.3;text-shadow:0 1px 2px rgba(0,0,0,.12);}
+  .slide{min-width:100%;height:138px;padding:18px 18px 22px;color:#fff;position:relative;overflow:hidden;cursor:pointer;}
+  .slide h3{font-size:19px;font-weight:900;line-height:1.3;text-shadow:0 1px 2px rgba(0,0,0,.12);padding-right:96px;}
+  .slide p{font-size:12px;opacity:.95;margin-top:4px;padding-right:64px;}
   .slide p{font-size:12px;opacity:.95;margin-top:4px;}
   .slide .b-btn{display:inline-block;margin-top:8px;background:#fff;font-size:12px;font-weight:800;padding:5px 14px;border-radius:999px;}
   .slide .mascot{position:absolute;right:12px;bottom:4px;font-size:58px;transform:rotate(-6deg);filter:drop-shadow(0 4px 6px rgba(0,0,0,.15));}
@@ -122,15 +126,28 @@
   .cc-head{flex:1;min-width:0;}
   .course-name{font-size:14.5px;font-weight:800;line-height:1.4;letter-spacing:-.1px;}
   .cc-tags{display:flex;align-items:center;flex-wrap:wrap;margin-top:5px;}
-  .course-prog{margin-top:9px;}
-  .cp-line{display:flex;align-items:center;font-size:11.5px;color:#5a665f;font-weight:600;}
-  .cp-line .pct{margin-left:auto;font-size:11px;color:var(--green-dark);font-weight:800;}
+  .course-prog{background:#f6faf8;border-radius:14px;padding:10px 12px 11px;margin-top:11px;}
+  .lv-row{display:flex;align-items:baseline;justify-content:space-between;}
+  .lv-now{font-size:11.5px;color:#6b7a71;font-weight:600;}
+  .lv-now b{font-size:15px;font-weight:900;color:var(--text);letter-spacing:-.2px;margin-left:2px;}
+  .lv-next{font-size:11px;color:#6b7a71;font-weight:600;}
+  .lv-next b{font-size:14px;font-weight:900;color:var(--green-dark);font-variant-numeric:tabular-nums;margin:0 1px;}
   .progress{height:5px;border-radius:3px;background:#eef1ef;margin-top:5px;overflow:hidden;}
   .progress i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,#2ee07f,var(--green));}
-  .cc-foot{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:11px;color:var(--sub);}
-  .cc-foot .last b{color:#5a665f;font-weight:700;font-variant-numeric:tabular-nums;}
+  .lv-bar{display:flex;align-items:center;gap:8px;margin-top:8px;}
+  .lv-bar .progress{flex:1;margin-top:0;height:7px;background:#e4ece7;}
+  .lv-bar .pct{font-size:11px;font-weight:800;color:var(--green-dark);font-variant-numeric:tabular-nums;min-width:28px;text-align:right;}
+  .cc-foot{display:flex;align-items:center;gap:10px;margin-top:11px;padding-top:10px;border-top:1px dashed var(--line);font-size:11px;color:var(--sub);}
+  .cc-foot .last-blk{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+  .last-blk .lb-t{font-size:10.5px;color:var(--sub);white-space:nowrap;}
+  .last-blk .lb-t b{color:#5a665f;font-weight:700;font-variant-numeric:tabular-nums;}
+  .last-blk .lb-v{font-size:12px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cc-foot.no-last{justify-content:flex-end;}
   .cc-foot .sep{color:#dfe6e1;}
-  .cc-foot .btn{margin-left:auto;padding:6px 14px;font-size:12px;white-space:nowrap;}
+  .cc-foot .btn{margin-left:auto;flex-shrink:0;padding:7px 16px;font-size:12px;white-space:nowrap;}
+  .cc-top .cc-cta{flex-shrink:0;align-self:center;padding:7px 15px;font-size:12px;white-space:nowrap;}
+  .cc-last{margin-top:6px;font-size:10.5px;color:var(--sub);white-space:nowrap;}
+  .cc-last b{color:#5a665f;font-weight:700;font-variant-numeric:tabular-nums;}
   /* course center states */
   .cc-empty{padding:46px 0 40px;text-align:center;color:var(--sub);font-size:13px;}
   .cc-empty .em{display:block;font-size:38px;margin-bottom:10px;opacity:.75;}
@@ -147,7 +164,7 @@
   .bk-stu{display:flex;align-items:center;gap:7px;cursor:pointer;padding:2px 0 2px 6px;}
   .bk-stu .name{font-size:13px;font-weight:700;color:#5a665f;}
   .bk-stu .avatar{width:30px;height:30px;font-size:15px;border-width:1.5px;}
-  .chips-sm{display:flex;gap:6px;overflow-x:auto;padding:2px 0 14px;scrollbar-width:none;}
+  .chips-sm{display:flex;gap:6px;overflow-x:auto;padding:2px 0 14px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 90%,transparent);mask-image:linear-gradient(90deg,#000 90%,transparent);}
   .chips-sm::-webkit-scrollbar{display:none;}
   .chip-sm{flex-shrink:0;padding:5px 11px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:11px;font-weight:600;color:#5a665f;cursor:pointer;}
   .chip-sm.on{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 3px 8px rgba(14,196,99,.28);}
@@ -191,7 +208,7 @@
   .sg-title{font-size:11.5px;font-weight:800;color:#5a665f;margin:0 2px 8px;display:flex;align-items:center;gap:6px;}
   .sg-title span{font-size:10px;color:#a8b2ac;font-weight:600;}
   .slot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-  .slc{text-align:center;padding:10px 0;border-radius:11px;border:1.5px solid var(--line);background:#fff;font-size:13px;font-weight:700;cursor:pointer;font-variant-numeric:tabular-nums;}
+  .slc{text-align:center;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 0;border-radius:12px;border:1.5px solid var(--line);background:#fff;font-size:13px;font-weight:700;cursor:pointer;font-variant-numeric:tabular-nums;}
   .slc.off,.slc.full{color:#c8d0cb;background:#fafbfa;border-color:#f2f4f3;pointer-events:none;}
   .slc.full{text-decoration:line-through;}
   .slc small{display:block;font-size:9px;font-weight:600;margin-top:2px;color:#c8d0cb;text-decoration:none;}
@@ -266,34 +283,64 @@
   .flt{display:flex;align-items:center;gap:8px;background:#eaf7ef;color:var(--green-dark);font-size:11.5px;font-weight:700;padding:7px 12px;border-radius:10px;margin-bottom:10px;}
   .flt span{margin-left:auto;font-weight:700;cursor:pointer;color:#5a7a68;}
   /* lesson card */
-  .les-card{padding:14px 15px;margin-bottom:12px;}
+  .les-card{position:relative;overflow:hidden;padding:14px 15px 14px 18px;margin-bottom:12px;}
+  .les-card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0;background:var(--green);}
+  .les-card.t-spec::before{background:var(--orange);}
+  .les-card.is-done::before{background:#d3dcd6;}
   .les-top{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:700;}
-  .les-top .count{margin-left:auto;color:#f07a1f;font-size:11.5px;font-weight:800;}
+  .les-top .count{margin-left:auto;color:#f07a1f;font-size:11.5px;font-weight:800;background:#fff4e8;padding:3px 9px;border-radius:999px;}
   .les-top .date{margin-left:auto;color:var(--sub);font-size:11px;font-weight:600;}
-  .les-time{font-size:19px;font-weight:900;margin:9px 0 2px;font-variant-numeric:tabular-nums;letter-spacing:-.3px;}
-  .les-time small{font-size:11px;font-weight:700;color:var(--sub);margin-left:6px;letter-spacing:0;}
-  .done-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:12px;padding-top:11px;border-top:1px dashed var(--line);}
-  .dg{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:700;color:#5a665f;cursor:pointer;padding:6px 0 4px;border-radius:9px;}
+  .les-body{display:flex;align-items:center;gap:12px;margin-top:10px;}
+  .les-info{flex:1;min-width:0;}
+  .les-info .les-time{margin:0 0 6px;font-size:24px;font-weight:900;display:flex;align-items:baseline;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.3px;}
+  .les-info .les-time small{font-size:10.5px;font-weight:700;color:#7a887f;background:#f1f5f2;padding:2px 7px;border-radius:999px;margin-left:8px;letter-spacing:0;}
+  .les-name{font-size:13.5px;font-weight:800;line-height:1.4;}
+  .les-sub{font-size:11.5px;color:var(--sub);margin-top:2px;}
+  .les-tea{flex-shrink:0;width:70px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px 8px;border-radius:16px;background:#f6faf7;}
+  .les-tea .t-ava{width:44px;height:44px;font-size:22px;}
+  .les-tea span{font-size:10.5px;font-weight:700;color:#3d4d44;text-align:center;line-height:1.25;max-width:64px;word-break:break-word;}
+  .les-card.is-done .les-tea{background:#f6f8f7;}
+  .les-card.is-done .les-tea .t-ava{filter:saturate(.75);}
+  .les-card.is-done .les-time{color:#5a665f;}
+  .done-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:13px;padding-top:12px;border-top:1px dashed var(--line);}
+  .done-grid.g4{grid-template-columns:repeat(4,1fr);gap:2px;}
+  .dg{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:10px;font-weight:700;color:#5a665f;cursor:pointer;padding:7px 0 5px;border-radius:12px;}
   .dg:active{background:var(--green-light);}
   .dg.on{background:var(--green-light);color:var(--green-dark);}
-  .dg span{font-size:15px;line-height:1;}
-  .les-name{font-size:13.5px;font-weight:700;}
-  .les-sub{font-size:11px;color:var(--sub);margin-top:3px;}
-  .les-teacher{display:flex;align-items:center;gap:7px;margin-top:8px;}
-  .les-teacher .t-ava{width:24px;height:24px;font-size:12px;}
-  .les-teacher span{font-size:11.5px;color:var(--sub);}
-  .les-btns{display:flex;gap:7px;justify-content:flex-end;align-items:center;margin-top:12px;}
-  .les-btns .btn{padding:6px 12px;font-size:12px;white-space:nowrap;}
-  .tasks{margin-top:12px;border-top:1px dashed var(--line);padding-top:9px;}
-  .tasks-h{font-size:11px;font-weight:800;color:#5a665f;margin-bottom:3px;}
-  .task{display:flex;align-items:center;gap:9px;padding:6px 2px;font-size:12.5px;font-weight:600;cursor:pointer;}
-  .task .ico{font-size:15px;}
-  .task .ring{margin-left:auto;width:15px;height:15px;border-radius:50%;border:1.5px solid #cfd8d2;}
-  .task.done .ring{background:var(--green);border-color:var(--green);position:relative;}
-  .task.done .ring::after{content:"✓";color:#fff;font-size:9px;position:absolute;left:2px;top:-1px;}
-  .task.done{color:#5a665f;}
-  .task.lock{color:#c8d0cb;}
-  .task.lock .ring{border-style:dashed;}
+  .dg span{width:34px;height:34px;border-radius:12px;background:#f3f7f4;display:flex;align-items:center;justify-content:center;font-size:16px;line-height:1;}
+  .dg.on span{background:#d9f3e5;}
+  /* 已约待上：操作区（进入教室为主按钮，课前开放说明放进按钮副行） */
+  .up-btns{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:8px;margin-top:13px;padding-top:12px;border-top:1px dashed var(--line);}
+  .up-btns .btn{padding:0 6px;min-height:44px;border-radius:14px;font-size:12.5px;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.2;white-space:nowrap;}
+  .r-enter b{display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:800;}
+  .r-enter small{display:block;font-size:9.5px;font-weight:600;margin-top:2px;opacity:.85;}
+  .r-enter.on{background:linear-gradient(135deg,#2ee07f,var(--green));color:#fff;box-shadow:0 8px 16px -8px rgba(14,196,99,.9);}
+  .r-enter.off{background:#eaf4ee;color:#6f8a7b;box-shadow:inset 0 0 0 1.5px #d4e8dc;}
+  .r-cancel{background:#fff;color:#8a968f;box-shadow:inset 0 0 0 1.5px #e6ece8;font-weight:700;}
+  .r-again{background:#fff;color:var(--green-dark);box-shadow:inset 0 0 0 1.5px var(--green);font-weight:800;}
+  .up-btns .btn:active{transform:scale(.97);}
+  .solo-btn{display:flex;margin-top:13px;padding-top:12px;border-top:1px dashed var(--line);}
+  .solo-btn .btn{width:100%;min-height:42px;border-radius:14px;font-size:13.5px;}
+  /* 学习任务：瓦片网格，图标 + 名称 + 状态 */
+  .tasks{margin-top:12px;padding:11px 11px 10px;background:#f8fbf9;border-radius:14px;border-top:none;}
+  .tasks-h{display:flex;align-items:center;font-size:12px;font-weight:800;color:#3d4d44;margin:0 2px 9px;}
+  .tasks-h .tk-count{font-style:normal;margin-left:auto;font-size:11px;font-weight:800;color:var(--green-dark);background:var(--green-light);padding:2px 8px;border-radius:999px;}
+  .task-grid{display:grid;gap:7px;}
+  .task{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 2px 8px;border-radius:13px;background:#fff;border:1.5px dashed #d5dfd9;font-weight:600;cursor:pointer;transition:.15s;}
+  .task:active{transform:scale(.96);}
+  .tk-ico{position:relative;width:34px;height:34px;border-radius:12px;background:#fff6e8;display:flex;align-items:center;justify-content:center;font-size:17px;}
+  .tk-badge{position:absolute;right:-5px;top:-5px;min-width:15px;height:15px;border-radius:50%;font-style:normal;font-size:9px;font-weight:900;line-height:15px;text-align:center;color:#fff;}
+  .tk-badge:empty{display:none;}
+  .tk-name{font-size:11px;font-weight:700;color:#3d4d44;white-space:nowrap;}
+  .tk-st{font-size:10px;font-weight:700;color:#f07a1f;}
+  .task.done{background:#effaf3;border:1.5px solid #bfe9d2;}
+  .task.done .tk-ico{background:#d9f3e5;}
+  .task.done .tk-badge{background:var(--green);box-shadow:0 0 0 2px #effaf3;}
+  .task.done .tk-st{color:var(--green-dark);}
+  .task.lock{background:#f6f8f7;border:1.5px dashed #e1e7e3;cursor:not-allowed;}
+  .task.lock .tk-ico{background:#eef1ef;filter:grayscale(1);opacity:.7;}
+  .task.lock .tk-name,.task.lock .tk-st{color:#b0bab4;}
+  .task.lock .tk-badge{background:none;font-size:10px;right:-6px;top:-6px;}
   .empty-day{padding:34px 0 30px;text-align:center;color:var(--sub);font-size:12.5px;}
   .empty-day .em{display:block;font-size:32px;margin-bottom:8px;opacity:.7;}
   .empty-day .btn{margin-top:12px;padding:7px 16px;font-size:12px;}
@@ -700,7 +747,7 @@
           
         </div>
         <div class="nc-bar">
-          <span class="nc-task">📋 学习任务 <b>${c.tasks}/${tasksOf(c).length}</b></span>
+          <span class="nc-task">📋 学习任务 <b>${Math.min(c.tasks, tasksOf(c).length)}/${tasksOf(c).length}</b><span class="nc-seg">${tasksOf(c).map((_,i)=>`<i class="${i<c.tasks?'on':''}"></i>`).join('')}</span></span>
           <button class="nc-go" title="去课表" onclick="event.stopPropagation();gotoLesson('${c.date}')">${PLAY}</button>
         </div>
       </div>`;
@@ -727,14 +774,14 @@
         { id:'m1', type:'main', name:'原版英语课（L0–L4，25分钟/课）', emoji:'🧑‍🏫',
           bg:'linear-gradient(135deg,#d9f6ff,#c2ecff)', tags:[['主修课','tag-main']],
           status:'start', cfg:1, lastStudy:'2026/11/08', lastStudyTS:'2026-11-08 20:30',
-          progress:{ line:'Level 0 · Unit 2 · Lesson 3', percent:19, remain:44 } },
+          progress:{ line:'Level 0 · Unit 2 · Lesson 3', level:'Level 0', next:'Level 1', percent:19, remain:44 } },
         { id:'m2', type:'main', name:'原版英语课（L5–L7，50分钟/课）', emoji:'📖',
           bg:'linear-gradient(135deg,#fff3d6,#ffe6b3)', tags:[['主修课','tag-main']],
           status:'not_start', cfg:2, lastStudy:null, progress:null },
         { id:'s1', type:'spec', name:'自然拼读强化班（L1–L3）', emoji:'🔤',
           bg:'linear-gradient(135deg,#ffe9f3,#ffd0e6)', tags:[['专项课','tag-spec']],
           status:'start', cfg:3, lastStudy:'2026/11/05', lastStudyTS:'2026-11-05 15:00',
-          progress:{ line:'Level 1 · Unit 1 · Lesson 3', percent:11, remain:16 } },
+          progress:{ line:'Level 1 · Unit 1 · Lesson 3', level:'Level 1', next:'Level 2', percent:11, remain:16 } },
         { id:'a1', type:'ai', name:'金牌阅读课', emoji:'🥇', bg:'linear-gradient(135deg,#fff4d6,#ffe3a8)',
           tags:[['AI课','tag-ai']], status:'start', cfg:4, lastStudy:'2026/11/08', lastStudyTS:'2026-11-08 10:20', perm:true },
         { id:'a2', type:'ai', name:'地道美语', emoji:'🗣️', bg:'linear-gradient(135deg,#e7e9ff,#d3d8ff)',
@@ -765,42 +812,53 @@
   function courseCardHTML(c){
     const tags = c.tags.map(([t,cls])=>`<span class="tag ${cls}">${t}</span>`).join('')
                + (c.status==='not_start' ? `<span class="tag tag-off">未开始</span>` : '');
-    const last = c.lastStudy ? `<span class="last">上次学习 <b>${c.lastStudy}</b></span>` : '';
+    // 上次学习展示完整年月日：2026/11/8 → 2026/11/08
+    const ymd = s => {
+      const m = String(s || '').match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
+      const p2 = n => String(+n).padStart(2, '0');
+      return m ? `${m[1]}/${p2(m[2])}/${p2(m[3])}` : (s || '');
+    };
 
     let body = '';
     if(c.type === 'ai'){
-      // AI 课：名称 + AI课标签 + 上次学习（无记录整行隐藏）+ 去学习
+      // AI 课：按钮放标题行右侧，「上次学习」作为副行（无记录整行隐藏），卡片更紧凑
       body = `<div class="cc-top">
                 <div class="course-thumb" style="background:${c.bg}">${c.emoji}</div>
                 <div class="cc-head">
                   <div class="course-name">${c.name}</div>
                   <div class="cc-tags">${tags}</div>
+                  ${c.lastStudy ? `<div class="cc-last">上次学习 <b>${ymd(c.lastStudy)}</b></div>` : ''}
                 </div>
-              </div>
-              <div class="cc-foot">
-                ${last}
-                <button class="btn btn-ghost" onclick="goStudy('${c.id}',event)">去学习</button>
+                <button class="btn btn-ghost cc-cta" onclick="goStudy('${c.id}',event)">去学习</button>
               </div>`;
     }else{
-      // 主修 / 专项：名称标签 → 进度行(级别·单元·课次 + 百分比) → 进度条 → 上次学习 + 距下一级 + CTA
+      // 主修 / 专项：级别进度块（当前 Level X · 距下一级 N 课时 · 百分比）+ 上次学习块 + CTA
       const p = c.progress;
+      const lastBlk = c.lastStudy
+        ? `<div class="last-blk">
+             <span class="lb-t">上次学习 <b>${ymd(c.lastStudy)}</b></span>
+             ${p ? `<span class="lb-v">${p.line}</span>` : ''}
+           </div>` : '';
+      const bare = !p && !lastBlk;
       body = `<div class="cc-top">
                 <div class="course-thumb" style="background:${c.bg}">${c.emoji}</div>
                 <div class="cc-head">
                   <div class="course-name">${c.name}</div>
                   <div class="cc-tags">${tags}</div>
                 </div>
+                ${bare ? `<button class="btn btn-green cc-cta" onclick="bookCourse('${c.id}',event)">立即约课</button>` : ''}
               </div>
               ${p ? `<div class="course-prog">
-                       <div class="cp-line"><span>${p.line}</span><span class="pct">${p.percent}%</span></div>
-                       <div class="progress"><i style="width:${p.percent}%"></i></div>
+                       <div class="lv-row">
+                         <span class="lv-now">当前 <b>${p.level}</b></span>
+                         <span class="lv-next">距 ${p.next} 还有 <b>${p.remain}</b> 课时</span>
+                       </div>
+                       <div class="lv-bar"><div class="progress"><i style="width:${p.percent}%"></i></div><span class="pct">${p.percent}%</span></div>
                      </div>` : ''}
-              <div class="cc-foot">
-                ${last}
-                ${last && p ? `<span class="sep">·</span>` : ''}
-                ${p ? `<span>距下一级 ${p.remain} 课时</span>` : ''}
+              ${bare ? '' : `<div class="cc-foot${lastBlk ? '' : ' no-last'}">
+                ${lastBlk}
                 <button class="btn btn-green" onclick="bookCourse('${c.id}',event)">立即约课</button>
-              </div>`;
+              </div>`}`;
     }
     return `<div class="card course-card" onclick="openCourse('${c.id}')">${body}</div>`;
   }
@@ -1011,55 +1069,70 @@
     const canEnter = up && cd === 0 && mins <= 10;
     const normalDone = !up && l.rank === '已完成';
 
-    // 任务清单：按课程配置（待上课=课后作业锁定；正常完课=全部完成，只打勾）
-    const taskItems = (x, doneN, lockLast, clickable) => {
-      const list = tasksOf(x);
-      return list.map((name,i)=>{
+    // 任务清单：按课程配置（已完成=绿色打勾；未完成=虚线「去完成」；课后作业上课前锁定）
+    const TS = tasksOf(l), TN = TS.length;
+    const taskTiles = (doneN, lockLast, clickable) => {
+      const tiles = TS.map((name,i)=>{
         const done = i < doneN;
-        const lock = lockLast && i === list.length - 1;
-        const oc = clickable && !lock ? ` onclick="taskDone(this)"` : '';
-        return `<div class="task${done?' done':''}${lock?' lock':''}"${oc}><span class="ico">${TASK_ICO[name]||'📄'}</span>${name}<span class="ring"></span></div>`;
+        const lock = !done && lockLast && i === TN - 1;
+        const st = done ? '已完成' : lock ? '课后解锁' : '去完成';
+        const oc = clickable && !lock ? ` onclick="taskDone(this)"` : (clickable && lock ? ` onclick="toast('上课后解锁')"` : '');
+        return `<div class="task${done?' done':''}${lock?' lock':''}"${oc}>
+            <span class="tk-ico">${TASK_ICO[name]||'📄'}<i class="tk-badge">${done?'✓':lock?'🔒':''}</i></span>
+            <span class="tk-name">${name}</span>
+            <span class="tk-st">${st}</span>
+          </div>`;
       }).join('');
+      return `<div class="task-grid" style="grid-template-columns:repeat(${TN},1fr)">${tiles}</div>`;
     };
+    const tasksHead = n => `<div class="tasks-h">学习任务<em class="tk-count">${Math.min(n,TN)}/${TN}</em></div>`;
 
     let actions = '', tasksSec = '';
     if(up){
-      tasksSec = `<div class="tasks"><div class="tasks-h">学习任务</div>${taskItems(l, l.tasks, true, true)}</div>`;
-      actions = `<div class="les-btns">
-          <button class="btn ${canEnter?'btn-green':'btn-dis'}" onclick="enterRoom(${canEnter})">${PLAY}进入教室</button>
-          <button class="btn btn-ghost" onclick="cancelLesson('${l.id}')">取消课程</button>
-          <button class="btn btn-green" onclick="switchTab('book')">再约一节</button>
+      const enterBtn = canEnter
+        ? `<button class="btn r-enter on" onclick="enterRoom(true)"><b>${PLAY}进入教室</b></button>`
+        : `<button class="btn r-enter off" onclick="enterRoom(false)"><b>${PLAY}进入教室</b><small>课前 10 分钟开放</small></button>`;
+      tasksSec = `<div class="tasks">${tasksHead(l.tasks)}${taskTiles(l.tasks, true, true)}</div>`;
+      actions = `<div class="up-btns">
+          ${enterBtn}
+          <button class="btn r-cancel" onclick="cancelLesson('${l.id}')">取消课程</button>
+          <button class="btn r-again" onclick="switchTab('book')">再约一节</button>
         </div>` + tasksSec;
     }else if(normalDone){
-      // 正常完成：五个入口等宽网格，学习任务可展开（默认收起，保持卡片紧凑）
-      tasksSec = `<div class="tasks" style="display:none"><div class="tasks-h">学习任务</div>${taskItems(l, tasksOf(l).length, false)}</div>`;
-      actions = `<div class="done-grid">
+      // 正常完成：四个快捷入口（回放/评价/报告/再约）+ 学习任务直接展示（全部完成，只打勾）
+      tasksSec = `<div class="tasks">${tasksHead(TN)}${taskTiles(TN, false)}</div>`;
+      actions = `<div class="done-grid g4">
           <div class="dg" onclick="toast('播放课程回放')"><span>▶️</span>课程回放</div>
           <div class="dg" onclick="toast('查看课堂评价')"><span>⭐</span>课堂评价</div>
-          <div class="dg" onclick="toggleDoneTasks(this)"><span>📋</span>学习任务</div>
           <div class="dg" onclick="toast('查看课程报告')"><span>📊</span>课程报告</div>
           <div class="dg" onclick="switchTab('book')"><span>🔁</span>再约一节</div>
         </div>` + tasksSec;
     }else{
-      // 学生缺席 / 已取消：仅学习任务 + 再约一节
-      tasksSec = `<div class="tasks" style="display:none"><div class="tasks-h">学习任务</div>${taskItems(l, 2, true)}</div>`;
-      actions = `<div class="les-btns">
-          <button class="btn btn-ghost" onclick="toggleDoneTasks(this)">学习任务</button>
-          <button class="btn btn-green" onclick="switchTab('book')">再约一节</button>
-        </div>` + tasksSec;
+      // 学生缺席 / 老师缺席 / 已取消：课程未真实发生，回放、报告、学习任务都无意义，只留「再约一节」
+      tasksSec = '';
+      actions = `<div class="solo-btn">
+          <button class="btn btn-green" onclick="switchTab('book')">🔁 再约一节</button>
+        </div>`;
     }
 
-    // 信息层级：标签行 → 时间（日期在分组标题里，卡片内不重复）→ 课程名 → 课次 → 老师
-    return `<div class="card les-card" id="les-${seg}-${l.id}">
+    // 信息层级：标签行 → 时间/课程/课次 + 老师（右侧）→ 操作与任务
+    return `<div class="card les-card ${up?'is-up':'is-done'} t-${l.type}" id="les-${seg}-${l.id}">
       <div class="les-top">
         <span class="tag ${l.type==='main'?'tag-main':'tag-spec'}">${l.type==='main'?'主修课':'专项课'}</span>
         <span class="tag ${up?'tag-spec':'tag-off'}">${l.rank}</span>
         ${up ? `<span class="count">${countdown}</span>` : ''}
       </div>
-      <div class="les-time">${l.time}<small>25 分钟</small></div>
-      <div class="les-name">${l.short}</div>
-      <div class="les-sub">${l.line}</div>
-      <div class="les-teacher"><div class="t-ava" style="background:${l.abg}">${l.tava}</div><span>${l.teacher}</span></div>
+      <div class="les-body">
+        <div class="les-info">
+          <div class="les-time">${l.time}<small>25 分钟</small></div>
+          <div class="les-name">${l.short}</div>
+          <div class="les-sub">${l.line}</div>
+        </div>
+        <div class="les-tea">
+          <div class="t-ava" style="background:${l.abg}">${l.tava}</div>
+          <span>${l.teacher}</span>
+        </div>
+      </div>
       ${actions}
     </div>`;
   }
@@ -1104,7 +1177,13 @@
   }
   function taskDone(el){
     if(el.classList.contains('lock')){ toast('上课后解锁'); return; }
-    el.classList.toggle('done');
+    const done = el.classList.toggle('done');
+    const st = el.querySelector('.tk-st'), badge = el.querySelector('.tk-badge');
+    if(st) st.textContent = done ? '已完成' : '去完成';
+    if(badge) badge.textContent = done ? '✓' : '';
+    const box = el.closest('.tasks');
+    if(box) box.querySelector('.tk-count').textContent =
+      box.querySelectorAll('.task.done').length + '/' + box.querySelectorAll('.task').length;
   }
 
   /* ================= 约课 ================= */
