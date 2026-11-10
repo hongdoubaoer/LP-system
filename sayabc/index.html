@@ -61,6 +61,8 @@
   .tag-spec{background:#fff2e8;color:#f07a1f;}
   .tag-live{background:#e8f3ff;color:#2f8af0;}
   .tag-off{background:#f2f4f3;color:#8a968f;}
+  .tag-done{background:#fdf3dc;color:#96650c;}
+  .cc-trophy{flex-shrink:0;margin-left:auto;font-size:24px;line-height:1;}
   /* home header */
   .home-top{display:flex;align-items:center;justify-content:space-between;padding:4px 2px 14px;}
   .logo{font-size:22px;font-weight:900;letter-spacing:-.5px;}
@@ -405,6 +407,8 @@
     <span class="lbl">课程状态</span>
     <span class="dchip on" id="d-normal" onclick="demoState('normal')">正常</span>
     <span class="dchip" id="d-norecord" onclick="demoState('norecord')">无学习记录</span>
+    <span class="dchip" id="d-full" onclick="demoState('full')">已约满</span>
+    <span class="dchip" id="d-done" onclick="demoState('done')">已学完</span>
     <span class="lbl" style="margin-left:6px">下一次课</span>
     <span class="dchip on" id="n-has" onclick="demoNext('has')">有课</span>
     <span class="dchip" id="n-none" onclick="demoNext('none')">无课</span>
@@ -479,11 +483,7 @@
         </div>
 
         <!-- 课程选择：小号胶囊标签，独立一行可横滑 -->
-        <div class="chips-sm" id="bkChips">
-          <div class="chip-sm on" onclick="pickCourse(this,'原版英语课（L0–L4）')">原版英语课（L0–L4）</div>
-          <div class="chip-sm" onclick="pickCourse(this,'原版英语课（L5–L7）')">原版英语课（L5–L7）</div>
-          <div class="chip-sm" onclick="pickCourse(this,'自然拼读强化班')">自然拼读强化班</div>
-        </div>
+        <div class="chips-sm" id="bkChips"></div>
 
         <!-- 三种约课方式 -->
         <div class="mode-seg">
@@ -773,16 +773,16 @@
     gghj: {
       name: 'Gghj',
       courses: [
-        { id:'m1', type:'main', name:'原版英语课（L0–L4，25分钟/课）', emoji:'🧑‍🏫',
+        { id:'m1', type:'main', name:'原版英语课（L0–L4，25分钟/课）', short:'原版英语课（L0–L4）', emoji:'🧑‍🏫',
           bg:'linear-gradient(135deg,#d9f6ff,#c2ecff)', tags:[['主修课','tag-main']],
-          status:'start', cfg:1, lastStudy:'2026/11/08', lastStudyTS:'2026-11-08 20:30',
+          status:'start', cfg:1, lastStudy:'2026/11/08', lastStudyTS:'2026-11-08 20:30', nextId:'m2', bookable:12,
           progress:{ line:'Level 0 · Unit 2 · Lesson 3', level:'Level 0', next:'Level 1', percent:19, remain:44 } },
-        { id:'m2', type:'main', name:'原版英语课（L5–L7，50分钟/课）', emoji:'📖',
+        { id:'m2', type:'main', name:'原版英语课（L5–L7，50分钟/课）', short:'原版英语课（L5–L7）', emoji:'📖',
           bg:'linear-gradient(135deg,#fff3d6,#ffe6b3)', tags:[['主修课','tag-main']],
           status:'not_start', cfg:2, lastStudy:null, progress:null },
-        { id:'s1', type:'spec', name:'自然拼读强化班（L1–L3）', emoji:'🔤',
+        { id:'s1', type:'spec', name:'自然拼读强化班（L1–L3）', short:'自然拼读强化班', emoji:'🔤',
           bg:'linear-gradient(135deg,#ffe9f3,#ffd0e6)', tags:[['专项课','tag-spec']],
-          status:'start', cfg:3, lastStudy:'2026/11/05', lastStudyTS:'2026-11-05 15:00',
+          status:'start', cfg:3, lastStudy:'2026/11/05', lastStudyTS:'2026-11-05 15:00', bookable:6,
           progress:{ line:'Level 1 · Unit 1 · Lesson 3', level:'Level 1', next:'Level 2', percent:11, remain:16 } },
         { id:'a1', type:'ai', name:'金牌阅读课', emoji:'🥇', bg:'linear-gradient(135deg,#fff4d6,#ffe3a8)',
           tags:[['AI课','tag-ai']], status:'start', cfg:4, lastStudy:'2026/11/08', lastStudyTS:'2026-11-08 10:20', perm:true },
@@ -811,15 +811,55 @@
                .sort((a,b)=> b.lastStudyTS.localeCompare(a.lastStudyTS));
   }
 
+  // 上次学习展示完整年月日：2026/11/8 → 2026/11/08
+  const ymd = s => {
+    const m = String(s || '').match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
+    const p2 = n => String(+n).padStart(2, '0');
+    return m ? `${m[1]}/${p2(m[2])}/${p2(m[3])}` : (s || '');
+  };
+
+  // 课程状态演示：normal 原样；full 已约满（L0–L4 无课时可约、L5–L7 已自动开通）；done 已学完
+  function coursesFor(mode){
+    const raw = STUDENTS[CC.student].courses;
+    if(mode === 'norecord') return raw.map(c => Object.assign({}, c, { lastStudy:null, lastStudyTS:null, progress:null }));
+    if(mode === 'full') return raw.map(c => {
+      if(c.id === 'm1') return Object.assign({}, c, { bookable:0 });
+      if(c.id === 'm2') return Object.assign({}, c, { status:'start', lastStudy:null, lastStudyTS:null, bookable:60,
+        progress:{ line:'Level 5 · Unit 1 · Lesson 1', level:'Level 5', next:'Level 6', percent:0, remain:60 } });
+      if(c.id === 's1') return Object.assign({}, c, { bookable:0 });
+      return c;
+    });
+    if(mode === 'done') return raw.map(c => {
+      if(c.id === 'm1') return Object.assign({}, c, { status:'finish', bookable:0,
+        progress:{ line:'Level 4 · Unit 8 · Lesson 6', level:'Level 4', next:'Level 5', percent:100, remain:0, done:true, total:45 } });
+      if(c.id === 'm2') return Object.assign({}, c, { status:'start', lastStudy:null, lastStudyTS:null, bookable:60,
+        progress:{ line:'Level 5 · Unit 1 · Lesson 1', level:'Level 5', next:'Level 6', percent:0, remain:60 } });
+      if(c.id === 's1') return Object.assign({}, c, { status:'finish', bookable:0,
+        progress:{ line:'Level 3 · Unit 6 · Lesson 5', level:'Level 3', next:'Level 4', percent:100, remain:0, done:true, total:18 } });
+      return c;
+    });
+    return raw;
+  }
+
+  // CTA 判定顺序：未开始→立即约课（拦截）；可约→立即约课；有后继且已约满/已学完→约高阶课；无后继且已学完→奖杯；其余不展示
+  function ccCta(c){
+    if(c.status === 'not_start') return { label:'立即约课', fn:`bookCourse('${c.id}',event)` };
+    if(c.status !== 'finish' && (c.bookable === undefined || c.bookable > 0))
+      return { label:'立即约课', fn:`bookCourse('${c.id}',event)` };
+    if(c.nextId) return { label:'约高阶课', fn:`bookCourse('${c.nextId}',event)` };
+    if(c.status === 'finish') return { trophy:true };
+    return null;
+  }
+
   function courseCardHTML(c){
     const tags = c.tags.map(([t,cls])=>`<span class="tag ${cls}">${t}</span>`).join('')
-               + (c.status==='not_start' ? `<span class="tag tag-off">未开始</span>` : '');
-    // 上次学习展示完整年月日：2026/11/8 → 2026/11/08
-    const ymd = s => {
-      const m = String(s || '').match(/(\d{4})\D+(\d{1,2})\D+(\d{1,2})/);
-      const p2 = n => String(+n).padStart(2, '0');
-      return m ? `${m[1]}/${p2(m[2])}/${p2(m[3])}` : (s || '');
-    };
+               + (c.status==='not_start' ? `<span class="tag tag-off">未开始</span>` : '')
+               + (c.status==='finish' ? `<span class="tag tag-done">已学完</span>` : '');
+
+    const cta = c.type === 'ai' ? null : ccCta(c);
+    const ctaHTML = cta ? (cta.trophy
+      ? `<span class="cc-trophy" title="已学完该课程全部级别">🏆</span>`
+      : `<button class="btn btn-green" onclick="${cta.fn}">${cta.label}</button>`) : '';
 
     let body = '';
     if(c.type === 'ai'){
@@ -834,7 +874,7 @@
                 <button class="btn btn-ghost cc-cta" onclick="goStudy('${c.id}',event)">去学习</button>
               </div>`;
     }else{
-      // 主修 / 专项：级别进度块（当前 Level X · 距下一级 N 课时 · 百分比）+ 上次学习块 + CTA
+      // 主修 / 专项：级别进度块 + 上次学习块 + CTA（按状态判定）
       const p = c.progress;
       const lastBlk = c.lastStudy
         ? `<div class="last-blk">
@@ -842,24 +882,24 @@
              ${p ? `<span class="lb-v">${p.line}</span>` : ''}
            </div>` : '';
       const bare = !p && !lastBlk;
+      const progHTML = p ? `<div class="course-prog">
+                       <div class="lv-row">
+                         <span class="lv-now">当前 <b>${p.level}</b></span>
+                         <span class="lv-next">${p.done ? `已学完全部 <b>${p.total}</b> 课时` : `距 ${p.next} 还有 <b>${p.remain}</b> 课时`}</span>
+                       </div>
+                       <div class="lv-bar"><div class="progress"><i style="width:${p.percent}%"></i></div><span class="pct">${p.percent}%</span></div>
+                     </div>` : '';
       body = `<div class="cc-top">
                 <div class="course-thumb" style="background:${c.bg}">${c.emoji}</div>
                 <div class="cc-head">
                   <div class="course-name">${c.name}</div>
                   <div class="cc-tags">${tags}</div>
                 </div>
-                ${bare ? `<button class="btn btn-green cc-cta" onclick="bookCourse('${c.id}',event)">立即约课</button>` : ''}
+                ${bare && cta && !cta.trophy ? `<button class="btn btn-green cc-cta" onclick="${cta.fn}">${cta.label}</button>` : ''}
               </div>
-              ${p ? `<div class="course-prog">
-                       <div class="lv-row">
-                         <span class="lv-now">当前 <b>${p.level}</b></span>
-                         <span class="lv-next">距 ${p.next} 还有 <b>${p.remain}</b> 课时</span>
-                       </div>
-                       <div class="lv-bar"><div class="progress"><i style="width:${p.percent}%"></i></div><span class="pct">${p.percent}%</span></div>
-                     </div>` : ''}
+              ${progHTML}
               ${bare ? '' : `<div class="cc-foot${lastBlk ? '' : ' no-last'}">
-                ${lastBlk}
-                <button class="btn btn-green" onclick="bookCourse('${c.id}',event)">立即约课</button>
+                ${lastBlk}${ctaHTML}
               </div>`}`;
     }
     return `<div class="card course-card" onclick="openCourse('${c.id}')">${body}</div>`;
@@ -869,11 +909,8 @@
       <div class="sub">该学员当前没有可展示的课程</div></div>`;
 
   function renderCC(){
-    // 「无学习记录」：课程全部展示（可约课/可学习），仅隐藏上次学习与进度等信息
-    const raw = STUDENTS[CC.student].courses;
-    const list = CC.mode === 'norecord'
-      ? raw.map(c => Object.assign({}, c, { lastStudy:null, lastStudyTS:null, progress:null }))
-      : raw;
+    // mode 决定课程状态样本：normal / norecord（无学习记录）/ full（已约满）/ done（已学完）
+    const list = coursesFor(CC.mode);
     const recents = recentCourses(list);
 
     const tabs = [
@@ -914,6 +951,7 @@
   function bookCourse(id, ev){
     ev.stopPropagation();
     const c = courseById(id);
+    if(c && c.status === 'not_start'){ toast('该课程未开始，请联系班主任开通课程'); return; }   // 边界：未开始课程不进入约课
     switchTab('book');
     if(c){
       const chips = document.querySelectorAll('#bkChips .chip-sm');
@@ -933,14 +971,15 @@
   }
   /* ---- 演示控制 ---- */
   function syncDemo(){
-    ['d-normal','d-norecord'].forEach(id=>{
+    ['d-normal','d-norecord','d-full','d-done'].forEach(id=>{
       const el = document.getElementById(id); if(el) el.classList.remove('on');
     });
-    const m = document.getElementById(CC.mode === 'norecord' ? 'd-norecord' : 'd-normal');
+    const map = { norecord:'d-norecord', full:'d-full', done:'d-done' };
+    const m = document.getElementById(map[CC.mode] || 'd-normal');
     if(m) m.classList.add('on');
   }
   function demoState(mode){
-    CC.mode = mode; CC.tab = null; syncDemo(); renderCC();
+    CC.mode = mode; CC.tab = null; syncDemo(); renderCC(); renderBookChips();
   }
 
   /* ================= 课表日历 ================= */
@@ -1334,6 +1373,18 @@
   }
 
   /* ---- 约课模式切换 ---- */
+  /* ---- 约课：课程切换标签（只展示可约 start 课程，按最近一次完课时间倒序） ---- */
+  function renderBookChips(){
+    const box = document.getElementById('bkChips');
+    if(!box) return;
+    // 只展示可约课程：非 AI、status=start 且仍有可约课时（已约满不进胶囊）
+    const list = coursesFor(CC.mode)
+      .filter(c => c.type !== 'ai' && c.status === 'start' && (c.bookable === undefined || c.bookable > 0))
+      .sort((a,b) => (b.lastStudyTS || '').localeCompare(a.lastStudyTS || ''));
+    box.innerHTML = list.map((c,i) =>
+      `<div class="chip-sm${i===0?' on':''}" onclick="pickCourse(this,'${c.short || c.name}')">${c.short || c.name}</div>`).join('');
+  }
+
   function pickCourse(el,name){
     el.parentElement.querySelectorAll('.chip-sm').forEach(c=>c.classList.remove('on'));
     el.classList.add('on');
@@ -1356,6 +1407,7 @@
   function init(){
     renderNext();
     renderCC();
+    renderBookChips();
     renderCal();
     renderSched();
     renderTeachers();
