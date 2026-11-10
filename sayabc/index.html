@@ -280,7 +280,8 @@
   .daygrp.first{margin-top:0;}
   .daygrp.flash{animation:grpflash 1.1s ease;}
   @keyframes grpflash{0%{background:#dcf6e7;}100%{background:transparent;}}
-  .flt{display:flex;align-items:center;gap:8px;background:#eaf7ef;color:var(--green-dark);font-size:11.5px;font-weight:700;padding:7px 12px;border-radius:10px;margin-bottom:10px;}
+  #schedHead{position:sticky;top:0;z-index:6;margin:0 -18px;padding:18px 18px 8px;background:var(--bg);box-shadow:0 8px 14px -10px rgba(30,60,45,.14);}
+  #schedHead .cal-card{margin-top:0;}
   .flt span{margin-left:auto;font-weight:700;cursor:pointer;color:#5a7a68;}
   /* lesson card */
   .les-card{position:relative;overflow:hidden;padding:14px 15px 14px 18px;margin-bottom:12px;}
@@ -537,6 +538,7 @@
 
       <!-- ============ 课表 ============ -->
       <div class="page" id="page-sched">
+        <div id="schedHead">
         <div class="card cal-card">
           <div class="cal-head">
             <b id="calTitle">2026年11月</b>
@@ -558,7 +560,7 @@
           <div class="seg-item on" data-seg="up" onclick="pickSeg(this,'up')">已约待上<em id="cntUp"></em></div>
           <div class="seg-item" data-seg="done" onclick="pickSeg(this,'done')">完课记录<em id="cntDone"></em></div>
         </div>
-        <div id="filterBar"></div>
+        </div>
         <div id="seg-up"></div>
         <div id="seg-done" style="display:none"></div>
       </div>
@@ -959,6 +961,7 @@
     renderCal();
   }
   function calPick(s){
+    if(CAL.sel === s){ clearFilter(); return; }   // 再次点击同一天：取消选中并回到列表顶部
     CAL.sel = s;
     const d = s2d(s);
     const a = s2d(CAL.anchor);
@@ -975,11 +978,12 @@
     }
     if(!el) return false;
     const page = document.getElementById('page-sched');
-    page.scrollTop = Math.max(el.offsetTop - 6, 0);
+    const headH = document.getElementById('schedHead').offsetHeight;   // 吸顶的日历+切换区
+    page.scrollTop = Math.max(el.offsetTop - headH - 4, 0);
     el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
     return true;
   }
-  function clearFilter(){ CAL.sel = null; renderCal(); renderSched(); }
+  function clearFilter(){ CAL.sel = null; renderCal(); renderSched(); document.getElementById('page-sched').scrollTop = 0; }
 
   function calTitle(){
     const d = s2d(CAL.anchor);
@@ -1091,7 +1095,7 @@
     if(up){
       const enterBtn = canEnter
         ? `<button class="btn r-enter on" onclick="enterRoom(true)"><b>${PLAY}进入教室</b></button>`
-        : `<button class="btn r-enter off" onclick="enterRoom(false)"><b>${PLAY}进入教室</b><small>课前 10 分钟开放</small></button>`;
+        : `<button class="btn r-enter off" onclick="enterRoom(false)"><b>${PLAY}进入教室</b></button>`;
       tasksSec = `<div class="tasks">${tasksHead(l.tasks)}${taskTiles(l.tasks, true, true)}</div>`;
       actions = `<div class="up-btns">
           ${enterBtn}
@@ -1164,11 +1168,6 @@
     // 默认展示全部（不按日期过滤），点日期只做定位滚动
     document.getElementById('seg-up').innerHTML   = build(ups, 'up');
     document.getElementById('seg-done').innerHTML = build(dns, 'done');
-
-    const f = CAL.sel;
-    document.getElementById('filterBar').innerHTML = f
-      ? `<div class="flt">已定位 ${md(f)} ${wd(f)} · ${lessonsOn(f).length} 节课<span onclick="clearFilter()">清除 ✕</span></div>`
-      : '';
   }
 
   function cancelLesson(id){
