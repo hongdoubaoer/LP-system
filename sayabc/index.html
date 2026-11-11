@@ -432,14 +432,14 @@
   .ring-fg{fill:none;stroke:var(--green);stroke-width:6.5;stroke-linecap:round;}
   .ring-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:900;color:var(--green-dark);font-variant-numeric:tabular-nums;}
   .sh-lv{font-size:10px;color:#6b7a71;font-weight:700;white-space:nowrap;}
-  /* 未付费运营入口（学习资料 / 了解我们） */
-  .ops-row{display:flex;gap:12px;padding:13px;}
-  .op{flex:1;display:flex;align-items:center;gap:10px;background:#f8fbf9;border-radius:14px;padding:12px 12px;cursor:pointer;}
+  /* 未付费运营入口（学习资料 / 了解我们 / 课程顾问 三宫格，无副文案） */
+  .ops-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px;}
+  .op{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;background:#f8fbf9;border-radius:14px;padding:13px 4px;cursor:pointer;}
   .op:active{background:#eff6f1;}
-  .op .oi{width:38px;height:38px;border-radius:12px;background:#fff6de;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-  .op:last-child .oi{background:#e8f3ff;}
-  .op b{display:block;font-size:13px;font-weight:800;}
-  .op small{display:block;font-size:10.5px;color:var(--sub);margin-top:2px;}
+  .op .oi{width:36px;height:36px;border-radius:12px;background:#fff6de;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+  .op:nth-child(2) .oi{background:#e8f3ff;}
+  .op:nth-child(3) .oi{background:#e6f7ee;}
+  .op b{display:block;font-size:12.5px;font-weight:800;color:#22352b;white-space:nowrap;}
   /* 试听课转化位（游客 / 未付费未约体验课） */
   .trial-cta{display:flex;align-items:center;gap:12px;padding:14px;background:linear-gradient(135deg,#fff6e5,#ffe9c9);border:1.5px solid #ffe2b8;cursor:pointer;}
   .trial-cta .tc-l{flex:1;min-width:0;}
@@ -624,10 +624,11 @@
           </div>
         </div>
 
-        <!-- ③b 运营入口（游客 / 未付费展示） -->
+        <!-- ③b 运营入口（游客 / 未付费展示：学习资料 / 了解我们 / 课程顾问） -->
         <div class="card ops-row" id="opsRow" style="margin-top:12px;display:none">
-          <div class="op" onclick="toast('跳转公众号：关注并领取学习资料包')"><span class="oi">📚</span><span><b>学习资料</b><small>关注公众号领取资料包</small></span></div>
-          <div class="op" onclick="toast('打开课程介绍 H5')"><span class="oi">👥</span><span><b>了解我们</b><small>了解课程与服务</small></span></div>
+          <div class="op" onclick="toast('跳转公众号：关注并领取学习资料包')"><span class="oi">📚</span><b>学习资料</b></div>
+          <div class="op" onclick="toast('打开课程介绍 H5')"><span class="oi">👥</span><b>了解我们</b></div>
+          <div class="op" onclick="openCons()"><span class="oi">🎧</span><b>课程顾问</b></div>
         </div>
 
         <!-- ③c 试听课转化位（仅游客 / 未付费未约体验课展示） -->
@@ -1279,7 +1280,7 @@
     if(vis && (document.getElementById('page-book').classList.contains('active') ||
                document.getElementById('page-sched').classList.contains('active'))) switchTab('home');
     // 首页模块可见性
-    document.getElementById('opsRow').style.display   = showOps() ? 'flex' : 'none';
+    document.getElementById('opsRow').style.display   = showOps() ? 'grid' : 'none';
     document.getElementById('trialCta').style.display = showTrialCta() ? 'flex' : 'none';
     document.getElementById('nextSec').style.display  = showCenter() ? 'block' : 'none';
     document.getElementById('ccSec').style.display    = showCenter() ? 'block' : 'none';
