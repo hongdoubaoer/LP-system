@@ -69,18 +69,22 @@
   .logo .dot1,.logo .dot2{display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:3px;}
   .dot1{background:#ffcf3d;} .dot2{background:#ff8a3d;}
   .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ffd76e,#ff9d5c);display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.08);flex-shrink:0;}
-  /* ============ 下一次课 ============ */
-  .next-card{padding:16px 16px 14px;margin-top:2px;cursor:pointer;position:relative;overflow:hidden;
-    background:linear-gradient(178deg,#ffffff 0%,#fbfffc 100%);border-color:#e6f5ec;box-shadow:var(--sh-float);}
-  .nc-top{display:flex;align-items:flex-end;gap:9px;}
-  .nc-day{font-size:11px;font-weight:800;color:#fff;background:var(--green);padding:3.5px 9px;border-radius:8px;margin-bottom:4px;white-space:nowrap;}
-  .nc-time{font-size:28px;font-weight:900;color:var(--green);line-height:1;letter-spacing:-.6px;}
-  .nc-cd{margin-left:auto;font-size:11px;font-weight:800;color:#f07a1f;background:#fff4e8;padding:4px 9px;border-radius:8px;white-space:nowrap;}
-  .nc-name{font-size:15.5px;font-weight:800;margin-top:10px;line-height:1.35;padding-right:6px;letter-spacing:-.2px;}
-  .nc-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:6px;font-size:11.5px;color:var(--sub);}
-  .nc-meta .ava{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;background:#e8f3ff;flex-shrink:0;}
-  .nc-meta .dot{color:#d5ddd8;}
-  .nc-bar{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:11px;border-top:1px dashed var(--line);}
+  /* ============ 下一次课（绿色顶栏卡片） ============ */
+  .next-card{padding:0;margin-top:2px;cursor:pointer;position:relative;overflow:hidden;background:#fff;border-color:#e6f5ec;box-shadow:var(--sh-float);}
+  .nc2-top{display:flex;align-items:center;gap:7px;background:linear-gradient(92deg,#17c26e,#0eb25f);color:#fff;padding:11px 14px;font-size:12.5px;font-weight:800;}
+  .nc2-top .cal{font-size:13px;line-height:1;}
+  .nc2-top .sep{opacity:.5;font-weight:400;}
+  .nc2-badge{margin-left:auto;font-size:10.5px;font-weight:800;color:#8a5a00;background:#ffd84d;padding:3.5px 10px;border-radius:999px;white-space:nowrap;}
+  .nc2-body{display:flex;gap:12px;padding:13px 14px 4px;}
+  .nc2-thumb{width:86px;height:74px;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:34px;}
+  .nc2-info{flex:1;min-width:0;}
+  .nc2-tags{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+  .tag-dur{background:#fff4e8;color:#f07a1f;}
+  .nc2-name{font-size:15px;font-weight:900;margin-top:6px;letter-spacing:-.2px;line-height:1.35;}
+  .nc2-line{font-size:11.5px;color:var(--sub);margin-top:3px;}
+  .nc2-teacher{display:flex;align-items:center;gap:6px;margin-top:7px;font-size:11.5px;color:#5a665f;font-weight:600;}
+  .nc2-teacher .ava{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;}
+  .nc2-bar{display:flex;align-items:center;gap:8px;margin-top:10px;padding:10px 14px 13px;border-top:1px dashed var(--line);}
   .nc-task{font-size:11.5px;color:#8a6a4c;display:inline-flex;align-items:center;gap:4px;background:#fff4e8;padding:5px 10px;border-radius:999px;font-weight:700;}
   .nc-task b{color:#f07a1f;font-weight:800;}
   .nc-seg{display:inline-flex;gap:3px;margin-left:5px;}
@@ -95,10 +99,15 @@
   .nc-empty p{font-size:14px;font-weight:800;}
   .nc-empty small{display:block;font-size:11.5px;color:var(--sub);margin-top:6px;line-height:1.75;}
   .nc-empty .btn{margin-top:12px;padding:7px 18px;font-size:12.5px;}
-  /* kingkong (6) */
-  .kingkong{display:flex;justify-content:space-between;padding:18px 10px 16px;}
-  .kk{display:flex;flex-direction:column;align-items:center;gap:7px;font-size:10.5px;color:#425049;cursor:pointer;width:48px;letter-spacing:.1px;}
-  .kk-ico{width:46px;height:46px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:21px;box-shadow:0 6px 14px -6px rgba(16,44,30,.22);}
+  /* 学习资源双列瓷片 */
+  .res-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .res-card{display:flex;align-items:center;justify-content:space-between;border-radius:16px;padding:19px 14px;cursor:pointer;font-size:14px;font-weight:800;color:#3d4d44;box-shadow:0 6px 14px -8px rgba(16,44,30,.14);transition:.15s;}
+  .res-card:active{transform:scale(.98);}
+  .res-card .r-ico{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(255,255,255,.8);box-shadow:0 3px 8px rgba(16,44,30,.1);flex-shrink:0;}
+  .r-audio{background:linear-gradient(135deg,#e3f7ec,#d0f0df);}
+  .r-ct{background:linear-gradient(135deg,#ffe7ef,#ffd8e5);}
+  .r-video{background:linear-gradient(135deg,#d9f6e3,#c2eeda);}
+  .r-ls{background:linear-gradient(135deg,#e4f0ff,#d2e5ff);}
   /* banner carousel */
   .carousel{border-radius:var(--r-lg);overflow:hidden;position:relative;box-shadow:0 12px 26px -14px rgba(255,110,40,.55);}
   .slides{display:flex;transition:transform .45s ease;}
@@ -128,21 +137,23 @@
   .cc-head{flex:1;min-width:0;}
   .course-name{font-size:14.5px;font-weight:800;line-height:1.4;letter-spacing:-.1px;}
   .cc-tags{display:flex;align-items:center;flex-wrap:wrap;margin-top:5px;}
-  .course-prog{background:#f6faf8;border-radius:14px;padding:10px 12px 11px;margin-top:11px;}
-  .lv-row{display:flex;align-items:baseline;justify-content:space-between;}
-  .lv-now{font-size:11.5px;color:#6b7a71;font-weight:600;}
-  .lv-now b{font-size:15px;font-weight:900;color:var(--text);letter-spacing:-.2px;margin-left:2px;}
-  .lv-next{font-size:11px;color:#6b7a71;font-weight:600;}
-  .lv-next b{font-size:14px;font-weight:900;color:var(--green-dark);font-variant-numeric:tabular-nums;margin:0 1px;}
-  .progress{height:5px;border-radius:3px;background:#eef1ef;margin-top:5px;overflow:hidden;}
+  .course-prog{background:#f6faf8;border-radius:14px;padding:11px 13px 12px;margin-top:11px;display:flex;align-items:center;gap:12px;}
+  .cp-col{flex:1;min-width:0;}
+  .progress{height:5px;border-radius:3px;background:#e4ece7;overflow:hidden;}
   .progress i{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,#2ee07f,var(--green));}
-  .lv-bar{display:flex;align-items:center;gap:8px;margin-top:8px;}
-  .lv-bar .progress{flex:1;margin-top:0;height:7px;background:#e4ece7;}
-  .lv-bar .pct{font-size:11px;font-weight:800;color:var(--green-dark);font-variant-numeric:tabular-nums;min-width:28px;text-align:right;}
+  .cc-line{font-size:11.5px;color:var(--sub);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cp-lb{font-size:10.5px;color:#6b7a71;font-weight:600;display:flex;align-items:baseline;justify-content:space-between;white-space:nowrap;}
+  .cp-lb b{font-size:13px;font-weight:900;color:var(--text);font-variant-numeric:tabular-nums;}
+  .cp-col .progress{margin-top:6px;}
+  .cp-div{width:1px;height:32px;background:#e4ece7;flex-shrink:0;}
+  .cp-right{text-align:right;}
+  .cp-right .cp-lb{justify-content:flex-end;}
+  .cp-val{font-size:11px;color:#6b7a71;font-weight:600;margin-top:5px;white-space:nowrap;}
+  .cp-val b{font-size:14px;font-weight:900;color:var(--green-dark);margin:0 1px;font-variant-numeric:tabular-nums;}
   .cc-foot{display:flex;align-items:center;gap:10px;margin-top:11px;padding-top:10px;border-top:1px dashed var(--line);font-size:11px;color:var(--sub);}
   .cc-foot .last-blk{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
-  .last-blk .lb-t{font-size:10.5px;color:var(--sub);white-space:nowrap;}
-  .last-blk .lb-t b{color:#5a665f;font-weight:700;font-variant-numeric:tabular-nums;}
+  .cc-foot .lb-t{font-size:11px;color:var(--sub);white-space:nowrap;}
+  .cc-foot .lb-t b{color:#5a665f;font-weight:700;font-variant-numeric:tabular-nums;}
   .last-blk .lb-v{font-size:12px;font-weight:800;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .cc-foot.no-last{justify-content:flex-end;}
   .cc-foot .sep{color:#dfe6e1;}
@@ -245,9 +256,10 @@
   .cal-card{padding:14px 12px 12px;margin-top:18px;}
   .cal-head{display:flex;align-items:center;padding:0 4px 8px;}
   .cal-head b{font-size:15px;font-weight:800;}
-  .cal-view{margin-left:auto;display:flex;background:#f1f5f2;border-radius:9px;padding:3px;}
-  .cv{font-size:11.5px;font-weight:700;color:var(--sub);padding:4px 11px;border-radius:7px;cursor:pointer;transition:.15s;}
-  .cv.on{background:#fff;color:var(--green-dark);box-shadow:0 2px 6px rgba(20,60,40,.1);}
+  .cal-view{margin-left:auto;display:flex;}
+  .today-chip{font-size:10.5px;font-weight:700;color:var(--green-dark);background:#eefaf3;border-radius:999px;padding:3px 10px;}
+  .cal-arrow{width:26px;height:26px;border-radius:9px;background:#f1f5f2;color:var(--green-dark);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;font-style:normal;cursor:pointer;transition:.15s;margin-left:auto;}
+  .cal-arrow:active{transform:scale(.9);}
   .cal-nav{display:flex;align-items:center;justify-content:space-between;padding:0 4px 6px;}
   .cal-nav i{font-style:normal;font-size:17px;color:#8a968f;cursor:pointer;width:26px;height:22px;display:flex;align-items:center;justify-content:center;}
   .cal-nav span{font-size:11px;color:var(--sub);font-variant-numeric:tabular-nums;}
@@ -394,6 +406,90 @@
   .mrow + .mrow{border-top:1px solid var(--line);}
   .mrow .mi{margin-right:10px;font-size:17px;}
   .mrow .arr{margin-left:auto;color:#c8d0cb;font-size:14px;}
+  /* home 右上角：顾问 icon + 家庭头像 */
+  .top-right{display:flex;align-items:center;gap:10px;}
+  .cons-ico{width:36px;height:36px;border-radius:50%;background:#fff;border:1.5px solid #e0ebe4;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;box-shadow:0 2px 8px rgba(20,60,40,.08);flex-shrink:0;}
+  .cons-ico:active{transform:scale(.94);}
+  /* 首页学习数据：绿色渐变大卡（家长维度；多孩按孩子各一张卡） */
+  .study-cards{display:flex;flex-direction:column;gap:12px;}
+  .study-hero{background:linear-gradient(135deg,#3ecf8e,#12b76a 55%,#0aa65a);border:none;border-radius:var(--r-lg);padding:16px 14px 14px;box-shadow:0 14px 26px -14px rgba(14,150,90,.5);}
+  .sh-head{display:flex;align-items:center;color:#fff;font-size:15px;font-weight:900;letter-spacing:.2px;padding:0 3px;}
+  .sh-head .stu-chip2{margin-left:8px;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.24);border-radius:999px;padding:2.5px 10px 2.5px 3px;font-size:11px;font-weight:700;}
+  .sh-head .stu-chip2 .avatar{width:20px;height:20px;font-size:11px;border-width:1px;}
+  .sh-head .more{margin-left:auto;font-size:11px;font-weight:600;color:rgba(255,255,255,.92);cursor:pointer;white-space:nowrap;}
+  .sh-panel{display:flex;align-items:center;background:rgba(255,255,255,.95);border-radius:16px;margin-top:12px;padding:13px 6px;}
+  .sh-stat{flex:1;text-align:center;}
+  .sh-stat b{font-size:23px;font-weight:900;color:var(--text);letter-spacing:-.5px;font-variant-numeric:tabular-nums;}
+  .sh-stat .u{font-size:11px;color:#6b7a71;font-weight:700;margin-left:1px;}
+  .sh-stat .lb{display:block;font-size:10.5px;color:var(--sub);margin-top:5px;font-weight:600;}
+  .sh-stat + .sh-stat{border-left:1px solid #eef2ef;}
+  .sh-ring{display:flex;flex-direction:column;align-items:center;gap:5px;padding:0 4px 0 10px;}
+  .ring-wrap{position:relative;width:58px;height:58px;}
+  .ring-wrap svg{width:58px;height:58px;transform:rotate(-90deg);display:block;}
+  .ring-bg{fill:none;stroke:#e6f0ea;stroke-width:6.5;}
+  .ring-fg{fill:none;stroke:var(--green);stroke-width:6.5;stroke-linecap:round;}
+  .ring-txt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:900;color:var(--green-dark);font-variant-numeric:tabular-nums;}
+  .sh-lv{font-size:10px;color:#6b7a71;font-weight:700;white-space:nowrap;}
+  /* 未付费运营入口（学习资料 / 了解我们） */
+  .ops-row{display:flex;gap:12px;padding:13px;}
+  .op{flex:1;display:flex;align-items:center;gap:10px;background:#f8fbf9;border-radius:14px;padding:12px 12px;cursor:pointer;}
+  .op:active{background:#eff6f1;}
+  .op .oi{width:38px;height:38px;border-radius:12px;background:#fff6de;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+  .op:last-child .oi{background:#e8f3ff;}
+  .op b{display:block;font-size:13px;font-weight:800;}
+  .op small{display:block;font-size:10.5px;color:var(--sub);margin-top:2px;}
+  /* 首页运营区 Tab 轮播（活动福利 / 学习资源） */
+  .hz-tabs{display:flex;gap:8px;margin-bottom:12px;}
+  .hz-tab{padding:6px 15px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:12.5px;font-weight:700;color:var(--sub);cursor:pointer;transition:.15s;}
+  .hz-tab.on{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 3px 8px rgba(14,196,99,.28);}
+  .mkt-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:12px;}
+  .mkt-hero{background:linear-gradient(135deg,#2ec989,#0aa65a);border-radius:16px;padding:16px 14px;cursor:pointer;color:#fff;position:relative;overflow:hidden;min-height:148px;display:flex;flex-direction:column;box-shadow:0 12px 22px -12px rgba(14,150,90,.5);}
+  .mkt-hero b{font-size:16px;font-weight:900;letter-spacing:.2px;}
+  .mkt-hero small{font-size:11px;opacity:.92;line-height:1.6;margin-top:6px;}
+  .mh-btn{align-self:flex-start;margin-top:auto;background:#fff;color:#0a8f4d;font-size:11.5px;font-weight:800;border-radius:999px;padding:5px 13px;}
+  .mh-ico{position:absolute;right:8px;bottom:2px;font-size:44px;transform:rotate(-8deg);filter:drop-shadow(0 3px 5px rgba(0,0,0,.15));}
+  .mkt-side{display:flex;flex-direction:column;gap:12px;}
+  .mkt-sm{flex:1;border-radius:16px;padding:13px 14px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;}
+  .mkt-sm b{font-size:13.5px;font-weight:900;}
+  .mkt-sm small{font-size:10.5px;margin-top:4px;font-weight:600;display:flex;align-items:center;gap:4px;}
+  .ms-task{background:#faf0da;color:#6a4a08;}
+  .ms-task small{color:#96650c;}
+  .ms-poster{background:#e4f0ff;color:#123f66;}
+  .ms-poster small{color:#2f6ea5;}
+  .ms-badge{background:#e24b4a;color:#fff;font-size:9.5px;font-weight:800;border-radius:999px;padding:1px 6px;font-style:normal;}
+  /* 课表当前孩子入口（仅多孩，点击弹窗选择） */
+  .stu-switch{display:flex;margin:0 2px 10px;}
+  .stu-cur{display:inline-flex;align-items:center;gap:7px;padding:5px 12px 5px 6px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:12.5px;font-weight:800;color:#3d4d44;cursor:pointer;}
+  .stu-cur .avatar{width:24px;height:24px;font-size:12px;border-width:1px;}
+  .stu-cur .caret{font-size:10px;color:#9aa6a0;font-style:normal;}
+  .stu-cur .hint{font-size:10.5px;font-weight:600;color:var(--sub);}
+  /* 孩子选择弹窗 */
+  .kid-list{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+  .kid-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:#f8fbf9;border:1.5px solid transparent;cursor:pointer;}
+  .kid-row:active{background:#eff6f1;}
+  .kid-row .avatar{width:36px;height:36px;font-size:17px;border-width:1.5px;}
+  .kid-row .kn{font-size:14px;font-weight:800;}
+  .kid-row .kc{margin-left:auto;font-size:11px;font-weight:700;color:var(--sub);}
+  .kid-row.on{border-color:var(--green);background:var(--green-light);}
+  .kid-row.on .kc{color:var(--green-dark);}
+  /* 课程中心多孩分组头 */
+  .cc-stu-head{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;color:#3d4d44;margin:4px 2px 10px;}
+  .cc-stu-head .avatar{width:26px;height:26px;font-size:13px;border-width:1.5px;}
+  .cc-stu-head + .course-card{margin-top:0;}
+  /* banner 第 4 张：未付费体验课转化 */
+  .s4{background:linear-gradient(120deg,#3ec98a,#0ec463 60%,#08a052);}
+  .s4 .b-btn{color:#0a9a54;}
+  /* 课程顾问弹层 */
+  .cons-panel{text-align:center;padding-top:4px;}
+  .cons-panel .sheet-head{text-align:left;}
+  .cons-qr{width:132px;height:132px;margin:4px auto 12px;border-radius:16px;border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;background:#fff;}
+  .cons-name{font-size:15px;font-weight:900;}
+  .cons-sub{font-size:11.5px;color:var(--sub);margin-top:4px;}
+  .cons-wx{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:#f1f5f2;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:700;color:#3d4d44;}
+  .cons-wx b{color:var(--text);font-variant-numeric:tabular-nums;}
+  .cons-wx span{cursor:pointer;color:var(--green-dark);font-weight:800;}
+  .cons-tip{font-size:10.5px;color:#a8b2ac;margin-top:10px;line-height:1.7;}
+  .cons-panel .btn-green{width:100%;margin-top:14px;padding:12px 0;font-size:14px;}
   /* toast */
   .toast{position:absolute;left:50%;bottom:120px;transform:translateX(-50%) translateY(20px);background:rgba(20,40,30,.85);color:#fff;font-size:13px;padding:10px 20px;border-radius:999px;opacity:0;pointer-events:none;transition:.3s;z-index:99;white-space:nowrap;}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
@@ -401,7 +497,7 @@
 </head>
 <body>
   <div class="page-title">SayABC 家长端 · 新版信息架构原型</div>
-  <div class="page-sub">版本一：Banner 置顶（Banner轮播 → 金刚区 → 下一次课 → 课程中心）· 课表日历 本周/整月统一数据 · 约课三模式</div>
+  <div class="page-sub">版本一：Banner 置顶（Banner轮播 → 学习数据 → 瓷片区 → 下一次课 → 课程中心）· 付费/未付费双态 · 单孩/多孩 · 课表日历 · 约课三模式</div>
 
   <div class="demo-bar">
     <span class="lbl">课程状态</span>
@@ -412,6 +508,11 @@
     <span class="lbl" style="margin-left:6px">下一次课</span>
     <span class="dchip on" id="n-has" onclick="demoNext('has')">有课</span>
     <span class="dchip" id="n-none" onclick="demoNext('none')">无课</span>
+    <span class="lbl" style="margin-left:6px">家庭</span>
+    <span class="dchip on" id="f-paid" onclick="demoPaid(true)">付费</span>
+    <span class="dchip" id="f-unpaid" onclick="demoPaid(false)">未付费</span>
+    <span class="dchip on" id="k-one" onclick="demoKids('one')">单孩</span>
+    <span class="dchip" id="k-multi" onclick="demoKids('multi')">多孩</span>
   </div>
 
   <div class="phone">
@@ -422,7 +523,9 @@
       <div class="page active" id="page-home">
         <div class="home-top">
           <div class="logo">SayABC<i class="dot1"></i><i class="dot2"></i></div>
-          <div class="avatar">👦</div>
+          <div class="top-right">
+            <span class="cons-ico" onclick="openCons()" title="添加课程顾问">🎧</span>
+          </div>
         </div>
 
         <!-- ① Banner 轮播 -->
@@ -449,18 +552,56 @@
               <span class="b-btn">立即参与</span>
               <span class="mascot">🎁</span>
             </div>
+            <div class="slide s4" id="slideCons" style="display:none" onclick="openCons()">
+              <span class="spark" style="top:12px;right:150px">✨</span>
+              <h3>免费领取体验课</h3>
+              <p>添加课程顾问，真人外教课 0 元试</p>
+              <span class="b-btn">立即咨询</span>
+              <span class="mascot">🐥</span>
+            </div>
           </div>
-          <div class="dots" id="dots"><i class="on"></i><i></i><i></i></div>
+          <div class="dots" id="dots"><i class="on"></i><i></i><i></i><i id="dot4" style="display:none"></i></div>
         </div>
 
-        <!-- ② 金刚区 -->
-        <div class="card kingkong" style="margin-top:22px">
-          <div class="kk" onclick="toast('了解我们')"><span class="kk-ico" style="background:#e8f3ff">👥</span>了解我们</div>
-          <div class="kk" onclick="toast('学习资料')"><span class="kk-ico" style="background:#fff6de">📚</span>学习资料</div>
-          <div class="kk" onclick="toast('赛事活动')"><span class="kk-ico" style="background:#ffeee0">🏆</span>赛事活动</div>
-          <div class="kk" onclick="toast('视频天地')"><span class="kk-ico" style="background:#ffe9f3">🎬</span>视频天地</div>
-          <div class="kk" onclick="toast('CT测试')"><span class="kk-ico" style="background:#f0eaff">📝</span>CT测试</div>
-          <div class="kk" onclick="toast('蓝思测试')"><span class="kk-ico" style="background:#e6f9ef">🧪</span>蓝思测试</div>
+        <!-- ② 学习数据（仅付费家庭展示；多孩按孩子各一张卡片，标题在渐变卡内） -->
+        <div id="homeStudy" style="margin-top:22px"></div>
+
+        <!-- ③ 运营区 Tab 轮播（活动福利在前 / 学习资源在后；自动轮播 + 手动切换） -->
+        <div id="homeZone" style="margin-top:22px">
+          <div class="hz-tabs">
+            <span class="hz-tab on" id="hzt-mkt" onclick="hzTab('mkt',true)">活动福利</span>
+            <span class="hz-tab" id="hzt-res" onclick="hzTab('res',true)">学习资源</span>
+          </div>
+          <div class="hz-pane" id="hz-mkt">
+            <div class="mkt-grid">
+              <div class="mkt-hero" onclick="toast('打开分享赚课时：邀好友购课双方得课时')">
+                <b>分享赚课时</b><small>邀好友购课<br>双方都得课时</small>
+                <span class="mh-btn">立即邀请</span><span class="mh-ico">🎁</span>
+              </div>
+              <div class="mkt-side">
+                <div class="mkt-sm ms-task" onclick="toast('打开任务中心：做任务得积分')">
+                  <b>任务中心</b><small>做任务得积分 <em class="ms-badge" id="taskBadge">2</em></small>
+                </div>
+                <div class="mkt-sm ms-poster" onclick="toast('生成孩子专属学习海报')">
+                  <b>专属海报</b><small>生成学习成果海报</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hz-pane" id="hz-res" style="display:none">
+            <div class="res-grid">
+              <div class="res-card r-audio" onclick="toast('音频电台')"><b>音频电台</b><span class="r-ico">🎧</span></div>
+              <div class="res-card r-ct" onclick="toast('CT测评')"><b>CT测评</b><span class="r-ico">📝</span></div>
+              <div class="res-card r-video" onclick="toast('视频天地')"><b>视频天地</b><span class="r-ico">▶️</span></div>
+              <div class="res-card r-ls" onclick="toast('蓝思测评')"><b>蓝思测评</b><span class="r-ico">🧪</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ③b 运营入口（仅未付费家庭展示） -->
+        <div class="card ops-row" id="opsRow" style="margin-top:12px;display:none">
+          <div class="op" onclick="toast('跳转公众号：关注并领取学习资料包')"><span class="oi">📚</span><span><b>学习资料</b><small>关注公众号领取资料包</small></span></div>
+          <div class="op" onclick="toast('打开课程介绍 H5')"><span class="oi">👥</span><span><b>了解我们</b><small>了解课程与服务</small></span></div>
         </div>
 
         <!-- ③ 下一次课 -->
@@ -476,9 +617,10 @@
       <!-- ============ 约课 ============ -->
       <div class="page" id="page-book">
         <div class="bk-head">约课中心
-          <div class="bk-stu" onclick="toast('当前仅 1 个学员；多孩时可在此切换学员')">
+          <div class="bk-stu" onclick="openKidSheet('book')" title="切换宝贝">
             <span class="name" id="bkStu">Gghj</span>
-            <span class="avatar">👦</span>
+            <span class="avatar" id="bkStuAva">👦</span>
+            <i class="caret" style="font-size:10px;color:#9aa6a0;font-style:normal">▾</i>
           </div>
         </div>
 
@@ -539,20 +681,21 @@
       <!-- ============ 课表 ============ -->
       <div class="page" id="page-sched">
         <div id="schedHead">
+        <!-- 当前孩子入口（仅多孩家庭展示）：点击弹窗选择 -->
+        <div class="stu-switch" id="stuSwitch" style="display:none">
+          <div class="stu-cur" id="stuCur" onclick="openKidSheet('sched')"></div>
+        </div>
         <div class="card cal-card">
           <div class="cal-head">
             <b id="calTitle">2026年11月</b>
-            <div class="cal-view">
-              <span class="cv on" data-v="week" onclick="calSetView('week')">本周</span>
-              <span class="cv" data-v="month" onclick="calSetView('month')">整月</span>
-            </div>
+            <div class="cal-view"><span class="today-chip">今天 11/09 周一</span></div>
           </div>
           <div class="cal-nav"><i onclick="calStep(-1)">‹</i><span id="calRange"></span><i onclick="calStep(1)">›</i></div>
           <div id="calBody"></div>
           <div class="cal-foot">
             <span class="lg"><i></i>有课</span>
             <span class="lg g"><i></i>已完课</span>
-            <span style="margin-left:auto">今天 11/09 周一</span>
+            <i class="cal-arrow" id="calArrow" onclick="calToggleView()" title="点开展开整月，再点收回本周">▾</i>
           </div>
         </div>
 
@@ -570,15 +713,6 @@
         <div class="me-head">
           <div class="avatar">👨‍👩‍👦</div>
           <div class="uname">144****4444</div>
-        </div>
-
-        <div class="card study-data">
-          <h4>学习数据</h4>
-          <div class="row">
-            <div class="col"><small>本周学习时长</small><b>0 分</b></div>
-            <div class="col"><small>本周学习天数</small><b>0 天</b></div>
-            <div class="col"><small>当前级别</small><b>Level 0</b></div>
-          </div>
         </div>
 
         <div class="card me-hours">
@@ -624,6 +758,50 @@
         <div class="sheet-days" id="shDays"></div>
         <div class="slot-grid" id="shSlots"></div>
         <button class="btn btn-green" id="shConfirm" disabled onclick="sheetConfirm()">请选择时段</button>
+      </div>
+    </div>
+
+    <!-- 课程顾问弹层（付费=班主任企微 / 未付费=销售企微，家庭维度） -->
+    <div class="sheet" id="consSheet">
+      <div class="sheet-mask" onclick="consClose()"></div>
+      <div class="sheet-panel cons-panel">
+        <div class="sheet-head">
+          <div><b>添加课程顾问</b><small id="consSub"></small></div>
+          <span class="x" onclick="consClose()">✕</span>
+        </div>
+        <div class="cons-qr">
+          <svg viewBox="0 0 44 44" width="96" height="96">
+            <rect width="44" height="44" fill="#fff"/>
+            <g fill="#172a21">
+              <rect x="2" y="2" width="12" height="12"/><rect x="30" y="2" width="12" height="12"/><rect x="2" y="30" width="12" height="12"/>
+              <rect x="5" y="5" width="6" height="6" fill="#fff"/><rect x="33" y="5" width="6" height="6" fill="#fff"/><rect x="5" y="33" width="6" height="6" fill="#fff"/>
+              <rect x="7" y="7" width="2" height="2"/><rect x="35" y="7" width="2" height="2"/><rect x="7" y="35" width="2" height="2"/>
+              <rect x="20" y="2" width="3" height="3"/><rect x="24" y="6" width="3" height="3"/><rect x="20" y="10" width="3" height="3"/>
+              <rect x="2" y="20" width="3" height="3"/><rect x="8" y="24" width="3" height="3"/><rect x="14" y="20" width="3" height="3"/>
+              <rect x="20" y="20" width="4" height="4"/><rect x="26" y="24" width="3" height="3"/><rect x="32" y="20" width="3" height="3"/>
+              <rect x="38" y="24" width="3" height="3"/><rect x="20" y="28" width="3" height="3"/><rect x="24" y="32" width="3" height="3"/>
+              <rect x="30" y="32" width="3" height="3"/><rect x="36" y="36" width="3" height="3"/><rect x="20" y="38" width="3" height="3"/>
+              <rect x="28" y="38" width="3" height="3"/><rect x="12" y="30" width="3" height="3"/>
+            </g>
+          </svg>
+        </div>
+        <div class="cons-name" id="consName">Claire 老师</div>
+        <div class="cons-sub" id="consRole">班主任 · 已付费家庭专属服务</div>
+        <div class="cons-wx">微信号 <b id="consWx">SayABC-Claire88</b><span onclick="copyWx()">复制</span></div>
+        <div class="cons-tip">长按识别二维码，或复制微信号后添加<br>可咨询课程安排、课时与学习情况</div>
+        <button class="btn btn-green" onclick="copyWx()">复制微信号并去添加</button>
+      </div>
+    </div>
+
+    <!-- 孩子选择弹层（约课/课表切换孩子，仅多孩家庭） -->
+    <div class="sheet" id="kidSheet">
+      <div class="sheet-mask" onclick="kidClose()"></div>
+      <div class="sheet-panel">
+        <div class="sheet-head">
+          <div><b>选择宝贝</b><small>切换后，当前页面的课程信息将随之更新</small></div>
+          <span class="x" onclick="kidClose()">✕</span>
+        </div>
+        <div class="kid-list" id="kidList"></div>
       </div>
     </div>
 
@@ -676,28 +854,37 @@
 
   /* ================= 排课数据（日历 / 课表 / 下一次课 共用一份） ================= */
   const LESSONS = [
-    { id:'u1', date:'2026-11-09', time:'20:30', type:'main', state:'up',
+    { id:'u1', stu:'gghj', date:'2026-11-09', time:'20:30', type:'main', state:'up',
       course:'原版英语课（L0–L4，25分钟/课）', short:'原版英语课（L0–L4）', line:'Level 0 · Unit 2 · Lesson 1',
       teacher:'Franco Tiger', tava:'👩‍🏫', abg:'#e8f3ff', rank:'即将上课', tasks:2 },
-    { id:'u2', date:'2026-11-13', time:'15:00', type:'spec', state:'up',
+    { id:'u2', stu:'gghj', date:'2026-11-13', time:'15:00', type:'spec', state:'up',
       course:'自然拼读强化班（L1–L3）', short:'自然拼读强化班', line:'Level 1 · Unit 1 · Lesson 3',
       teacher:'Dialogue DEMO', tava:'🧑‍🏫', abg:'#fff6de', rank:'已约待上', tasks:0 },
-    { id:'u3', date:'2026-11-15', time:'19:00', type:'main', state:'up',
+    { id:'u3', stu:'gghj', date:'2026-11-15', time:'19:00', type:'main', state:'up',
       course:'原版英语课（L0–L4，25分钟/课）', short:'原版英语课（L0–L4）', line:'Level 0 · Unit 2 · Lesson 2',
       teacher:'Emma Collins', tava:'🧑‍🏫', abg:'#e8f3ff', rank:'已约待上', tasks:0 },
-    { id:'d1', date:'2026-11-08', time:'15:00', type:'spec', state:'done',
+    { id:'u4', stu:'mia', date:'2026-11-10', time:'17:00', type:'main', state:'up',
+      course:'原版英语课（L0–L4，25分钟/课）', short:'原版英语课（L0–L4）', line:'Level 2 · Unit 3 · Lesson 2',
+      teacher:'Sophie Lee', tava:'👩‍🏫', abg:'#f0eaff', rank:'已约待上', tasks:1 },
+    { id:'d1', stu:'gghj', date:'2026-11-08', time:'15:00', type:'spec', state:'done',
       course:'自然拼读强化班（L1–L3）', short:'自然拼读强化班', line:'Level 1 · Unit 1 · Lesson 2',
       teacher:'Dialogue DEMO', tava:'🧑‍🏫', abg:'#fff6de', rank:'已完成' },
-    { id:'d2', date:'2026-11-05', time:'17:00', type:'main', state:'done',
+    { id:'d2', stu:'gghj', date:'2026-11-05', time:'17:00', type:'main', state:'done',
       course:'原版英语课（L0–L4，25分钟/课）', short:'原版英语课（L0–L4）', line:'Level 0 · Unit 2 · Lesson 1',
       teacher:'Franco Tiger', tava:'👩‍🏫', abg:'#e8f3ff', rank:'学生缺席' },
-    { id:'d3', date:'2026-11-02', time:'19:30', type:'main', state:'done',
+    { id:'d3', stu:'gghj', date:'2026-11-02', time:'19:30', type:'main', state:'done',
       course:'原版英语课（L0–L4，25分钟/课）', short:'原版英语课（L0–L4）', line:'Level 0 · Unit 1 · Lesson 5',
-      teacher:'Emma Collins', tava:'🧑‍🏫', abg:'#e8f3ff', rank:'已完成' }
+      teacher:'Emma Collins', tava:'🧑‍🏫', abg:'#e8f3ff', rank:'已完成' },
+    { id:'d4', stu:'mia', date:'2026-11-07', time:'16:00', type:'main', state:'done',
+      course:'原版英语课（L0–L4，25分钟/课）', short:'原版英语课（L0–L4）', line:'Level 2 · Unit 3 · Lesson 1',
+      teacher:'Sophie Lee', tava:'👩‍🏫', abg:'#f0eaff', rank:'已完成' }
   ];
-  const lessonsOn = s => LESSONS.filter(l => l.date === s);
-  const upcoming  = () => LESSONS.filter(l => l.state==='up').sort((a,b)=> (a.date+a.time).localeCompare(b.date+b.time));
-  const completed = () => LESSONS.filter(l => l.state==='done').sort((a,b)=> (b.date+b.time).localeCompare(a.date+a.time));
+  const SCHED = { stu:'gghj' };                                   // 课表页当前孩子（仅多孩可切换）
+  const lessonsFor = stu => LESSONS.filter(l => (l.stu || 'gghj') === stu);
+  const lessonsOn = s => lessonsFor(SCHED.stu).filter(l => l.date === s);
+  const upcoming  = () => lessonsFor(SCHED.stu).filter(l => l.state==='up').sort((a,b)=> (a.date+a.time).localeCompare(b.date+b.time));
+  const upcomingAll = () => LESSONS.filter(l => l.state==='up').sort((a,b)=> (a.date+a.time).localeCompare(b.date+b.time));
+  const completed = () => lessonsFor(SCHED.stu).filter(l => l.state==='done').sort((a,b)=> (b.date+b.time).localeCompare(a.date+a.time));
 
   const PLAY = `<svg viewBox="0 0 24 24" width="10" height="10" fill="currentColor" style="vertical-align:-1px;margin-right:3px"><path d="M8 5l11 7-11 7z"/></svg>`;
 
@@ -721,34 +908,51 @@
       </div>`;
   }
 
+  // 下一次课 · 未付费引导态：转化导向（约体验课 / 咨询顾问）
+  function nextLeadHTML(){
+    return `<div class="card nc-empty">
+        <span class="em">🎈</span>
+        <p>还没有安排课程</p>
+        <small>先给孩子约一节体验课，感受真实课堂<br>也可以添加课程顾问了解课程详情</small>
+        <div style="display:flex;gap:8px;justify-content:center">
+          <button class="btn btn-ghost" onclick="openCons()">咨询顾问</button>
+          <button class="btn btn-green" onclick="switchTab('book')">约体验课</button>
+        </div>
+      </div>`;
+  }
+
   function renderNext(){
     const box = document.getElementById('nextBox');
+    if(!FAMILY.paid){ box.innerHTML = nextLeadHTML(); return; }   // 未付费：固定引导态
     if(NEXT.mode === 'none'){ box.innerHTML = nextEmptyHTML(); return; }
-    const list = upcoming();
-    const c = list[0];
+    const c = upcomingAll()[0];                                   // 家长维度：取所有孩子最近一节已约课
     if(!c){ box.innerHTML = nextEmptyHTML(); return; }
     const mins = (toMin(c.time) - NOW_MIN);
     const cd = diffDays(c.date, TODAY);
     const cdText = cd > 0 ? `还有 ${cd} 天` : (mins > 0 ? `距上课 ${Math.floor(mins/60)} 小时 ${pad(mins%60)} 分` : '已到上课时间');
     const canEnter = cd === 0 && mins <= 10;
 
+    const dur = (c.course.match(/(\d+)分钟/) || [])[1];
     box.innerHTML = `
       <div class="card next-card" onclick="switchTab('sched')">
-        <div class="nc-top">
-          <span class="nc-day">${dayLabel(c.date)} ${md(c.date)}</span>
-          <span class="nc-time">${c.time}</span>
-          <span class="nc-cd">${cdText}</span>
+        <div class="nc2-top">
+          <span class="cal">📅</span><span>${dayLabel(c.date)} ${md(c.date)}</span>
+          <span class="sep">|</span><span>${c.time}</span>
+          <span class="nc2-badge">${cdText}</span>
         </div>
-        <div class="nc-name">${c.course}</div>
-        <div class="nc-meta">
-          <span class="tag ${c.type==='main'?'tag-main':'tag-spec'}">${c.type==='main'?'主修课':'专项课'}</span>
-          <span>${c.line}</span>
+        <div class="nc2-body">
+          <div class="nc2-thumb" style="background:${c.abg}">📚</div>
+          <div class="nc2-info">
+            <div class="nc2-tags">
+              <span class="tag ${c.type==='main'?'tag-main':'tag-spec'}">${c.type==='main'?'主讲课':'专项课'}</span>
+              ${dur ? `<span class="tag tag-dur">${dur}分钟/节</span>` : ''}
+            </div>
+            <div class="nc2-name">${c.short || c.course}</div>
+            <div class="nc2-line">${c.line}</div>
+            <div class="nc2-teacher"><span class="ava" style="background:${c.abg}">${c.tava}</span>${c.teacher}</div>
+          </div>
         </div>
-        <div class="nc-meta">
-          <span class="ava" style="background:${c.abg}">${c.tava}</span>${c.teacher}
-          
-        </div>
-        <div class="nc-bar">
+        <div class="nc2-bar">
           <span class="nc-task">📋 学习任务 <b>${Math.min(c.tasks, tasksOf(c).length)}/${tasksOf(c).length}</b><span class="nc-seg">${tasksOf(c).map((_,i)=>`<i class="${i<c.tasks?'on':''}"></i>`).join('')}</span></span>
           <button class="nc-go" title="去课表" onclick="event.stopPropagation();gotoLesson('${c.date}')">${PLAY}</button>
         </div>
@@ -772,6 +976,8 @@
   const STUDENTS = {
     gghj: {
       name: 'Gghj',
+      ava: '👦',
+      stats: { days: 3, min: 75, level: 'Level 0', pct: 19, lvNext: 'LV1' },   // 本周学习天数 / 时长(分) / 当前级别 / 级别进度% / 下一级别
       courses: [
         { id:'m1', type:'main', name:'原版英语课（L0–L4，25分钟/课）', short:'原版英语课（L0–L4）', emoji:'🧑‍🏫',
           bg:'linear-gradient(135deg,#d9f6ff,#c2ecff)', tags:[['主修课','tag-main']],
@@ -793,8 +999,27 @@
         { id:'a4', type:'ai', name:'原版阅读指导课', emoji:'📚', bg:'linear-gradient(135deg,#fde8e0,#fbd5c6)',
           tags:[['AI课','tag-ai']], status:'start', cfg:7, lastStudy:'2026/11/02', lastStudyTS:'2026-11-02 09:40', perm:false }
       ]
+    },
+    mia: {
+      name: 'Mia',
+      ava: '👧',
+      stats: { days: 2, min: 50, level: 'Level 2', pct: 41, lvNext: 'LV3' },
+      courses: [
+        { id:'mm1', type:'main', name:'原版英语课（L0–L4，25分钟/课）', short:'原版英语课（L0–L4）', emoji:'🧑‍🏫',
+          bg:'linear-gradient(135deg,#d9f6ff,#c2ecff)', tags:[['主修课','tag-main']],
+          status:'start', cfg:1, lastStudy:'2026/11/07', lastStudyTS:'2026-11-07 16:00', bookable:8,
+          progress:{ line:'Level 2 · Unit 3 · Lesson 2', level:'Level 2', next:'Level 3', percent:41, remain:26 } },
+        { id:'mm2', type:'spec', name:'自然拼读强化班（L1–L3）', short:'自然拼读强化班', emoji:'🔤',
+          bg:'linear-gradient(135deg,#ffe9f3,#ffd0e6)', tags:[['专项课','tag-spec']],
+          status:'not_start', cfg:2, lastStudy:null, progress:null },
+        { id:'ma1', type:'ai', name:'金牌阅读课', emoji:'🥇', bg:'linear-gradient(135deg,#fff4d6,#ffe3a8)',
+          tags:[['AI课','tag-ai']], status:'start', cfg:3, lastStudy:'2026/11/06', lastStudyTS:'2026-11-06 18:30', perm:true }
+      ]
     }
   };
+
+  const FAMILY = { paid:true, kids:'one' };                       // 家庭维度：付费状态 + 单孩/多孩
+  const kidIds = () => FAMILY.kids === 'multi' ? ['gghj','mia'] : ['gghj'];
 
   const CC = { student:'gghj', tab:null, mode:'normal' };
   const courseById = id => STUDENTS[CC.student].courses.find(c => c.id === id);
@@ -818,9 +1043,10 @@
     return m ? `${m[1]}/${p2(m[2])}/${p2(m[3])}` : (s || '');
   };
 
-  // 课程状态演示：normal 原样；full 已约满（L0–L4 无课时可约、L5–L7 已自动开通）；done 已学完
-  function coursesFor(mode){
-    const raw = STUDENTS[CC.student].courses;
+  // 课程状态演示：normal 原样；full 已约满（L0–L4 无课时可约、L5–L7 已自动开通）；done 已学完（样本数据按 Gghj 配置）
+  function coursesFor(mode, stu){
+    const raw = STUDENTS[stu || CC.student].courses;
+    if(stu && stu !== 'gghj') return raw;
     if(mode === 'norecord') return raw.map(c => Object.assign({}, c, { lastStudy:null, lastStudyTS:null, progress:null }));
     if(mode === 'full') return raw.map(c => {
       if(c.id === 'm1') return Object.assign({}, c, { bookable:0 });
@@ -874,26 +1100,29 @@
                 <button class="btn btn-ghost cc-cta" onclick="goStudy('${c.id}',event)">去学习</button>
               </div>`;
     }else{
-      // 主修 / 专项：级别进度块 + 上次学习块 + CTA（按状态判定）
+      // 主修 / 专项：级别行上移到标题下，进度块双列（进度% + 距下一级别课时），底栏仅 上次学习 + CTA
       const p = c.progress;
-      const lastBlk = c.lastStudy
-        ? `<div class="last-blk">
-             <span class="lb-t">上次学习 <b>${ymd(c.lastStudy)}</b></span>
-             ${p ? `<span class="lb-v">${p.line}</span>` : ''}
-           </div>` : '';
+      const dur = (c.name.match(/(\d+)分钟/) || [])[1];
+      const tagsHTML = tags + (dur ? `<span class="tag tag-dur">${dur}分钟/节</span>` : '');
+      const lastBlk = c.lastStudy ? `<span class="lb-t">上次学习 <b>${ymd(c.lastStudy)}</b></span>` : '';
       const bare = !p && !lastBlk;
       const progHTML = p ? `<div class="course-prog">
-                       <div class="lv-row">
-                         <span class="lv-now">当前 <b>${p.level}</b></span>
-                         <span class="lv-next">${p.done ? `已学完全部 <b>${p.total}</b> 课时` : `距 ${p.next} 还有 <b>${p.remain}</b> 课时`}</span>
-                       </div>
-                       <div class="lv-bar"><div class="progress"><i style="width:${p.percent}%"></i></div><span class="pct">${p.percent}%</span></div>
-                     </div>` : '';
+                <div class="cp-col">
+                  <div class="cp-lb">当前课程进度 <b>${p.percent}%</b></div>
+                  <div class="progress"><i style="width:${p.percent}%"></i></div>
+                </div>
+                <div class="cp-div"></div>
+                <div class="cp-col cp-right">
+                  <div class="cp-lb">${p.done ? '已学完全部' : `距 ${p.next} 还剩`}</div>
+                  <div class="cp-val">${p.done ? `<b>${p.total}</b> 课时` : `<b>${p.remain}</b> 课时`}</div>
+                </div>
+              </div>` : '';
       body = `<div class="cc-top">
                 <div class="course-thumb" style="background:${c.bg}">${c.emoji}</div>
                 <div class="cc-head">
-                  <div class="course-name">${c.name}</div>
-                  <div class="cc-tags">${tags}</div>
+                  <div class="course-name">${c.short || c.name}</div>
+                  <div class="cc-tags">${tagsHTML}</div>
+                  ${p ? `<div class="cc-line">${p.line}</div>` : ''}
                 </div>
                 ${bare && cta && !cta.trophy ? `<button class="btn btn-green cc-cta" onclick="${cta.fn}">${cta.label}</button>` : ''}
               </div>
@@ -910,29 +1139,44 @@
 
   function renderCC(){
     // mode 决定课程状态样本：normal / norecord（无学习记录）/ full（已约满）/ done（已学完）
-    const list = coursesFor(CC.mode);
-    const recents = recentCourses(list);
+    // 未付费家庭课程中心固定按「无学习记录」展示（无学习进度与上次学习）
+    const mode = FAMILY.paid ? CC.mode : 'norecord';
+    // 首页为家长维度：单孩直接平铺；多孩按孩子分组展示
+    const kids = kidIds();
+    const itemsForKid = id => {
+      const list = coursesFor(mode, id);
+      const rec = list.filter(c => c.lastStudyTS && c.status !== 'not_start')
+                      .sort((a,b)=> b.lastStudyTS.localeCompare(a.lastStudyTS));
+      return CC.tab === 'recent' ? rec : sortByStatus(list.filter(c => c.type === CC.tab));
+    };
 
+    // Tab 默认态：任一孩子有学习记录 → 最近学习
+    const anyRecent = kids.some(id => coursesFor(mode,id).some(c => c.lastStudyTS && c.status !== 'not_start'));
     const tabs = [
-      { k:'recent', n:'最近学习', show: recents.length > 0 },
+      { k:'recent', n:'最近学习', show: anyRecent },
       { k:'main',   n:'主修课' },
       { k:'spec',   n:'专项课' },
       { k:'ai',     n:'AI课' }
     ].filter(t => t.show !== false);
 
     if(!CC.tab || !tabs.some(t => t.k === CC.tab)){
-      CC.tab = recents.length ? 'recent' : 'main';
+      CC.tab = anyRecent ? 'recent' : 'main';
     }
 
     document.getElementById('ccSeg').innerHTML = tabs.map(t =>
       `<div class="cc-tab${t.k === CC.tab ? ' on' : ''}" onclick="ccTab('${t.k}')">${t.n}</div>`).join('');
 
     const box = document.getElementById('ccList');
-    let items;
-    if(CC.tab === 'recent') items = recents;
-    else items = sortByStatus(list.filter(c => c.type === CC.tab));
-
-    box.innerHTML = items.length ? items.map(courseCardHTML).join('') : emptyHTML();
+    if(kids.length === 1){
+      const items = itemsForKid(kids[0]);
+      box.innerHTML = items.length ? items.map(courseCardHTML).join('') : emptyHTML();
+    }else{
+      box.innerHTML = kids.map(id => {
+        const items = itemsForKid(id);
+        const head = `<div class="cc-stu-head"><span class="avatar">${STUDENTS[id].ava}</span>${STUDENTS[id].name}</div>`;
+        return items.length ? head + items.map(courseCardHTML).join('') : '';
+      }).join('') || emptyHTML();
+    }
   }
 
   function ccTab(k){ CC.tab = k; renderCC(); }
@@ -970,25 +1214,167 @@
     toast('已进入约课中心');
   }
   /* ---- 演示控制 ---- */
+  // 未付费家庭课程中心固定为 norecord（无学习记录）
+  const effMode = () => FAMILY.paid ? CC.mode : 'norecord';
   function syncDemo(){
     ['d-normal','d-norecord','d-full','d-done'].forEach(id=>{
       const el = document.getElementById(id); if(el) el.classList.remove('on');
     });
     const map = { norecord:'d-norecord', full:'d-full', done:'d-done' };
-    const m = document.getElementById(map[CC.mode] || 'd-normal');
+    const m = document.getElementById(map[effMode()] || 'd-normal');
     if(m) m.classList.add('on');
   }
   function demoState(mode){
+    if(!FAMILY.paid){ toast('未付费家庭课程中心固定按「无学习记录」展示'); return; }
     CC.mode = mode; CC.tab = null; syncDemo(); renderCC(); renderBookChips();
+  }
+
+  /* ================= 家庭维度：付费 / 孩子数量 ================= */
+  function demoPaid(paid){
+    FAMILY.paid = paid;
+    document.getElementById('f-paid').classList.toggle('on', paid);
+    document.getElementById('f-unpaid').classList.toggle('on', !paid);
+    document.getElementById('opsRow').style.display = paid ? 'none' : 'flex';
+    document.getElementById('slideCons').style.display = paid ? 'none' : 'block';
+    document.getElementById('dot4').style.display = paid ? 'none' : 'block';
+    initCarousel();
+    renderStudy(); renderNext(); renderCC(); renderBookChips(); syncDemo();
+  }
+  function demoKids(mode){
+    FAMILY.kids = mode;
+    document.getElementById('k-one').classList.toggle('on', mode==='one');
+    document.getElementById('k-multi').classList.toggle('on', mode==='multi');
+    SCHED.stu = 'gghj'; CC.student = 'gghj'; CC.tab = null;
+    renderStudy(); renderNext(); renderCC(); renderBookChips();
+    renderStuSwitch(); syncBkStu(); renderCal(); renderSched();
+  }
+
+  // 首页学习数据（仅付费家庭展示；多孩按孩子各一张绿色渐变大卡，含级别进度圆环）
+  // 未付费家庭隐藏该模块（无学习记录，不渲染占位数值）
+  function renderStudy(){
+    const wrap = document.getElementById('homeStudy');
+    wrap.style.display = FAMILY.paid ? 'block' : 'none';
+    if(!FAMILY.paid){ wrap.innerHTML = ''; return; }
+    const multi = FAMILY.kids === 'multi';
+    const R = 24.5, C = 2 * Math.PI * R;
+    wrap.innerHTML = `<div class="study-cards">` + kidIds().map(id => {
+      const s = STUDENTS[id], st = s.stats;
+      const pct = st.pct || 0;
+      const lvTxt = `${st.level.replace('Level', 'LV')} → ${st.lvNext}`;
+      return `<div class="study-hero">
+          <div class="sh-head">学习数据
+            ${multi ? `<span class="stu-chip2"><span class="avatar">${s.ava}</span>${s.name}</span>` : ''}
+            <span class="more" onclick="toast('查看本周学习详情')">查看本周学习详情 ›</span>
+          </div>
+          <div class="sh-panel">
+            <div class="sh-stat"><b>${st.min}</b><span class="u">分</span><span class="lb">本周学习时长</span></div>
+            <div class="sh-stat"><b>${st.days}</b><span class="u">天</span><span class="lb">本周学习天数</span></div>
+            <div class="sh-ring">
+              <div class="ring-wrap">
+                <svg viewBox="0 0 58 58"><circle class="ring-bg" cx="29" cy="29" r="${R}"/><circle class="ring-fg" cx="29" cy="29" r="${R}" stroke-dasharray="${C.toFixed(1)}" stroke-dashoffset="${(C*(1-pct/100)).toFixed(1)}"/></svg>
+                <span class="ring-txt">${pct}%</span>
+              </div>
+              <span class="sh-lv">${lvTxt}</span>
+            </div>
+          </div>
+        </div>`;
+    }).join('') + `</div>`;
+  }
+
+  // 课表页孩子入口（仅多孩展示）：显示当前孩子，点击弹窗选择
+  function renderStuSwitch(){
+    const box = document.getElementById('stuSwitch');
+    const multi = FAMILY.kids === 'multi';
+    box.style.display = multi ? 'flex' : 'none';
+    if(!multi) return;
+    const s = STUDENTS[SCHED.stu];
+    document.getElementById('stuCur').innerHTML =
+      `<span class="avatar">${s.ava}</span>${s.name}<i class="caret">▾</i><span class="hint">切换宝贝</span>`;
+  }
+  function applySchedStu(id){
+    SCHED.stu = id;
+    renderStuSwitch();
+    CAL.sel = null;                       // 清空日历选中
+    renderCal(); renderSched();
+    document.getElementById('page-sched').scrollTop = 0;   // 列表回顶部
+  }
+
+  // 约课页孩子（仅多孩可切换，入口在头部头像）
+  function syncBkStu(){
+    document.getElementById('bkStu').textContent = STUDENTS[CC.student].name;
+    document.getElementById('bkStuAva').textContent = STUDENTS[CC.student].ava;
+  }
+
+  /* ================= 孩子选择弹窗（约课/课表共用，仅多孩） ================= */
+  let KIDCTX = 'sched';
+  function openKidSheet(ctx){
+    if(FAMILY.kids !== 'multi'){ toast('当前仅 1 个宝贝'); return; }
+    KIDCTX = ctx || 'sched';
+    renderKidList();
+    document.getElementById('kidSheet').classList.add('show');
+  }
+  function kidClose(){ document.getElementById('kidSheet').classList.remove('show'); }
+  function renderKidList(){
+    const cur = KIDCTX === 'sched' ? SCHED.stu : CC.student;
+    document.getElementById('kidList').innerHTML = kidIds().map(id => {
+      const s = STUDENTS[id];
+      return `<div class="kid-row${id===cur?' on':''}" onclick="pickKid('${id}')">
+          <span class="avatar">${s.ava}</span><span class="kn">${s.name}</span>
+          <span class="kc">${id===cur ? '当前' : '点击选择'}</span>
+        </div>`;
+    }).join('');
+  }
+  function pickKid(id){
+    const changed = (KIDCTX === 'sched' ? SCHED.stu : CC.student) !== id;
+    if(KIDCTX === 'sched') applySchedStu(id);
+    else { CC.student = id; syncBkStu(); renderBookChips(); }
+    kidClose();
+    if(changed) toast('已切换到 ' + STUDENTS[id].name);
+  }
+
+  /* ================= 首页运营区 Tab 轮播（活动福利/学习资源） ================= */
+  const HZ = { tab:'mkt', timer:null };
+  function hzTab(t, manual){
+    HZ.tab = t;
+    document.getElementById('hzt-mkt').classList.toggle('on', t==='mkt');
+    document.getElementById('hzt-res').classList.toggle('on', t==='res');
+    document.getElementById('hz-mkt').style.display = t==='mkt' ? 'block' : 'none';
+    document.getElementById('hz-res').style.display = t==='res' ? 'block' : 'none';
+    if(manual) hzAuto();                  // 手动切换后重新计时
+  }
+  function hzAuto(){
+    clearInterval(HZ.timer);
+    HZ.timer = setInterval(() => hzTab(HZ.tab === 'mkt' ? 'res' : 'mkt'), 6000);
+  }
+
+  /* ================= 课程顾问（家庭维度） ================= */
+  const CONS = {
+    paid:   { name:'Claire 老师', role:'班主任 · 已付费家庭专属服务', wx:'SayABC-Claire88', tip:'可咨询课程安排、课时与学习情况' },
+    unpaid: { name:'Lily 老师',   role:'课程顾问 · 领取免费体验课',   wx:'SayABC-Lily88',   tip:'可咨询课程详情、价格与免费体验课' }
+  };
+  function openCons(){
+    const c = FAMILY.paid ? CONS.paid : CONS.unpaid;
+    document.getElementById('consSub').textContent = '已付费家庭由班主任服务 · 未付费家庭由课程顾问服务';
+    document.getElementById('consName').textContent = c.name;
+    document.getElementById('consRole').textContent = c.role;
+    document.getElementById('consWx').textContent = c.wx;
+    document.querySelector('#consSheet .cons-tip').innerHTML = `长按识别二维码，或复制微信号后添加<br>${c.tip}`;
+    document.getElementById('consSheet').classList.add('show');
+  }
+  function consClose(){ document.getElementById('consSheet').classList.remove('show'); }
+  function copyWx(){
+    const c = FAMILY.paid ? CONS.paid : CONS.unpaid;
+    toast('已复制微信号：' + c.wx + '（原型演示）');
   }
 
   /* ================= 课表日历 ================= */
   const CAL = { view:'week', anchor:TODAY, sel:null };   // 默认不选日期 → 展示全部已约待上 / 完课记录
 
-  function calSetView(v){
-    CAL.view = v;
-    if(v === 'month') CAL.anchor = CAL.sel || TODAY;
-    document.querySelectorAll('.cv').forEach(el=>el.classList.toggle('on', el.dataset.v === v));
+  // 本周 / 整月视图：默认本周；点下箭头展开整月，点向上箭头收回本周
+  function calToggleView(){
+    CAL.view = CAL.view === 'week' ? 'month' : 'week';
+    if(CAL.view === 'month') CAL.anchor = CAL.sel || TODAY;
+    document.getElementById('calArrow').textContent = CAL.view === 'week' ? '▾' : '▴';
     renderCal();
   }
   function calStep(dir){
@@ -1367,7 +1753,7 @@
   /* 新建课程 → 同步进日历/课表/下一次课 */
   let uid = 100;
   function addLesson(date, time, type, course, line, teacher, tava, abg){
-    LESSONS.push({ id:'n'+(++uid), date, time, type, state:'up', course, short:course.replace(/，\d+分钟\/课）/,'）'),
+    LESSONS.push({ id:'n'+(++uid), stu:CC.student, date, time, type, state:'up', course, short:course.replace(/，\d+分钟\/课）/,'）'),
                    line, teacher, tava, abg, rank:'已约待上', tasks:0 });
     renderCal(); renderSched(); renderNext();
   }
@@ -1378,7 +1764,7 @@
     const box = document.getElementById('bkChips');
     if(!box) return;
     // 只展示可约课程：非 AI、status=start 且仍有可约课时（已约满不进胶囊）
-    const list = coursesFor(CC.mode)
+    const list = coursesFor(CC.mode, CC.student)
       .filter(c => c.type !== 'ai' && c.status === 'start' && (c.bookable === undefined || c.bookable > 0))
       .sort((a,b) => (b.lastStudyTS || '').localeCompare(a.lastStudyTS || ''));
     box.innerHTML = list.map((c,i) =>
@@ -1405,21 +1791,25 @@
 
   /* ================= 初始化 ================= */
   function init(){
+    renderStudy();
     renderNext();
     renderCC();
     renderBookChips();
+    renderStuSwitch();
+    syncBkStu();
     renderCal();
     renderSched();
     renderTeachers();
     renderDayTabs();
     renderSlots();
+    hzAuto();                              // 运营区 Tab 自动轮播
   }
   init();
 
-  /* ================= Banner 轮播 ================= */
-  (function(){
+  /* ================= Banner 轮播（张数动态：未付费含体验课转化卡） ================= */
+  function initCarousel(){
     const slides=document.getElementById('slides');
-    const dots=document.querySelectorAll('#dots i');
+    const dots=[...document.querySelectorAll('#dots i')].filter(d=>d.style.display!=='none');
     const total=dots.length;
     let idx=0,timer;
     function go(i){
@@ -1427,8 +1817,9 @@
       slides.style.transform='translateX(-'+idx*100+'%)';
       dots.forEach((d,k)=>d.classList.toggle('on',k===idx));
     }
-    function auto(){timer=setInterval(()=>go(idx+1),4000);}
-    dots.forEach((d,k)=>d.addEventListener('click',()=>{clearInterval(timer);go(k);auto();}));
+    function reset(){ go(0); clearInterval(timer); timer=setInterval(()=>go(idx+1),6000); }
+    dots.forEach((d,k)=>{ d.onclick=()=>{clearInterval(timer);go(k);auto();}; });
+    function auto(){ clearInterval(timer); timer=setInterval(()=>go(idx+1),6000); }
     let sx=0;
     slides.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;clearInterval(timer);},{passive:true});
     slides.addEventListener('touchend',e=>{
@@ -1436,8 +1827,9 @@
       if(dx<-40)go(idx+1);else if(dx>40)go(idx-1);
       auto();
     },{passive:true});
-    auto();
-  })();
+    reset();
+  }
+  initCarousel();
 </script>
 </body>
 </html>
