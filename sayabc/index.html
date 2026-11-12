@@ -63,8 +63,7 @@
   .tag-off{background:#f2f4f3;color:#8a968f;}
   .cc-trophy{flex-shrink:0;margin-left:auto;font-size:24px;line-height:1;}
   /* home header */
-  .home-top{position:sticky;top:0;z-index:8;display:flex;align-items:center;justify-content:space-between;margin:0 -18px;padding:10px 20px 12px;background:rgba(244,248,245,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}
-  .logo{font-size:22px;font-weight:900;letter-spacing:-.5px;}
+  .home-top{position:sticky;top:0;z-index:8;display:flex;align-items:center;justify-content:space-between;margin:0 -18px;padding:10px 20px 12px;background:rgba(244,248,245,.92);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);}  .logo{font-size:22px;font-weight:900;letter-spacing:-.5px;}
   .logo .dot1,.logo .dot2{display:inline-block;width:7px;height:7px;border-radius:50%;margin-left:3px;}
   .dot1{background:#ffcf3d;} .dot2{background:#ff8a3d;}
   .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#ffd76e,#ff9d5c);display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.08);flex-shrink:0;}
@@ -128,12 +127,11 @@
   .dots i.on{width:16px;background:#fff;}
   /* ============ 课程中心 ============ */
   .cc-seg{display:flex;background:#fff;border-radius:var(--r-md);padding:4px;box-shadow:var(--sh-card);margin-bottom:14px;}
-  /* 首页孩子切换入口（仅多孩）：顶部右上角头像堆叠，支持全部宝贝 / 单个孩子 */
-  .home-kid{display:flex;align-items:center;cursor:pointer;padding:3px 8px 3px 4px;background:#fff;border:1.5px solid #e0ebe4;border-radius:999px;box-shadow:0 2px 8px rgba(20,60,40,.08);}
-  .home-kid:active{transform:scale(.95);}
-  .home-kid .avatar{width:26px;height:26px;font-size:13px;border-width:1.5px;}
-  .home-kid .avatar + .avatar{margin-left:-9px;}
-  .home-kid .ck-caret{font-size:10px;color:var(--sub);margin-left:4px;font-weight:800;}
+  /* 课程中心孩子筛选（仅多孩）：标题行右侧，仅可切换到单个孩子 */
+  .cc-kidf{display:inline-flex;align-items:center;gap:5px;cursor:pointer;background:#fff;border:1.5px solid #e0ebe4;border-radius:999px;padding:2px 9px 2px 3px;font-size:12px;font-weight:800;color:#3d5c4d;box-shadow:0 2px 8px rgba(20,60,40,.06);}
+  .cc-kidf:active{transform:scale(.96);}
+  .cc-kidf .avatar{width:22px;height:22px;font-size:11px;border-width:1px;}
+  .cc-kidf .ck-caret{font-size:9px;color:var(--sub);font-weight:800;}
   .cc-tab{flex:1;text-align:center;padding:8px 0;border-radius:10px;font-size:12.5px;font-weight:700;color:var(--sub);cursor:pointer;transition:.15s;white-space:nowrap;}
   .cc-tab.on{background:var(--green);color:#fff;box-shadow:0 3px 8px rgba(14,196,99,.3);}
   .course-card{padding:14px 14px 12px;margin-bottom:12px;cursor:pointer;}
@@ -418,8 +416,11 @@
   .mrow + .mrow{border-top:1px solid var(--line);}
   .mrow .mi{margin-right:10px;font-size:17px;}
   .mrow .arr{margin-left:auto;color:#c8d0cb;font-size:14px;}
-  /* 首页学习数据：绿色渐变大卡（家长维度；多孩按孩子各一张卡） */
+  /* 首页学习数据：绿色渐变大卡（家长维度；多孩时可左右滑动查看） */
   .study-cards{display:flex;flex-direction:column;gap:12px;}
+  .study-cards.swipe{flex-direction:row;overflow-x:auto;gap:10px;scroll-snap-type:x mandatory;margin:0 -18px;padding:2px 18px 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  .study-cards.swipe::-webkit-scrollbar{display:none;}
+  .study-cards.swipe .study-hero{flex:0 0 calc(100% - 44px);scroll-snap-align:start;}
   .study-hero{background:linear-gradient(135deg,#3ecf8e,#12b76a 55%,#0aa65a);border:none;border-radius:var(--r-lg);padding:16px 14px 14px;box-shadow:0 14px 26px -14px rgba(14,150,90,.5);}
   .sh-head{display:flex;align-items:center;color:#fff;font-size:15px;font-weight:900;letter-spacing:.2px;padding:0 3px;}
   .sh-head .stu-chip2{margin-left:8px;display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.24);border-radius:999px;padding:2.5px 10px 2.5px 3px;font-size:11px;font-weight:700;}
@@ -558,7 +559,6 @@
       <div class="page active" id="page-home">
         <div class="home-top">
           <div class="logo">SayABC<i class="dot1"></i><i class="dot2"></i></div>
-          <div class="home-kid" id="homeKid" style="display:none" onclick="openKidSheet('home')" title="选择宝贝"></div>
         </div>
 
         <!-- ① Banner 轮播 -->
@@ -652,7 +652,9 @@
 
         <!-- ⑤ 课程中心（4 个子 Tab，数据驱动渲染；游客 / 未付费未约体验课不展示） -->
         <div id="ccSec">
-          <div class="sec-title" style="margin-top:26px">课程中心</div>
+          <div class="sec-title" style="margin-top:26px">课程中心
+            <span class="cc-kidf" id="ccKid" style="display:none" onclick="openKidSheet('cc')" title="筛选孩子"></span>
+          </div>
           <div class="cc-seg" id="ccSeg"></div>
           <div id="ccList"></div>
         </div>
@@ -959,10 +961,8 @@
     const box = document.getElementById('nextBox');
     if(!showCenter()){ box.innerHTML = ''; return; }              // 游客 / 未付费未约：不展示下一次课
     if(NEXT.mode === 'none'){ box.innerHTML = nextEmptyHTML(); return; }
-    // 家长维度：默认取所有孩子最近一节已约课；聚焦单个孩子时只取该孩子的课
-    const pool = HOME.kidView === 'all' ? upcomingAll()
-      : upcomingAll().filter(l => (l.stu || 'gghj') === HOME.kidView);
-    const c = pool[0];
+    // 家长维度：固定取所有孩子中最近的一节已约课，不随课程中心的孩子筛选变化
+    const c = upcomingAll()[0];
     if(!c){ box.innerHTML = nextEmptyHTML(); return; }
     const mins = (toMin(c.time) - NOW_MIN);
     const cd = diffDays(c.date, TODAY);
@@ -1067,12 +1067,9 @@
   const showOps     = () => !isPaid();                             // 学习资料 / 了解我们
   const showTrialCta = () => USER.mode === 'guest' || USER.mode === 'nobook';  // 试听课领取入口
 
-  const CC = { student:'gghj', tab:null, mode:'normal' };
-  // 首页孩子视图（仅多孩生效）：all=聚合所有孩子；孩子 id=只看该孩子（学习数据/下一次课/课程中心同时过滤）
-  const HOME = { kidView:'all' };
-  const homeKidIds = () => (FAMILY.kids === 'multi' && HOME.kidView !== 'all' && kidIds().includes(HOME.kidView))
-    ? [HOME.kidView] : kidIds();
-  const homeMulti = () => FAMILY.kids === 'multi' && HOME.kidView === 'all';
+  const CC = { student:'gghj', tab:null, mode:'normal', kidView:'gghj' };   // kidView：课程中心的孩子筛选（仅多孩，只允许单个孩子）
+  const ccKidId = () => (FAMILY.kids === 'multi' && kidIds().includes(CC.kidView)) ? CC.kidView : kidIds()[0];
+  const homeMulti = () => FAMILY.kids === 'multi';
   const courseById = id => STUDENTS[CC.student].courses.find(c => c.id === id);
 
   function sortByStatus(list){
@@ -1193,8 +1190,8 @@
     // mode 决定课程状态样本：normal / norecord（无学习记录）/ full（已约满）/ done（已学完）
     // 未付费家庭课程中心固定按「无学习记录」展示（无学习进度与上次学习）
     const mode = isPaid() ? CC.mode : 'norecord';
-    // 首页为家长维度：默认多孩分组平铺；顶部右上角切到单个孩子后只看该孩子
-    const kids = homeKidIds();
+    // 多孩家庭：课程中心只展示当前筛选的那一个孩子（不提供「全部孩子」视图）
+    const kid = ccKidId();
     const itemsForKid = id => {
       const list = coursesFor(mode, id);
       const rec = list.filter(c => c.lastStudyTS && c.status !== 'not_start')
@@ -1202,8 +1199,19 @@
       return CC.tab === 'recent' ? rec : sortByStatus(list.filter(c => c.type === CC.tab));
     };
 
-    // Tab 默认态：任一孩子有学习记录 → 最近学习
-    const anyRecent = kids.some(id => coursesFor(mode,id).some(c => c.lastStudyTS && c.status !== 'not_start'));
+    // 孩子筛选入口（仅多孩展示）：标题行右侧，头像 + 昵称 + ▾
+    const kidf = document.getElementById('ccKid');
+    if(kidf){
+      if(FAMILY.kids === 'multi'){
+        kidf.style.display = 'inline-flex';
+        kidf.innerHTML = `<span class="avatar">${STUDENTS[kid].ava}</span>${STUDENTS[kid].name}<span class="ck-caret">▾</span>`;
+      }else{
+        kidf.style.display = 'none';
+      }
+    }
+
+    // Tab 默认态：该孩子有学习记录 → 最近学习
+    const anyRecent = coursesFor(mode, kid).some(c => c.lastStudyTS && c.status !== 'not_start');
     const tabs = [
       { k:'recent', n:'最近学习', show: anyRecent },
       { k:'main',   n:'主修课' },
@@ -1219,18 +1227,8 @@
       `<div class="cc-tab${t.k === CC.tab ? ' on' : ''}" onclick="ccTab('${t.k}')">${t.n}</div>`).join('');
 
     const box = document.getElementById('ccList');
-    if(kids.length === 1){
-      // 单孩，或首页已聚焦某个孩子：平铺不分组
-      const kid = kids[0];
-      const items = itemsForKid(kid);
-      box.innerHTML = items.length ? items.map(c => courseCardHTML(c, kid)).join('') : emptyHTML();
-    }else{
-      box.innerHTML = kids.map(id => {
-        const items = itemsForKid(id);
-        const head = `<div class="cc-stu-head"><span class="avatar">${STUDENTS[id].ava}</span>${STUDENTS[id].name}</div>`;
-        return items.length ? head + items.map(c => courseCardHTML(c, id)).join('') : '';
-      }).join('') || emptyHTML();
-    }
+    const items = itemsForKid(kid);
+    box.innerHTML = items.length ? items.map(c => courseCardHTML(c, kid)).join('') : emptyHTML();
   }
 
   function ccTab(k){ CC.tab = k; renderCC(); }
@@ -1311,14 +1309,14 @@
     document.getElementById('slideCons').style.display = isPaid() ? 'none' : 'block';
     document.getElementById('dot4').style.display      = isPaid() ? 'none' : 'block';
     initCarousel();
-    renderStudy(); renderNext(); renderCC(); renderHomeKid(); renderBookChips(); syncDemo();
+    renderStudy(); renderNext(); renderCC(); renderBookChips(); syncDemo();
   }
   function demoKids(mode){
     FAMILY.kids = mode;
     document.getElementById('k-one').classList.toggle('on', mode==='one');
     document.getElementById('k-multi').classList.toggle('on', mode==='multi');
-    SCHED.stu = 'gghj'; CC.student = 'gghj'; CC.tab = null; HOME.kidView = 'all';
-    renderStudy(); renderNext(); renderCC(); renderHomeKid(); renderBookChips();
+    SCHED.stu = 'gghj'; CC.student = 'gghj'; CC.tab = null; CC.kidView = kidIds()[0];
+    renderStudy(); renderNext(); renderCC(); renderBookChips();
     renderStuSwitch(); syncBkStu(); renderCal(); renderSched();
   }
 
@@ -1331,7 +1329,7 @@
     const R = 24.5, C = 2 * Math.PI * R;
     // 未付费已约体验课：尚无学习记录，按 0 值展示（0 天 / 0 分 / 当前级别 L0）
     const zero = { days:0, min:0, level:'Level 0', pct:0, lvNext:'LV1' };
-    wrap.innerHTML = `<div class="study-cards">` + homeKidIds().map(id => {
+    wrap.innerHTML = `<div class="study-cards${multi ? ' swipe' : ''}">` + kidIds().map(id => {
       const s = STUDENTS[id], st = isTrial() ? zero : s.stats;
       const pct = st.pct || 0;
       const lvTxt = `${st.level.replace('Level', 'LV')} → ${st.lvNext}`;
@@ -1379,25 +1377,7 @@
     document.getElementById('bkStuAva').textContent = STUDENTS[CC.student].ava;
   }
 
-  // 首页右上角孩子切换入口（仅多孩）：全部=重叠头像；聚焦单孩=该孩子头像
-  function renderHomeKid(){
-    const box = document.getElementById('homeKid');
-    if(!box) return;
-    const kids = kidIds();
-    if(FAMILY.kids !== 'multi'){ box.style.display = 'none'; return; }
-    box.style.display = 'flex';
-    const single = HOME.kidView !== 'all' && kids.includes(HOME.kidView);
-    const stack = single
-      ? `<span class="avatar">${STUDENTS[HOME.kidView].ava}</span>`
-      : kids.slice(0,3).map(id => `<span class="avatar">${STUDENTS[id].ava}</span>`).join('');
-    box.innerHTML = stack + `<span class="ck-caret">▾</span>`;
-  }
-  // 首页孩子视图变化：学习数据 / 下一次课 / 课程中心同时刷新
-  function applyHomeKid(){
-    renderHomeKid(); renderStudy(); renderNext(); renderCC();
-  }
-
-  /* ================= 孩子选择弹窗（课表/约课/首页共用，仅多孩） ================= */
+  /* ================= 孩子选择弹窗（课表/约课/课程中心共用，仅多孩） ================= */
   let KIDCTX = 'sched';
   function openKidSheet(ctx){
     if(FAMILY.kids !== 'multi'){ toast('当前仅 1 个宝贝'); return; }
@@ -1407,14 +1387,9 @@
   }
   function kidClose(){ document.getElementById('kidSheet').classList.remove('show'); }
   function renderKidList(){
-    const cur = KIDCTX === 'sched' ? SCHED.stu : (KIDCTX === 'home' ? HOME.kidView : CC.student);
-    // 首页：首项「全部宝贝」（聚合视图），头像用前两个孩子重叠拼贴
-    const allRow = KIDCTX === 'home' ? `<div class="kid-row${cur==='all'?' on':''}" onclick="pickKid('all')">
-          <span style="display:flex;flex-shrink:0;width:36px"><span class="avatar" style="width:26px;height:26px;font-size:13px">${STUDENTS[kidIds()[0]].ava}</span><span class="avatar" style="width:26px;height:26px;font-size:13px;margin-left:-12px">${STUDENTS[kidIds()[1]].ava}</span></span>
-          <span class="kn">全部宝贝</span>
-          <span class="kc">${cur==='all' ? '当前' : '点击选择'}</span>
-        </div>` : '';
-    document.getElementById('kidList').innerHTML = allRow + kidIds().map(id => {
+    const cur = KIDCTX === 'sched' ? SCHED.stu : (KIDCTX === 'cc' ? ccKidId() : CC.student);
+    // 课程中心：只列出各孩子，不提供「全部宝贝」选项
+    document.getElementById('kidList').innerHTML = kidIds().map(id => {
       const s = STUDENTS[id];
       return `<div class="kid-row${id===cur?' on':''}" onclick="pickKid('${id}')">
           <span class="avatar">${s.ava}</span><span class="kn">${s.name}</span>
@@ -1423,11 +1398,11 @@
     }).join('');
   }
   function pickKid(id){
-    if(KIDCTX === 'home'){
-      const changed = HOME.kidView !== id;
-      HOME.kidView = (id === 'all') ? 'all' : id;
+    if(KIDCTX === 'cc'){
+      const changed = ccKidId() !== id;
+      CC.kidView = id;
       kidClose();
-      if(changed){ applyHomeKid(); toast(id === 'all' ? '已切换到全部宝贝' : '已切换到 ' + STUDENTS[id].name); }
+      if(changed){ renderCC(); toast('已切换到 ' + STUDENTS[id].name); }
       return;
     }
     const changed = (KIDCTX === 'sched' ? SCHED.stu : CC.student) !== id;
