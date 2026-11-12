@@ -128,6 +128,14 @@
   .dots i.on{width:16px;background:#fff;}
   /* ============ 课程中心 ============ */
   .cc-seg{display:flex;background:#fff;border-radius:var(--r-md);padding:4px;box-shadow:var(--sh-card);margin-bottom:14px;}
+  /* 课程中心孩子切换入口（仅多孩）：子 Tab 行右上角头像堆叠 */
+  .cc-headrow{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+  .cc-headrow .cc-seg{flex:1;margin-bottom:0;min-width:0;}
+  .cc-kid{display:flex;align-items:center;cursor:pointer;padding:2px;flex-shrink:0;}
+  .cc-kid:active{transform:scale(.94);}
+  .cc-kid .avatar{width:26px;height:26px;font-size:13px;border-width:1.5px;}
+  .cc-kid .avatar + .avatar{margin-left:-9px;}
+  .cc-kid .ck-caret{font-size:10px;color:var(--sub);margin-left:3px;font-weight:800;}
   .cc-tab{flex:1;text-align:center;padding:8px 0;border-radius:10px;font-size:12.5px;font-weight:700;color:var(--sub);cursor:pointer;transition:.15s;white-space:nowrap;}
   .cc-tab.on{background:var(--green);color:#fff;box-shadow:0 3px 8px rgba(14,196,99,.3);}
   .course-card{padding:14px 14px 12px;margin-bottom:12px;cursor:pointer;}
@@ -646,7 +654,10 @@
         <!-- ⑤ 课程中心（4 个子 Tab，数据驱动渲染；游客 / 未付费未约体验课不展示） -->
         <div id="ccSec">
           <div class="sec-title" style="margin-top:26px">课程中心</div>
-          <div class="cc-seg" id="ccSeg"></div>
+          <div class="cc-headrow">
+            <div class="cc-seg" id="ccSeg"></div>
+            <div class="cc-kid" id="ccKid" style="display:none" onclick="openKidSheet('cc')" title="选择宝贝"></div>
+          </div>
           <div id="ccList"></div>
         </div>
       </div>
@@ -1057,7 +1068,7 @@
   const showOps     = () => !isPaid();                             // 学习资料 / 了解我们
   const showTrialCta = () => USER.mode === 'guest' || USER.mode === 'nobook';  // 试听课领取入口
 
-  const CC = { student:'gghj', tab:null, mode:'normal' };
+  const CC = { student:'gghj', tab:null, mode:'normal', kidView:'all' };   // kidView：多孩时课程中心聚焦的孩子（all=分组聚合）
   const courseById = id => STUDENTS[CC.student].courses.find(c => c.id === id);
 
   function sortByStatus(list){
@@ -1103,23 +1114,25 @@
     return raw;
   }
 
-  // CTA 判定顺序：未开始→立即约课（拦截）；可约→立即约课；有后继且已约满/已学完→约高阶课；无后继且已学完→奖杯；其余不展示
-  function ccCta(c){
-    if(c.status === 'not_start') return { label:'立即约课', fn:`bookCourse('${c.id}',event)` };
+  // CTA 判定顺序：未开始→立即约课（拦截）；可约→立即约课；有后继且已约满/已学完→约高阶课；无后继且已学完→奖杯+去约课（toast 拦截）
+  function ccCta(c, kid){
+    if(c.status === 'not_start') return { label:'立即约课', fn:`bookCourse('${c.id}','${kid}',event)` };
     if(c.status !== 'finish' && (c.bookable === undefined || c.bookable > 0))
-      return { label:'立即约课', fn:`bookCourse('${c.id}',event)` };
-    if(c.nextId) return { label:'约高阶课', fn:`bookCourse('${c.nextId}',event)` };
+      return { label:'立即约课', fn:`bookCourse('${c.id}','${kid}',event)` };
+    if(c.nextId) return { label:'约高阶课', fn:`bookCourse('${c.nextId}','${kid}',event)` };
     if(c.status === 'finish') return { trophy:true };
     return null;
   }
 
-  function courseCardHTML(c){
+  function rebookToast(ev){ ev.stopPropagation(); toast('该课程已学完，重学请联系班主任'); }
+
+  function courseCardHTML(c, kid){
     // 状态标签（未开始/已学完）不再展示，仅保留数据口径供 CTA 判定使用
     const tags = c.tags.map(([t,cls])=>`<span class="tag ${cls}">${t}</span>`).join('');
 
-    const cta = c.type === 'ai' ? null : ccCta(c);
+    const cta = c.type === 'ai' ? null : ccCta(c, kid);
     const ctaHTML = cta ? (cta.trophy
-      ? `<span class="cc-trophy" title="已学完该课程全部级别">🏆</span>`
+      ? `<span class="cc-trophy" title="已学完该课程全部级别">🏆</span><button class="btn btn-ghost cc-cta" onclick="rebookToast(event)">去约课</button>`
       : `<button class="btn btn-green" onclick="${cta.fn}">${cta.label}</button>`) : '';
 
     let body = '';
@@ -1159,7 +1172,7 @@
                   <div class="cc-tags">${tagsHTML}</div>
                   ${p ? `<div class="cc-line">${p.line}</div>` : ''}
                 </div>
-                ${bare && cta && !cta.trophy ? `<button class="btn btn-green cc-cta" onclick="${cta.fn}">${cta.label}</button>` : ''}
+                ${bare && cta ? ctaHTML : ''}
               </div>
               ${progHTML}
               ${bare ? '' : `<div class="cc-foot${lastBlk ? '' : ' no-last'}">
@@ -1201,15 +1214,30 @@
     document.getElementById('ccSeg').innerHTML = tabs.map(t =>
       `<div class="cc-tab${t.k === CC.tab ? ' on' : ''}" onclick="ccTab('${t.k}')">${t.n}</div>`).join('');
 
+    // 孩子切换入口（仅多孩）：右上角头像堆叠；全部=重叠头像，聚焦单孩=该孩子头像
+    const kidEntry = document.getElementById('ccKid');
+    if(kids.length > 1){
+      kidEntry.style.display = 'flex';
+      const stack = (CC.kidView !== 'all' && kids.includes(CC.kidView))
+        ? `<span class="avatar">${STUDENTS[CC.kidView].ava}</span>`
+        : kids.slice(0,2).map(id => `<span class="avatar">${STUDENTS[id].ava}</span>`).join('')
+          + (kids.length > 2 ? `<span class="avatar">+${kids.length-2}</span>` : '');
+      kidEntry.innerHTML = stack + `<span class="ck-caret">▾</span>`;
+    }else{
+      kidEntry.style.display = 'none';
+    }
+
     const box = document.getElementById('ccList');
-    if(kids.length === 1){
-      const items = itemsForKid(kids[0]);
-      box.innerHTML = items.length ? items.map(courseCardHTML).join('') : emptyHTML();
+    if(kids.length === 1 || (kids.length > 1 && CC.kidView !== 'all' && kids.includes(CC.kidView))){
+      // 单孩，或多孩聚焦某个孩子：平铺不分组
+      const kid = kids.length === 1 ? kids[0] : CC.kidView;
+      const items = itemsForKid(kid);
+      box.innerHTML = items.length ? items.map(c => courseCardHTML(c, kid)).join('') : emptyHTML();
     }else{
       box.innerHTML = kids.map(id => {
         const items = itemsForKid(id);
         const head = `<div class="cc-stu-head"><span class="avatar">${STUDENTS[id].ava}</span>${STUDENTS[id].name}</div>`;
-        return items.length ? head + items.map(courseCardHTML).join('') : '';
+        return items.length ? head + items.map(c => courseCardHTML(c, id)).join('') : '';
       }).join('') || emptyHTML();
     }
   }
@@ -1227,8 +1255,12 @@
     if(!c.perm){ toast('当前学员暂未开通该课程学习权限'); return; }
     toast('进入「' + c.name + '」学习页');
   }
-  function bookCourse(id, ev){
+  function bookCourse(id, stu, ev){
     ev.stopPropagation();
+    // 多孩家庭：自动切换到课程卡所属孩子的约课上下文
+    if(stu && FAMILY.kids === 'multi' && stu !== CC.student){
+      CC.student = stu; syncBkStu(); renderBookChips();
+    }
     const c = courseById(id);
     if(c && c.status === 'not_start'){ toast('该课程未开始，请联系班主任开通课程'); return; }   // 边界：未开始课程不进入约课
     switchTab('book');
@@ -1294,7 +1326,7 @@
     FAMILY.kids = mode;
     document.getElementById('k-one').classList.toggle('on', mode==='one');
     document.getElementById('k-multi').classList.toggle('on', mode==='multi');
-    SCHED.stu = 'gghj'; CC.student = 'gghj'; CC.tab = null;
+    SCHED.stu = 'gghj'; CC.student = 'gghj'; CC.tab = null; CC.kidView = 'all';
     renderStudy(); renderNext(); renderCC(); renderBookChips();
     renderStuSwitch(); syncBkStu(); renderCal(); renderSched();
   }
@@ -1356,7 +1388,7 @@
     document.getElementById('bkStuAva').textContent = STUDENTS[CC.student].ava;
   }
 
-  /* ================= 孩子选择弹窗（约课/课表共用，仅多孩） ================= */
+  /* ================= 孩子选择弹窗（课表/约课/课程中心共用，仅多孩） ================= */
   let KIDCTX = 'sched';
   function openKidSheet(ctx){
     if(FAMILY.kids !== 'multi'){ toast('当前仅 1 个宝贝'); return; }
@@ -1366,8 +1398,14 @@
   }
   function kidClose(){ document.getElementById('kidSheet').classList.remove('show'); }
   function renderKidList(){
-    const cur = KIDCTX === 'sched' ? SCHED.stu : CC.student;
-    document.getElementById('kidList').innerHTML = kidIds().map(id => {
+    const cur = KIDCTX === 'sched' ? SCHED.stu : (KIDCTX === 'cc' ? CC.kidView : CC.student);
+    // 课程中心：首项「全部宝贝」（分组聚合视图），头像用前两个孩子重叠拼贴
+    const allRow = KIDCTX === 'cc' ? `<div class="kid-row${cur==='all'?' on':''}" onclick="pickKid('all')">
+          <span style="display:flex;flex-shrink:0;width:36px"><span class="avatar" style="width:26px;height:26px;font-size:13px">${STUDENTS[kidIds()[0]].ava}</span><span class="avatar" style="width:26px;height:26px;font-size:13px;margin-left:-12px">${STUDENTS[kidIds()[1]].ava}</span></span>
+          <span class="kn">全部宝贝</span>
+          <span class="kc">${cur==='all' ? '当前' : '点击选择'}</span>
+        </div>` : '';
+    document.getElementById('kidList').innerHTML = allRow + kidIds().map(id => {
       const s = STUDENTS[id];
       return `<div class="kid-row${id===cur?' on':''}" onclick="pickKid('${id}')">
           <span class="avatar">${s.ava}</span><span class="kn">${s.name}</span>
@@ -1376,6 +1414,13 @@
     }).join('');
   }
   function pickKid(id){
+    if(KIDCTX === 'cc'){
+      const changed = CC.kidView !== id;
+      CC.kidView = (id === 'all') ? 'all' : id;
+      kidClose();
+      if(changed){ renderCC(); toast(id === 'all' ? '已切换到全部宝贝' : '已切换到 ' + STUDENTS[id].name); }
+      return;
+    }
     const changed = (KIDCTX === 'sched' ? SCHED.stu : CC.student) !== id;
     if(KIDCTX === 'sched') applySchedStu(id);
     else { CC.student = id; syncBkStu(); renderBookChips(); }
