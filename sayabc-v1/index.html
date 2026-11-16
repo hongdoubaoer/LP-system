@@ -472,20 +472,27 @@
   .stu-cur .avatar{width:24px;height:24px;font-size:12px;border-width:1px;}
   .stu-cur .caret{font-size:10px;color:#9aa6a0;font-style:normal;}
   .stu-cur .hint{font-size:10.5px;font-weight:600;color:var(--sub);}
-  /* 孩子选择弹窗 */
-  .kid-list{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
-  .kid-row{display:flex;align-items:center;gap:12px;padding:8px 0;background:none;border:none;cursor:pointer;}
+  /* 孩子选择弹窗 — Figma 142:248 / 134:4969 / 134:5031 */
+  .kid-list{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+  .kid-row{display:flex;align-items:center;justify-content:flex-start;width:100%;padding:0;background:none;border:none;cursor:pointer;}
   .kid-row:active{opacity:.75;}
-  .kid-row .avatar{width:34px;height:34px;font-size:16px;border-width:0;box-shadow:none;flex:none;}
-  .kid-row .kn{font-size:15px;font-weight:600;color:#9aa6a0;}
-  /* 选中态：头像 + 名字包进绿色胶囊，对勾在右侧独立 */
+  .kid-row .kd-main{display:inline-flex;align-items:center;gap:4px;height:36px;padding:2px 14px 2px 2px;border-radius:19px;border:1px solid transparent;background:transparent;}
+  .kid-row .avatar{width:30px;height:30px;font-size:0;border-width:0;box-shadow:none;flex:none;}
+  .kid-row .kn{font-size:12px;font-weight:400;line-height:18px;color:#9199a3;}
+  /* 选中态：头像 + 名字包进 1px 绿描边胶囊，对勾在右侧独立 */
   .kid-row .kc{display:none;}
-  .kid-row.on{gap:0;}
-  .kid-row.on .kd-main{display:inline-flex;align-items:center;gap:9px;height:44px;padding:0 22px 0 6px;border-radius:22px;background:#eef9f0;border:2px solid #4ed07a;}
-  .kid-row.on .kn{color:#3fbf5f;font-weight:700;}
-  .kid-row.on .kc{display:block;margin-left:24px;width:22px;height:22px;flex:none;}
-  .kd-main{display:flex;align-items:center;gap:12px;min-width:0;}
-  .kid-row .ava-img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;}
+  .kid-row:not(.on) .kd-main{border:none;height:34px;}
+  .kid-row.on .kd-main{background:#e2f6e6;border-color:#42cc5f;}
+  .kid-row.on .kn{color:#1dbb3f;}
+  .kid-row.on .kc{display:block;width:24px;height:24px;flex:none;margin-left:14px;}
+  .kd-main .ava-img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;}
+  /* 课程中心：下拉浮层 156×107，贴孩子胶囊下方 4px、右对齐 */
+  .sheet.pop .sheet-mask{background:transparent;}
+  .sheet.pop .sheet-panel{left:auto;right:16px;bottom:auto;width:156px;min-height:107px;padding:12px 8px 15px;border-radius:12px;box-shadow:0 2px 5px rgba(0,0,0,.1);animation:none;max-height:none;overflow:visible;}
+  .sheet.pop .sheet-head{display:none;}
+  .sheet.pop .kid-list{margin-top:0;gap:8px;}
+  .sheet.pop .kid-row.on .kd-main{width:100px;}
+  .sheet.pop .kid-row.on .kc{margin-left:auto;margin-right:2px;}
   /* 课程中心多孩分组头 */
   .cc-stu-head{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;color:#3d4d44;margin:4px 2px 10px;}
   .cc-stu-head .avatar{width:26px;height:26px;font-size:13px;border-width:1.5px;}
@@ -550,96 +557,89 @@
   .slide.real{height:149px;}
   .slide.real .slide-img{width:100%;height:100%;object-fit:cover;display:block;}
 
-  /* 课程中心孩子筛选胶囊 */
-  .cc-kid-pill{display:flex;align-items:center;gap:5px;height:28px;padding:0 8px 0 4px;background:#fff;border:1px solid #e8eceb;border-radius:14px;cursor:pointer;font-size:12px;color:#2f3338;font-weight:600;flex-shrink:0;}
-  .cc-kid-pill .avatar{width:22px;height:22px;font-size:11px;border:none;box-shadow:none;background-size:cover;flex-shrink:0;}
-  .cc-kid-pill .kn{max-width:40px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .cc-kid-pill .cd{font-size:9px;color:#9aa6a0;margin-left:2px;}
-  /* 学习数据 */
-  .study-v1{height:168px;border-radius:16px;background:linear-gradient(to bottom,#edffe8,#fff);position:relative;overflow:hidden;margin-top:13px;z-index:2;}
-  /* 多孩横向滑动 */
-  .study-scroll{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding:0 2px 4px;scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+  /* 课程中心孩子筛选胶囊 — Figma 89:2943 */
+  .cc-kid-pill{position:relative;top:-2.5px;display:flex;align-items:center;gap:6px;height:28px;padding:0 10px 0 2px;background:rgba(255,255,255,.8);border-radius:17px;cursor:pointer;overflow:hidden;flex-shrink:0;}
+  .cc-kid-pill .avatar{width:24px;height:24px;border-radius:12px;border:none;box-shadow:none;background-size:cover;flex-shrink:0;}
+  .cc-kid-pill .kn{font-family:"Poppins","PingFang SC",sans-serif;font-size:11px;font-weight:500;line-height:14px;color:#182d27;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48px;}
+  .cc-kid-pill .cc-caret{position:relative;width:5.7px;height:2.75px;flex-shrink:0;}
+  .cc-kid-pill .cc-caret img{position:absolute;left:-.55px;top:-.55px;width:6.8px;height:3.85px;max-width:none;}
+  /* 学习数据 — Figma 134:4823（343×162；单孩/多孩同款，多孩横滑并露出下一张） */
+  .study-sec-title{font-size:18px;font-weight:600;color:#2f3338;line-height:25px;letter-spacing:-.18px;margin-top:16px;margin-bottom:12px;position:relative;z-index:2;}
+  .study-scroll{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;margin-right:-16px;padding-right:16px;scrollbar-width:none;-webkit-overflow-scrolling:touch;position:relative;z-index:2;}
   .study-scroll::-webkit-scrollbar{display:none;}
-  .study-scroll .study-v1{flex-shrink:0;width:calc(100% - 24px);scroll-snap-align:start;margin-top:0;}
-  .study-v1.multi{height:162px;}
-  .study-v1.multi .study-head{gap:12px;}
-  .study-v1.multi .study-panels{bottom:13px;}
-  .study-name{font-size:12px;font-weight:600;color:#fff;line-height:1;}
-  .study-sec-title{font-size:18px;font-weight:600;color:#182d27;line-height:25px;margin-top:16px;margin-bottom:12px;}
-  .study-head{height:41px;background:linear-gradient(88.26deg,#4ad388 5.01%,#7fde92 33.46%,rgba(192,255,206,0) 89.66%);display:flex;align-items:center;gap:9px;padding:0 12px;}
-  .study-ava{width:24px;height:24px;border-radius:12px;border:1px solid #fff;overflow:hidden;flex-shrink:0;background:#ffee8a;}
+  .study-v1{flex:0 0 343px;height:162px;border-radius:16px;background:#fff;position:relative;overflow:hidden;scroll-snap-align:start;}
+  .study-head{position:absolute;left:0;top:0;width:343px;height:41px;background:linear-gradient(89.46deg,#3ecf80 5.27%,#7cdd90 69.76%);}
+  .study-ava{position:absolute;left:14px;top:9px;width:24px;height:24px;border-radius:24px;border:2px solid #f7f7f8;background:#fff;overflow:hidden;}
   .study-ava img{width:100%;height:100%;object-fit:cover;display:block;}
-  .study-title{font-size:20px;font-weight:600;color:#fff;line-height:1;}
-  .study-title em{font-style:normal;font-size:13px;font-weight:500;color:rgba(255,255,255,.9);margin-left:8px;}
-  .study-link{position:absolute;right:13px;top:12px;display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(12,125,57,.61);cursor:pointer;z-index:2;}
-  .study-link i{font-style:normal;font-size:13px;line-height:1;}
-  .study-panels{position:absolute;left:14px;right:13px;bottom:17px;display:flex;gap:4px;}
-  .stats-panel{width:209px;height:96px;background:#fff;border-radius:12px;box-shadow:0 2px 8.2px rgba(151,170,207,.08);display:flex;align-items:center;}
-  .stat-blk{flex:1;text-align:center;}
-  .stat-val{font-size:22px;font-weight:600;color:#2f3338;line-height:1.15;letter-spacing:-.18px;}
-  .stat-val small{font-size:12px;font-weight:400;margin-left:2px;}
-  .stat-lb{font-size:12px;color:#9199a3;margin-top:14px;}
-  .stat-div{width:1px;height:46px;background:#eef1f3;margin:0 2px;}
-  .level-panel{width:98px;height:96px;background:#fff;border-radius:12px;box-shadow:0 2px 8.2px rgba(151,170,207,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;}
-  .ring-v1{width:40px;height:40px;border-radius:50%;position:relative;display:flex;align-items:center;justify-content:center;}
-  .ring-v1::after{content:'';position:absolute;inset:5px;background:#fff;border-radius:50%;}
-  .ring-v1 span{position:relative;z-index:1;font-size:14.5px;font-weight:600;color:#060607;line-height:1;}
-  .ring-lv{font-size:12px;color:#9199a3;line-height:1;}
+  .study-name{position:absolute;left:49px;top:12px;font-size:14px;line-height:1.2;color:#fff;letter-spacing:-.18px;white-space:nowrap;}
+  .study-link{position:absolute;right:12px;top:12px;display:flex;align-items:center;gap:4px;font-size:12px;font-weight:500;line-height:17px;color:#fff;letter-spacing:-.18px;cursor:pointer;white-space:nowrap;}
+  .study-link img{width:12px;height:12px;display:block;}
+  .study-panels{position:absolute;left:12px;right:12px;bottom:13px;height:96px;display:flex;gap:12px;}
+  .stats-panel,.level-panel{height:96px;background:rgba(61,196,113,.06);border-radius:12px;position:relative;}
+  .stats-panel{width:209px;}
+  .stat-blk{position:absolute;top:24px;width:100px;text-align:center;}
+  .stat-blk:first-child{left:0;}
+  .stat-blk:nth-child(3){left:103px;}
+  .stat-val{height:24px;line-height:24px;font-family:"JiangChengYuanTi","PingFang SC",sans-serif;font-size:24px;font-weight:600;color:#2f3338;letter-spacing:-.18px;white-space:nowrap;}
+  .stat-val small{font-family:"PingFang SC",sans-serif;font-size:12px;font-weight:400;margin-left:4px;}
+  .stat-lb{margin-top:16px;font-size:12px;line-height:17px;color:rgba(47,51,56,.7);letter-spacing:-.18px;}
+  .stat-div{position:absolute;left:105px;top:25px;width:0;height:46px;border-left:.5px solid rgba(188,191,204,.35);}
+  .level-panel{width:98px;}
+  .ring-v1{position:absolute;left:26.5px;top:13.5px;width:45px;height:45px;}
+  .ring-v1 svg{display:block;width:45px;height:45px;}
+  .ring-v1 span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:14.5px;font-weight:600;color:#060607;letter-spacing:-.17px;}
+  .ring-v1 span small{font-size:10.9px;font-weight:600;}
+  .ring-lv{position:absolute;left:0;right:0;top:64px;text-align:center;font-size:12px;line-height:17px;color:rgba(47,51,56,.7);letter-spacing:-.18px;white-space:nowrap;}
 
   /* 区块标题 */
   .sec-row{display:flex;align-items:center;justify-content:space-between;height:25px;}
   .sec-h{font-size:18px;font-weight:600;color:#182d27;line-height:1.4;}
-  .sec-link{font-size:14px;color:rgba(47,51,56,.5);display:flex;align-items:center;gap:7px;cursor:pointer;}
-  .sec-link i{font-style:normal;font-size:15px;line-height:1;}
+  .sec-link{font-size:14px;line-height:14px;color:rgba(47,51,56,.5);display:flex;align-items:center;gap:7px;cursor:pointer;margin-right:5px;}
+  .sec-link img{width:5.5px;height:11.5px;margin:-.75px;display:block;}
 
-  /* 下一次课 */
-  #nextSec{margin-top:16px;position:relative;z-index:2;}
+  /* 下一次课 — Figma 142:509（343×233；单孩/多孩同款） */
+  #nextSec{margin-top:17px;position:relative;z-index:2;}
   #nextSec .sec-row + #nextBox{margin-top:12px;}
-  .next-v1{height:242px;border-radius:16px;position:relative;overflow:hidden;background:linear-gradient(165.85deg,#46d687 13.16%,#42cc5f 52.34%);box-shadow:inset 0 2px 10.4px rgba(255,255,255,.49);cursor:pointer;}
-  .next-v1 .nx-panel{position:absolute;left:0;top:43px;width:343px;height:200px;background:#fff;border-radius:16px;}
-  .nx-top{position:absolute;left:8px;top:11px;height:22px;display:flex;align-items:center;gap:8px;color:#fff;z-index:2;}
-  .nx-top img{width:22px;height:22px;display:block;}
+  .next-v1{height:233px;border-radius:16px;position:relative;overflow:hidden;background:linear-gradient(166.36deg,#46d687 13.16%,#42cc5f 52.34%);cursor:pointer;}
+  .next-v1::after{content:'';position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 2px 10.4px rgba(255,255,255,.49);pointer-events:none;z-index:3;}
+  .next-v1 .nx-panel{position:absolute;left:0;top:43px;width:343px;height:190px;background:#fff;border-radius:16px;}
+  .nx-top{position:absolute;left:15px;top:12px;height:19px;display:flex;align-items:center;gap:8px;color:#fff;z-index:2;}
+  .nx-top img{width:18px;height:18px;display:block;}
   .nx-date,.nx-time{font-size:16px;font-weight:600;line-height:1.2;white-space:nowrap;font-family:"PingFang SC","Helvetica Neue",sans-serif;}
-  .nx-sep{width:1px;height:14px;background:rgba(255,255,255,.7);}
-  .nx-status{position:absolute;left:251px;top:10px;width:80px;height:24px;border-radius:41px;background:#fff6d4;color:#ff4917;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;z-index:2;}
-  .nx-thumb{position:absolute;left:8px;top:49px;width:120px;height:120px;border-radius:10px;background:url('assets/course-cover.png') center/cover;z-index:2;}
-  .nx-info{position:absolute;left:136px;top:53px;width:178px;z-index:2;}
+  .nx-sep{width:1px;height:14px;background:rgba(255,255,255,.47);}
+  .nx-status{position:absolute;left:251px;top:10px;width:80px;height:24px;border-radius:41px;background:#fff6d4;color:#ff4917;font-size:12px;font-weight:500;line-height:1.2;display:flex;align-items:center;justify-content:center;z-index:2;}
+  .nx-thumb{position:absolute;left:8px;top:49px;width:120px;height:120px;border-radius:12px;background:url('assets/course-cover.png') center/cover;z-index:2;}
+  .nx-info{position:absolute;left:144px;top:53px;width:178px;z-index:2;}
   .nx-tags{display:flex;gap:8px;align-items:center;}
-  .nx-tag{height:18px;padding:2px 4px;border-radius:2px;font-size:12px;font-weight:500;display:flex;align-items:center;}
+  .nx-tag{height:18px;padding:2px 4px;border-radius:2px;font-size:12px;font-weight:500;line-height:14px;display:flex;align-items:center;}
   .nx-tag.main{background:rgba(204,246,213,.6);color:#1dbb3f;}
   .nx-tag.spec{background:rgba(255,198,66,.2);color:#be4e08;}
   .nx-tag.dur{background:rgba(255,198,66,.2);color:#be4e08;}
   .nx-name{margin-top:12px;font-size:16px;font-weight:600;color:#2f3338;line-height:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .nx-line{margin-top:12px;font-size:14px;color:rgba(47,51,56,.7);line-height:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .nx-teacher{margin-top:12px;display:flex;align-items:center;gap:7px;font-size:14px;color:rgba(47,51,56,.59);}
-  .nx-teacher img{width:26px;height:26px;border-radius:50%;display:block;}
-  .nx-div{position:absolute;left:20px;top:183px;width:302px;height:1px;background:#e8eceb;z-index:2;}
-  .nx-foot{position:absolute;left:17px;top:199px;height:20px;display:flex;align-items:center;font-size:14px;color:#2f3338;z-index:2;}
-  .nx-foot img{width:20px;height:20px;margin-right:3px;display:block;}
-  .nx-foot b{color:#45c560;font-weight:600;margin-left:3px;}
-  .nx-segs{position:absolute;left:135px;top:207px;display:flex;gap:4px;z-index:2;}
-  .nx-segs i{width:14px;height:5px;border-radius:3px;background:#e6f2e9;}
-  .nx-segs i.on{background:#45c560;}
-  .nx-go{position:absolute;left:291px;top:199px;width:36px;height:36px;border-radius:50%;border:none;background:linear-gradient(to bottom,#42cc5f,#46d687);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 3px rgba(66,204,95,.19);cursor:pointer;z-index:2;padding:0;}
-  .nx-go img{width:15px;height:10px;display:block;}
+  .nx-line{margin-top:12px;font-size:14px;font-weight:500;color:rgba(47,51,56,.7);line-height:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .nx-teacher{margin-top:16px;display:flex;align-items:center;gap:7px;font-size:14px;line-height:14px;color:rgba(47,51,56,.59);}
+  .nx-teacher .t-ava{position:relative;width:26px;height:26px;border-radius:39px;background:#a9ddff;overflow:hidden;flex:none;}
+  .nx-teacher .t-ava img{position:absolute;left:-17px;top:-2px;width:50px;height:55px;object-fit:cover;display:block;}
+  .nx-div{position:absolute;left:21px;top:183px;width:302px;height:1px;background:url('assets/dash-divider.svg') center/302px 1px no-repeat;z-index:2;}
+  .nx-foot{position:absolute;left:13px;top:197px;height:20px;display:flex;align-items:center;font-size:14px;line-height:14px;color:#000;z-index:2;}
+  .nx-foot img{width:20px;height:20px;margin-right:7px;display:block;}
+  .nx-foot b{color:#43d06f;font-weight:600;margin-left:4px;}
+  .nx-segs{position:absolute;left:132px;top:204px;display:flex;gap:4px;z-index:2;}
+  .nx-segs i{width:16px;height:6px;border-radius:3px;background:rgba(70,76,84,.18);}
+  .nx-segs i.on{background:#46d687;}
+  .nx-go{position:absolute;left:291px;top:195px;width:36px;height:24px;border-radius:37px;border:none;background:linear-gradient(to bottom,#42cc5f,#46d687);display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 2px 1.5px rgba(66,204,95,.19));cursor:pointer;z-index:2;padding:0;}
+  .nx-go img{width:14.5px;height:10px;display:block;}
   .next-empty .nx-empty-t{position:absolute;left:8px;top:62px;font-size:18px;font-weight:600;color:#2f3338;}
   .next-empty .nx-empty-s{position:absolute;left:8px;top:92px;font-size:13px;color:rgba(47,51,56,.6);}
   .next-empty .nx-btn{position:absolute;left:243px;top:176px;height:33px;padding:0 16px;border:none;border-radius:44px;background:linear-gradient(to bottom,#42cc5f,#46d687);color:#fff;font-size:14px;font-weight:600;cursor:pointer;}
-  .next-v1.multi{height:233px;}
-  .next-v1.multi .nx-panel{height:190px;}
-  .next-v1.multi .nx-top{left:43px;top:13px;}
-  .next-v1.multi .nx-ava{display:block;position:absolute;left:11px;top:10px;width:24px;height:24px;border-radius:50%;border:1px solid #fff;object-fit:cover;z-index:2;}
-  .next-v1.multi .nx-foot{top:197px;}
-  .next-v1.multi .nx-segs{top:205px;}
-  .next-v1.multi .nx-go{top:195px;}
 
   /* 资源 tabs + 卡片 */
-  #resSec{margin-top:23px;position:relative;z-index:2;}
+  #resSec{margin-top:24px;position:relative;z-index:2;}
   .res-tabs{display:flex;gap:12px;padding-left:3px;}
   .res-tab{width:88px;height:32px;border-radius:37px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:500;cursor:pointer;transition:.15s;}
   .res-tab.on{background:linear-gradient(to bottom,#42cc5f,#46d687);color:#fff;border:none;box-shadow:0 2px 3px rgba(66,204,95,.19);}
   .res-tab.off{background:#fff;color:#1dbb3f;border:1px solid #43cf6d;box-sizing:border-box;}
-  .res-grid2{margin-top:16px;display:grid;grid-template-columns:167px 167px;gap:9px;}
+  .res-grid2{margin-top:16px;display:grid;grid-template-columns:167px 167px;gap:8px 9px;}
   .res-card2{height:65px;border-radius:12px;background-repeat:no-repeat;background-position:center top;background-size:167px 65px;cursor:pointer;}
   .res-card2:active{transform:scale(.98);}
   .res-mkt{margin-top:16px;}
@@ -650,10 +650,9 @@
 
   /* 课程中心 */
   #ccSec{margin-top:13px;position:relative;z-index:2;}
-  .cc-tabs-v1{margin-top:5px;height:43px;background:#fff;border-radius:14px;display:flex;align-items:stretch;overflow:hidden;}
-  .cc-tabs-v1 .cc-tab{position:relative;flex:1;display:flex;align-items:center;justify-content:center;height:43px;padding:0;font-size:14px;font-weight:500;color:#2f3338;background:transparent;border-radius:0;box-shadow:none;white-space:nowrap;}
-  .cc-tabs-v1 .cc-tab.on{color:#14bf61;font-weight:500;background:transparent;}
-  .cc-tabs-v1 .cc-tab.on::after{content:'';position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:28px;height:2px;border-radius:1px;background:#14bf61;}
+  .cc-tabs-v1{margin-top:12px;height:40px;background:#fff;border-radius:12px;display:flex;align-items:center;padding:0 4px;overflow:hidden;}
+  .cc-tabs-v1 .cc-tab{flex:1;display:flex;align-items:center;justify-content:center;height:40px;padding:0;font-size:14px;font-weight:500;line-height:1.2;color:#2f3338;background:transparent;border-radius:8px;box-shadow:none;white-space:nowrap;}
+  .cc-tabs-v1 .cc-tab.on{height:33px;color:#14bf61;font-weight:600;background:rgba(49,193,79,.08);box-shadow:none;}
   #ccList{margin-top:8px;}
 
   /* 课程卡 */
@@ -663,36 +662,31 @@
   .cc-card-v1 .thumb{position:absolute;left:12px;top:12px;background:url('assets/course-cover.png') center/cover;border-radius:10px;overflow:hidden;}
   .cc-card-v1 .thumb>img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit;}
   .cc-card-v1.tall .thumb{width:112px;height:84px;}
-  .cc-card-v1.short .thumb{width:124px;height:94px;border-radius:11px;}
-  /* AI 课：封面放大到插画比例（248×188），与 Figma 一致 */
-  .cc-card-v1.tall.ai-card{height:240px;}
-  .cc-card-v1.tall.ai-card .thumb{left:12px;top:36px;width:186px;height:141px;border-radius:12px;}
-  .cc-card-v1.tall.ai-card .info{top:36px;}
-  .cc-card-v1.short.ai-card{height:224px;}
-  .cc-card-v1.short.ai-card .thumb{left:12px;top:68px;width:186px;height:141px;}
-  .cc-card-v1.short.ai-card .info{left:12px;top:12px;width:250px;}
-  .cc-card-v1.short.ai-card .cc-name-v1{margin-top:8px;}
-  .cc-card-v1.short.ai-card .cc-cta-v1{right:12px;bottom:14px;top:auto;}
+  .cc-card-v1.short .thumb{width:124px;height:94px;border-radius:11.19px;}
+  /* AI 课：Figma 139:5750 —— 与未约课同为 343×118 横版卡（封面 124×94 / 4:3），上次学习日期在标题下 */
   .cc-card-v1 .info{position:absolute;left:136px;top:17px;width:191px;}
-  .cc-card-v1.short .info{left:148px;top:12px;width:183px;}
+  .cc-card-v1.short .info{left:148px;top:13px;width:183px;}
+  .cc-card-v1.short .cc-name-v1{margin-top:8px;}
+  .cc-card-v1.short .cc-last-ai{position:absolute;left:148px;top:64px;font-size:12px;line-height:1.2;color:rgba(47,51,56,.69);white-space:nowrap;}
   .cc-tags-v1{display:flex;gap:6px;align-items:center;}
   .cc-tag-v1{height:18px;padding:2px 4px;border-radius:2px;font-size:12px;font-weight:500;display:flex;align-items:center;}
   .cc-tag-v1.main{background:rgba(204,246,213,.6);color:#1dbb3f;}
   .cc-tag-v1.dur{background:rgba(255,198,66,.2);color:#be4e08;}
   .cc-tag-v1.spec{background:rgba(255,198,66,.2);color:#be4e08;}
-  .cc-tag-v1.ai{background:rgba(131,233,238,.18);color:#1aba62;}
+  .cc-tag-v1.ai{background:rgba(224,208,255,.34);color:#8d50ff;}
   .cc-name-v1{margin-top:12px;font-size:18px;font-weight:600;color:#000;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .cc-sub-v1{margin-top:8px;font-size:13px;color:rgba(47,51,56,.69);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-  .cc-prog-v1{position:absolute;left:12px;top:108px;width:319px;height:56px;border-radius:12px;background:rgba(131,233,238,.12);display:flex;align-items:center;}
-  .cc-prog-l{width:181px;padding-left:12px;box-sizing:border-box;}
-  .cc-prog-l .lb{font-size:12px;color:rgba(47,51,56,.7);display:flex;align-items:center;justify-content:space-between;padding-right:8px;}
+  .cc-sub-v1{margin-top:4px;font-size:13px;font-weight:500;color:rgba(47,51,56,.69);line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .cc-prog-v1{position:absolute;left:12px;top:108px;width:319px;height:56px;border-radius:12px;background:rgba(131,233,238,.12);display:flex;align-items:flex-start;}
+  .cc-prog-l{width:181.6px;padding:10px 0 0 12px;box-sizing:border-box;}
+  .cc-prog-l .lb{width:152.3px;font-size:12px;line-height:1.2;color:rgba(47,51,56,.7);display:flex;align-items:center;justify-content:space-between;padding-right:3.5px;}
   .cc-prog-l .lb b{font-size:14px;font-weight:600;color:#1aba62;}
-  .cc-bar{width:145px;height:5px;border-radius:3px;background:#e9eeed;margin-top:9px;overflow:hidden;}
-  .cc-bar i{display:block;height:5px;border-radius:3px;background:#43cf6d;}
-  .cc-prog-div{width:1px;height:30px;background:#e3e9e7;}
-  .cc-prog-r{flex:1;padding-left:12px;font-size:12px;line-height:1.4;color:rgba(47,51,56,.7);}
+  .cc-bar{width:152.3px;height:7px;border-radius:4px;background:rgba(47,51,56,.11);margin-top:9px;overflow:hidden;}
+  .cc-bar i{display:block;height:7px;border-radius:4px;background:#46d687;}
+  .cc-prog-div{width:1px;height:29.5px;margin-top:13px;background:rgba(0,0,0,.11);}
+  .cc-prog-r{flex:1;padding:10px 0 0 19.6px;font-size:14px;line-height:1.4;color:rgba(47,51,56,.69);}
   .cc-prog-r b{color:#26bf46;font-weight:600;}
-  .cc-last{position:absolute;left:24px;top:186px;font-size:12px;color:rgba(47,51,56,.69);}
+  .cc-prog-r b.lv{color:#2f3338;font-weight:400;}
+  .cc-last{position:absolute;left:24px;top:184px;font-size:12px;line-height:1.2;color:rgba(47,51,56,.69);}
   .cc-cta-v1{position:absolute;border:none;border-radius:44px;background:linear-gradient(to bottom,#42cc5f,#46d687);color:#fff;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;cursor:pointer;white-space:nowrap;padding:0 16px;height:33px;}
   .cc-card-v1.tall .cc-cta-v1{left:243px;top:176px;}
   .cc-card-v1.short .cc-cta-v1{right:12px;top:73px;}
@@ -714,7 +708,9 @@
   #guestEntries{height:77px;border-radius:16px;background:#f4f5f5;margin-top:17px;display:flex;align-items:flex-start;justify-content:center;gap:60px;padding-top:4px;position:relative;z-index:2;}
   .guest-entry{width:50px;height:64px;background-repeat:no-repeat;background-position:center;background-size:50px 64px;cursor:pointer;}
   #trialCta{margin-top:24px;height:120px;border-radius:16px;background:url('assets/trial-guest.png') center/343px 120px no-repeat;cursor:pointer;position:relative;z-index:2;}
-  .end-note{text-align:center;font-size:12px;color:rgba(47,51,56,.28);margin-top:8px;padding-bottom:8px;}
+  .end-note{text-align:center;margin-top:12px;padding-bottom:8px;position:relative;z-index:2;}
+  .end-note .en-in{display:inline-flex;align-items:center;gap:6px;font-size:12px;line-height:17px;letter-spacing:-.18px;color:rgba(47,51,56,.4);}
+  .end-note img{width:24px;height:1px;display:block;}
 
   /* 底部 Tab：48 + 34 安全区 */
   .tabbar{height:82px;padding-bottom:34px;border-top:none;border-radius:0 0 44px 44px;box-shadow:0 -1px 0 rgba(232,236,235,.9);}
@@ -801,7 +797,7 @@
 
         <!-- 下一次课（付费 / 未付费已约） -->
         <div id="nextSec">
-          <div class="sec-row"><div class="sec-h">下一次课</div><span class="sec-link" onclick="switchTab('sched')">查看课表 <i>›</i></span></div>
+          <div class="sec-row"><div class="sec-h">下一次课</div><span class="sec-link" onclick="switchTab('sched')">查看课表<img src="assets/sec-arrow.svg" alt=""></span></div>
           <div id="nextBox"></div>
         </div>
 
@@ -835,7 +831,7 @@
           <div id="ccList"></div>
         </div>
 
-        <div class="end-note">到底啦~</div>
+        <div class="end-note"><span class="en-in"><img src="assets/end-line.svg" alt="">到底啦~<img src="assets/end-line.svg" alt=""></span></div>
 
         <!-- 游客：了解我们 / 学习资料 / 课程顾问 -->
         <div id="guestEntries">
@@ -1160,24 +1156,22 @@
     const typeText = c.type === 'main' ? '主修课' : '专项课';
     const statusText = diffDays(c.date, TODAY) <= 0 ? '即将开始' : '已约待上';
     const doneTasks = Math.min(c.tasks || 0, tasksOf(c).length);
-    const multiNext = FAMILY.kids === 'multi';
     box.innerHTML = `
-      <div class="next-v1${multiNext ? ' multi' : ''}" onclick="switchTab('sched')">
-        ${multiNext ? `<img class="nx-ava" src="assets/avatar-student.png" alt="">` : ''}
+      <div class="next-v1" onclick="switchTab('sched')">
         <div class="nx-panel"></div>
-        <div class="nx-top"><img src="assets/cal-icon.svg" alt=""><span class="nx-date">${dateText}</span><span class="nx-sep"></span><span class="nx-time">${c.time}</span></div>
+        <div class="nx-top"><img src="assets/cal-18.svg" alt=""><span class="nx-date">${dateText}</span><span class="nx-sep"></span><span class="nx-time">${c.time}</span></div>
         <div class="nx-status">${statusText}</div>
         <div class="nx-thumb"></div>
         <div class="nx-info">
           <div class="nx-tags"><span class="nx-tag ${c.type === 'main' ? 'main' : 'spec'}">${typeText}</span><span class="nx-tag dur">${dur}分钟/节</span></div>
           <div class="nx-name">${name}</div>
           <div class="nx-line">${c.line}</div>
-          <div class="nx-teacher"><img src="assets/teacher-avatar.svg" alt="">${c.teacher}</div>
+          <div class="nx-teacher"><span class="t-ava"><img src="assets/teacher-photo.png" alt=""></span>${c.teacher}</div>
         </div>
         <div class="nx-div"></div>
         <div class="nx-foot"><img src="assets/task-icon.svg" alt="">学习任务<b>${doneTasks}/${tasksOf(c).length}</b></div>
         <div class="nx-segs">${tasksOf(c).map((_,i)=>`<i class="${i<doneTasks?'on':''}"></i>`).join('')}</div>
-        <button class="nx-go" title="查看课表" onclick="event.stopPropagation();gotoLesson('${c.date}')"><img src="assets/arrow-right.svg" alt=""></button>
+        <button class="nx-go" title="查看课表" onclick="event.stopPropagation();gotoLesson('${c.date}')"><img src="assets/arrow-go.svg" alt=""></button>
       </div>`;
   }
   function gotoLesson(date){
@@ -1332,32 +1326,34 @@
     const childPill = withChild
       ? `<div class="cc-child-pill"><span class="avatar">${STUDENTS[kid].ava}</span><span class="nm">${STUDENTS[kid].name}</span></div>`
       : '';
-    const dur = (c.name.match(/(\d+)分钟/) || [])[1] || '25';
+    const dur = (c.name.match(/(\d+)分钟/) || [])[1] || (c.type === 'ai' ? '15' : '25');
     const typeName = c.type === 'main' ? '主修课' : (c.type === 'spec' ? '专项课' : 'AI课');
     const tagClass = c.type === 'main' ? 'main' : (c.type === 'spec' ? 'spec' : 'ai');
     const cleanName = (c.short || c.name).replace(/（/g, ' ').replace(/）/g, '');
     const pct = p ? Math.max(0, Math.min(100, p.percent || 0)) : 0;
     const sub = tall ? p.line : '';
     const tags = `<div class="cc-tags-v1"><span class="cc-tag-v1 ${tagClass}">${typeName}</span><span class="cc-tag-v1 dur">${dur}分钟/节</span></div>`;
-    const aiCls = c.type === 'ai' ? ' ai-card' : '';
     const thumb = c.cover ? `<div class="thumb"><img src="${c.cover}" alt="" loading="lazy"></div>` : `<div class="thumb"></div>`;
     if(tall){
-      return `<div class="cc-card-v1 tall${withChild ? ' multi' : ''}${aiCls}" onclick="openCourse('${c.id}')">
+      return `<div class="cc-card-v1 tall${withChild ? ' multi' : ''}" onclick="openCourse('${c.id}')">
           ${childPill}
           ${thumb}
           <div class="info">${tags}<div class="cc-name-v1">${cleanName}</div><div class="cc-sub-v1">${sub}</div></div>
           <div class="cc-prog-v1">
             <div class="cc-prog-l"><div class="lb"><span>当前课程进度</span><b>${pct}%</b></div><div class="cc-bar"><i style="width:${pct}%"></i></div></div>
             <div class="cc-prog-div"></div>
-            <div class="cc-prog-r">距离 <b style="color:#2f3338">${p.next}</b> 还有<br><b>${p.remain}</b> 课时</div>
+            <div class="cc-prog-r">距离 <b class="lv">${p.next}</b> 还有<br><b>${p.remain}</b> 课时</div>
           </div>
           ${c.lastStudy ? `<div class="cc-last">上次学习 ${ymd(c.lastStudy).replace(/\//g,'.')}</div>` : ''}
           <button class="cc-cta-v1" onclick="${fn}">${label}</button>
         </div>`;
     }
-    return `<div class="cc-card-v1 short${aiCls}" onclick="openCourse('${c.id}')">
+    // 短卡（未约课 / AI 课）：AI 课有学习记录时，「上次学习」显示在标题下（Figma 139:6702）
+    const lastAi = c.type === 'ai' && c.lastStudy ? `<div class="cc-last-ai">上次学习 ${ymd(c.lastStudy).replace(/\//g,'.')}</div>` : '';
+    return `<div class="cc-card-v1 short" onclick="openCourse('${c.id}')">
         ${thumb}
         <div class="info">${tags}<div class="cc-name-v1">${cleanName}</div></div>
+        ${lastAi}
         <button class="cc-cta-v1" onclick="${fn}">${label}</button>
       </div>`;
   }
@@ -1490,18 +1486,23 @@
     const wrap = document.getElementById('homeStudy');
     wrap.style.display = showStudy() ? 'block' : 'none';
     if(!showStudy()){ wrap.innerHTML = ''; return; }
-    const multi = FAMILY.kids === 'multi';
     const zero = { days:0, min:0, level:'Level 0', pct:0, lvNext:'LV1' };
-    const cardHTML = (id, withName) => {
+    // 环形进度：Figma 134:4838（45×45，r=20，描边 5，轨道 #42CC5F/12%，进度 #46D687 圆头）
+    const ringSVG = pct => {
+      const C = 2 * Math.PI * 20;
+      const arc = pct > 0 ? `<circle cx="22.5" cy="22.5" r="20" fill="none" stroke="#46D687" stroke-width="5" stroke-linecap="round" stroke-dasharray="${(C * pct / 100).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 22.5 22.5)"/>` : '';
+      return `<svg viewBox="0 0 45 45"><circle cx="22.5" cy="22.5" r="20" fill="none" stroke="#42CC5F" stroke-opacity=".12" stroke-width="5"/>${arc}</svg>`;
+    };
+    const cardHTML = id => {
       const st = isTrial() ? zero : STUDENTS[id].stats;
       const pct = st.pct || 0;
       const lvTxt = `${st.level.replace('Level ', 'Lv')} - ${st.lvNext.replace('LV', 'Lv')}`;
-      return `<div class="study-v1${multi ? ' multi' : ''}">
-          <div class="study-head">
-            <span class="study-ava"><img src="assets/avatar-student.png" alt=""></span>
-            ${withName ? `<span class="study-name">${STUDENTS[id].name}</span>` : `<span class="study-title">学习数据</span>`}
-          </div>
-          <span class="study-link" onclick="toast('查看本周学习详情')">查看本周学习详情 <i>›</i></span>
+      const ava = STUDENTS[id].avatar || 'assets/avatar-student.png';
+      return `<div class="study-v1">
+          <div class="study-head"></div>
+          <span class="study-ava"><img src="${ava}" alt=""></span>
+          <span class="study-name">${STUDENTS[id].name}</span>
+          <span class="study-link" onclick="toast('查看本周学习详情')">查看本周学习详情<img src="assets/link-arrow-white.svg" alt=""></span>
           <div class="study-panels">
             <div class="stats-panel">
               <div class="stat-blk"><div class="stat-val">${st.min}<small>分</small></div><div class="stat-lb">本周学习时长</div></div>
@@ -1509,17 +1510,14 @@
               <div class="stat-blk"><div class="stat-val">${st.days}<small>天</small></div><div class="stat-lb">本周学习天数</div></div>
             </div>
             <div class="level-panel">
-              <div class="ring-v1" style="background:conic-gradient(#42cc5f 0 ${pct}%,#e8f3eb ${pct}% 100%)"><span>${pct}%</span></div>
+              <div class="ring-v1">${ringSVG(pct)}<span>${pct}<small>%</small></span></div>
               <div class="ring-lv">${lvTxt}</div>
             </div>
           </div>
         </div>`;
     };
-    if(multi){
-      wrap.innerHTML = `<div class="study-sec-title">学习数据</div><div class="study-scroll">${kidIds().map(id => cardHTML(id, true)).join('')}</div>`;
-    } else {
-      wrap.innerHTML = cardHTML(kidIds()[0], false);
-    }
+    // 标题在卡外；单孩 1 张、多孩横滑（露出下一张）
+    wrap.innerHTML = `<div class="study-sec-title">学习数据</div><div class="study-scroll">${kidIds().map(cardHTML).join('')}</div>`;
   }
 
   // 课表页孩子入口（仅多孩展示）：显示当前孩子，点击弹窗选择
@@ -1553,7 +1551,7 @@
     if(FAMILY.kids !== 'multi'){ pill.style.display = 'none'; return; }
     pill.style.display = 'flex';
     const s = STUDENTS[CC.student];
-    pill.innerHTML = `<span class="avatar">${s.avatar ? `<img class="ava-img" src="${s.avatar}" alt="">` : s.ava}</span><span class="kn">${s.name}</span><span class="cd">▾</span>`;
+    pill.innerHTML = `<span class="avatar">${s.avatar ? `<img class="ava-img" src="${s.avatar}" alt="">` : s.ava}</span><span class="kn">${s.name}</span><span class="cc-caret"><img src="assets/kid-caret.svg" alt=""></span>`;
   }
 
   /* ================= 孩子选择弹窗（课表/约课/首页共用，仅多孩） ================= */
@@ -1562,10 +1560,20 @@
     if(FAMILY.kids !== 'multi'){ toast('当前仅 1 个宝贝'); return; }
     KIDCTX = ctx || 'sched';
     // 更新弹窗标题
-    const title = document.querySelector('#kidSheet .sheet-title');
-    if(title) title.textContent = KIDCTX === 'cc' ? '选择宝贝' : '切换宝贝';
+    const sheet = document.getElementById('kidSheet');
+    const isPop = KIDCTX === 'cc';
+    const head = sheet.querySelector('.sheet-head b');
+    if(head) head.textContent = isPop ? '选择宝贝' : '切换宝贝';
+    sheet.classList.toggle('pop', isPop);
+    const panel = sheet.querySelector('.sheet-panel');
+    panel.style.top = '';
+    if(isPop){
+      const pr = document.getElementById('ccKidPill').getBoundingClientRect();
+      const ph = document.querySelector('.phone').getBoundingClientRect();
+      panel.style.top = (pr.bottom - ph.top + 4) + 'px';
+    }
     renderKidList();
-    document.getElementById('kidSheet').classList.add('show');
+    sheet.classList.add('show');
   }
   function kidClose(){ document.getElementById('kidSheet').classList.remove('show'); }
   function renderKidList(){
@@ -1573,7 +1581,7 @@
     document.getElementById('kidList').innerHTML = kidIds().map(id => {
       const s = STUDENTS[id];
       const av = s.avatar ? `<img class="ava-img" src="${s.avatar}" alt="">` : s.ava;
-      const tick = `<svg class="kc" viewBox="0 0 24 24" fill="none"><path d="M4.5 12.5l5 5L19.5 7" stroke="#3fbf5f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+      const tick = `<img class="kc" src="assets/kid-check.svg" alt="">`;
       return `<div class="kid-row${id===cur?' on':''}" onclick="pickKid('${id}')">
           <span class="kd-main"><span class="avatar">${av}</span><span class="kn">${s.name}</span></span>
           ${id===cur ? tick : ''}
