@@ -804,8 +804,8 @@
         <!-- 学习资源 / 活动福利 -->
         <div id="resSec">
           <div class="res-tabs">
-            <div class="res-tab on" id="resTabRes" onclick="homeResTab('res')">学习资源</div>
-            <div class="res-tab off" id="resTabMkt" onclick="homeResTab('mkt')">活动福利</div>
+            <div class="res-tab on" id="resTabRes" onclick="homeResTab('res',true)">学习资源</div>
+            <div class="res-tab off" id="resTabMkt" onclick="homeResTab('mkt',true)">活动福利</div>
           </div>
           <div class="res-grid2" id="resPaneRes">
             <div class="res-card2" style="background-image:url('assets/res-audio.png')" onclick="toast('音频电台')"></div>
@@ -1605,14 +1605,28 @@
 
   /* ================= 首页运营区 Tab 轮播（学习资源/活动福利） ================= */
   const HZ = { tab:'res', timer:null };
-  function homeResTab(t){
+  const RES_AUTO_MS = 5000;   // 自动切换间隔（设计稿未标注，暂定 5 秒）
+  function homeResTab(t, manual){
     const isRes = t === 'res';
+    HZ.tab = t;
     const r = document.getElementById('resTabRes'), m = document.getElementById('resTabMkt');
     r.classList.toggle('on', isRes);  r.classList.toggle('off', !isRes);
     m.classList.toggle('on', !isRes); m.classList.toggle('off', isRes);
     document.getElementById('resPaneRes').style.display = isRes ? 'grid' : 'none';
     document.getElementById('resPaneMkt').style.display = isRes ? 'none' : 'block';
+    if(manual) resAutoStart();   // 手动点击后重新计时，避免刚点完又被切走
   }
+  // 自动轮播：页面不可见 / 不在首页 / 运营区未显示时跳过本轮
+  function resAutoStart(){
+    clearInterval(HZ.timer);
+    HZ.timer = setInterval(() => {
+      const sec = document.getElementById('resSec');
+      if(document.hidden || !sec || sec.offsetParent === null) return;
+      if(document.querySelector('.phone').dataset.tab !== 'home') return;
+      homeResTab(HZ.tab === 'res' ? 'mkt' : 'res');
+    }, RES_AUTO_MS);
+  }
+  resAutoStart();
 
   /* ================= 课程顾问（家庭维度） ================= */
   const CONS = {
