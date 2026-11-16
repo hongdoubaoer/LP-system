@@ -473,14 +473,19 @@
   .stu-cur .caret{font-size:10px;color:#9aa6a0;font-style:normal;}
   .stu-cur .hint{font-size:10.5px;font-weight:600;color:var(--sub);}
   /* 孩子选择弹窗 */
-  .kid-list{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
-  .kid-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:#f8fbf9;border:1.5px solid transparent;cursor:pointer;}
-  .kid-row:active{background:#eff6f1;}
-  .kid-row .avatar{width:36px;height:36px;font-size:17px;border-width:1.5px;}
-  .kid-row .kn{font-size:14px;font-weight:800;}
-  .kid-row .kc{margin-left:auto;font-size:11px;font-weight:700;color:var(--sub);}
-  .kid-row.on{border-color:var(--green);background:var(--green-light);}
-  .kid-row.on .kc{color:var(--green-dark);}
+  .kid-list{display:flex;flex-direction:column;gap:6px;margin-top:4px;}
+  .kid-row{display:flex;align-items:center;gap:12px;padding:8px 0;background:none;border:none;cursor:pointer;}
+  .kid-row:active{opacity:.75;}
+  .kid-row .avatar{width:34px;height:34px;font-size:16px;border-width:0;box-shadow:none;flex:none;}
+  .kid-row .kn{font-size:15px;font-weight:600;color:#9aa6a0;}
+  /* 选中态：头像 + 名字包进绿色胶囊，对勾在右侧独立 */
+  .kid-row .kc{display:none;}
+  .kid-row.on{gap:0;}
+  .kid-row.on .kd-main{display:inline-flex;align-items:center;gap:9px;height:44px;padding:0 22px 0 6px;border-radius:22px;background:#eef9f0;border:2px solid #4ed07a;}
+  .kid-row.on .kn{color:#3fbf5f;font-weight:700;}
+  .kid-row.on .kc{display:block;margin-left:24px;width:22px;height:22px;flex:none;}
+  .kd-main{display:flex;align-items:center;gap:12px;min-width:0;}
+  .kid-row .ava-img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;}
   /* 课程中心多孩分组头 */
   .cc-stu-head{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:800;color:#3d4d44;margin:4px 2px 10px;}
   .cc-stu-head .avatar{width:26px;height:26px;font-size:13px;border-width:1.5px;}
@@ -655,9 +660,19 @@
   .cc-card-v1{background:#fff;border-radius:16px;position:relative;overflow:hidden;margin-bottom:12px;cursor:pointer;}
   .cc-card-v1.tall{height:219px;}
   .cc-card-v1.short{height:118px;}
-  .cc-card-v1 .thumb{position:absolute;left:12px;top:12px;background:url('assets/course-cover.png') center/cover;border-radius:10px;}
+  .cc-card-v1 .thumb{position:absolute;left:12px;top:12px;background:url('assets/course-cover.png') center/cover;border-radius:10px;overflow:hidden;}
+  .cc-card-v1 .thumb>img{width:100%;height:100%;object-fit:cover;display:block;border-radius:inherit;}
   .cc-card-v1.tall .thumb{width:112px;height:84px;}
   .cc-card-v1.short .thumb{width:124px;height:94px;border-radius:11px;}
+  /* AI 课：封面放大到插画比例（248×188），与 Figma 一致 */
+  .cc-card-v1.tall.ai-card{height:240px;}
+  .cc-card-v1.tall.ai-card .thumb{left:12px;top:36px;width:186px;height:141px;border-radius:12px;}
+  .cc-card-v1.tall.ai-card .info{top:36px;}
+  .cc-card-v1.short.ai-card{height:224px;}
+  .cc-card-v1.short.ai-card .thumb{left:12px;top:68px;width:186px;height:141px;}
+  .cc-card-v1.short.ai-card .info{left:12px;top:12px;width:250px;}
+  .cc-card-v1.short.ai-card .cc-name-v1{margin-top:8px;}
+  .cc-card-v1.short.ai-card .cc-cta-v1{right:12px;bottom:14px;top:auto;}
   .cc-card-v1 .info{position:absolute;left:136px;top:17px;width:191px;}
   .cc-card-v1.short .info{left:148px;top:12px;width:183px;}
   .cc-tags-v1{display:flex;gap:6px;align-items:center;}
@@ -1184,6 +1199,7 @@
     gghj: {
       name: 'Gghj',
       ava: '👦',
+      avatar: 'assets/kid-gghj.png',
       stats: { days: 3, min: 75, level: 'Level 0', pct: 19, lvNext: 'LV1' },   // 本周学习天数 / 时长(分) / 当前级别 / 级别进度% / 下一级别
       courses: [
         { id:'m1', type:'main', name:'原版英语课（L0–L4，25分钟/课）', short:'原版英语课（L0–L4）', emoji:'🧑‍🏫',
@@ -1197,11 +1213,11 @@
           bg:'linear-gradient(135deg,#ffe9f3,#ffd0e6)', tags:[['专项课','tag-spec']],
           status:'start', cfg:3, lastStudy:'2026/11/05', lastStudyTS:'2026-11-05 15:00', bookable:6,
           progress:{ line:'Level 1 · Unit 1 · Lesson 3', level:'Level 1', next:'Level 2', percent:11, remain:16 } },
-        { id:'a1', type:'ai', name:'金牌阅读课', emoji:'🥇', bg:'linear-gradient(135deg,#fff4d6,#ffe3a8)',
+        { id:'a1', type:'ai', name:'金牌阅读课', emoji:'🥇', bg:'linear-gradient(135deg,#fff4d6,#ffe3a8)', cover:'assets/course-cover-ai-reading.png',
           tags:[['AI课','tag-ai']], status:'start', cfg:4, lastStudy:'2026/11/08', lastStudyTS:'2026-11-08 10:20', perm:true },
-        { id:'a2', type:'ai', name:'地道美语', emoji:'🗣️', bg:'linear-gradient(135deg,#e7e9ff,#d3d8ff)',
+        { id:'a2', type:'ai', name:'地道美语', emoji:'🗣️', bg:'linear-gradient(135deg,#e7e9ff,#d3d8ff)', cover:'assets/course-cover-ai-english.png',
           tags:[['AI课','tag-ai']], status:'start', cfg:5, lastStudy:'2026/11/06', lastStudyTS:'2026-11-06 21:05', perm:true },
-        { id:'a3', type:'ai', name:'小学英语必考句型', emoji:'🦉', bg:'linear-gradient(135deg,#dff3e7,#c9ecd9)',
+        { id:'a3', type:'ai', name:'小学英语必考句型', emoji:'🦉', bg:'linear-gradient(135deg,#dff3e7,#c9ecd9)', cover:'assets/course-cover-ai-sentence.png',
           tags:[['AI课','tag-ai']], status:'start', cfg:6, lastStudy:null, perm:true },
         { id:'a4', type:'ai', name:'原版阅读指导课', emoji:'📚', bg:'linear-gradient(135deg,#fde8e0,#fbd5c6)',
           tags:[['AI课','tag-ai']], status:'start', cfg:7, lastStudy:'2026/11/02', lastStudyTS:'2026-11-02 09:40', perm:false }
@@ -1210,6 +1226,7 @@
     mia: {
       name: 'Mia',
       ava: '👧',
+      avatar: 'assets/kid-mia.png',
       stats: { days: 2, min: 50, level: 'Level 2', pct: 41, lvNext: 'LV3' },
       courses: [
         { id:'mm1', type:'main', name:'原版英语课（L0–L4，25分钟/课）', short:'原版英语课（L0–L4）', emoji:'🧑‍🏫',
@@ -1219,7 +1236,7 @@
         { id:'mm2', type:'spec', name:'自然拼读强化班（L1–L3）', short:'自然拼读强化班', emoji:'🔤',
           bg:'linear-gradient(135deg,#ffe9f3,#ffd0e6)', tags:[['专项课','tag-spec']],
           status:'not_start', cfg:2, lastStudy:null, progress:null },
-        { id:'ma1', type:'ai', name:'金牌阅读课', emoji:'🥇', bg:'linear-gradient(135deg,#fff4d6,#ffe3a8)',
+        { id:'ma1', type:'ai', name:'金牌阅读课', emoji:'🥇', bg:'linear-gradient(135deg,#fff4d6,#ffe3a8)', cover:'assets/course-cover-ai-reading.png',
           tags:[['AI课','tag-ai']], status:'start', cfg:3, lastStudy:'2026/11/06', lastStudyTS:'2026-11-06 18:30', perm:true }
       ]
     }
@@ -1322,10 +1339,12 @@
     const pct = p ? Math.max(0, Math.min(100, p.percent || 0)) : 0;
     const sub = tall ? p.line : '';
     const tags = `<div class="cc-tags-v1"><span class="cc-tag-v1 ${tagClass}">${typeName}</span><span class="cc-tag-v1 dur">${dur}分钟/节</span></div>`;
+    const aiCls = c.type === 'ai' ? ' ai-card' : '';
+    const thumb = c.cover ? `<div class="thumb"><img src="${c.cover}" alt="" loading="lazy"></div>` : `<div class="thumb"></div>`;
     if(tall){
-      return `<div class="cc-card-v1 tall${withChild ? ' multi' : ''}" onclick="openCourse('${c.id}')">
+      return `<div class="cc-card-v1 tall${withChild ? ' multi' : ''}${aiCls}" onclick="openCourse('${c.id}')">
           ${childPill}
-          <div class="thumb"></div>
+          ${thumb}
           <div class="info">${tags}<div class="cc-name-v1">${cleanName}</div><div class="cc-sub-v1">${sub}</div></div>
           <div class="cc-prog-v1">
             <div class="cc-prog-l"><div class="lb"><span>当前课程进度</span><b>${pct}%</b></div><div class="cc-bar"><i style="width:${pct}%"></i></div></div>
@@ -1336,8 +1355,8 @@
           <button class="cc-cta-v1" onclick="${fn}">${label}</button>
         </div>`;
     }
-    return `<div class="cc-card-v1 short" onclick="openCourse('${c.id}')">
-        <div class="thumb"></div>
+    return `<div class="cc-card-v1 short${aiCls}" onclick="openCourse('${c.id}')">
+        ${thumb}
         <div class="info">${tags}<div class="cc-name-v1">${cleanName}</div></div>
         <button class="cc-cta-v1" onclick="${fn}">${label}</button>
       </div>`;
@@ -1534,7 +1553,7 @@
     if(FAMILY.kids !== 'multi'){ pill.style.display = 'none'; return; }
     pill.style.display = 'flex';
     const s = STUDENTS[CC.student];
-    pill.innerHTML = `<span class="avatar">${s.ava}</span><span class="kn">${s.name}</span><span class="cd">▾</span>`;
+    pill.innerHTML = `<span class="avatar">${s.avatar ? `<img class="ava-img" src="${s.avatar}" alt="">` : s.ava}</span><span class="kn">${s.name}</span><span class="cd">▾</span>`;
   }
 
   /* ================= 孩子选择弹窗（课表/约课/首页共用，仅多孩） ================= */
@@ -1553,9 +1572,11 @@
     const cur = KIDCTX === 'sched' ? SCHED.stu : CC.student;
     document.getElementById('kidList').innerHTML = kidIds().map(id => {
       const s = STUDENTS[id];
+      const av = s.avatar ? `<img class="ava-img" src="${s.avatar}" alt="">` : s.ava;
+      const tick = `<svg class="kc" viewBox="0 0 24 24" fill="none"><path d="M4.5 12.5l5 5L19.5 7" stroke="#3fbf5f" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
       return `<div class="kid-row${id===cur?' on':''}" onclick="pickKid('${id}')">
-          <span class="avatar">${s.ava}</span><span class="kn">${s.name}</span>
-          <span class="kc">${id===cur ? '当前' : '点击选择'}</span>
+          <span class="kd-main"><span class="avatar">${av}</span><span class="kn">${s.name}</span></span>
+          ${id===cur ? tick : ''}
         </div>`;
     }).join('');
   }
