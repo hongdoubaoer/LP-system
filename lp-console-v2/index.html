@@ -3018,7 +3018,9 @@ table.tbl tbody tr:hover>td{background:var(--hover-row)!important}
 .nc-id{padding-bottom:12px;border-color:var(--line)}
 .nc-nm b{font-size:19px;font-weight:600;color:var(--text);letter-spacing:-.3px}
 .nc-sub{background:transparent;border:0;padding:3px 0;color:var(--muted);font-size:11px;border-radius:0}
-#view-stuDetail .nc-own{gap:3px}
+#view-stuDetail .nc-own{flex-direction:column;gap:3px}
+#view-stuDetail .nc-owner-name{font-size:12.5px;font-weight:650;color:var(--text);overflow-wrap:anywhere}
+#view-stuDetail .nc-ow em{font-size:11px;color:var(--muted)}
 #view-stuDetail .nc-ow{background:transparent;border:0;border-radius:0;padding:5px 0;gap:8px}
 .nc-av{background:var(--section);border:0;border-radius:4px;color:var(--muted);font-size:9px}
 .nc-ow em{color:var(--gray)}
@@ -4215,6 +4217,193 @@ table.lp-unified-courses .v11-resource{font-size:11px}
 @media(max-width:580px){#view-parDetail #pInfo{grid-template-columns:minmax(0,1fr)!important}#view-parDetail .v3-tabpad{padding:12px}#view-parDetail .card-hd .right{width:100%;margin-left:0}#view-parDetail .lp-parent-filters label{min-width:135px}}
 
 </style>
+
+<style id="lp-student-readability">
+@media (min-width:561px){
+  #stuFilters .lf-inputs{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+#view-stuDetail .dl .fs-cols{row-gap:14px;column-gap:clamp(12px,calc(1.5vw - 4px),20px)}
+#view-stuDetail .ncard{--detail-accent:#4968a7}
+#view-stuDetail .npar{--detail-accent:#267968}
+#view-stuDetail #overviewCard,#view-stuDetail #fsKpis{--detail-accent:#91702c}
+#view-stuDetail #calCard{--detail-accent:#4e659f}
+#view-stuDetail #taskCard{--detail-accent:#a65b43}
+#view-stuDetail #fsFollow{--detail-accent:#785a9f}
+#view-stuDetail :is(.ncard,.npar,#overviewCard,#fsKpis,#calCard,#taskCard,#fsFollow){
+  border-color:color-mix(in srgb,var(--detail-accent) 26%,var(--line));
+  background:linear-gradient(155deg,color-mix(in srgb,var(--detail-accent) 7%,white),white 210px);
+}
+#view-stuDetail #sName{font-size:clamp(21px,2vw,26px);font-weight:700}
+#view-stuDetail #ncCourse{font-size:14px;font-weight:700}
+#view-stuDetail #ncNext{font-size:12px;font-weight:600;color:#3d5687}
+#view-stuDetail #fsColL .npar .np-section .np-row .k{width:76px}
+#view-stuDetail #fsColL .npar .np-section .np-row #npPhone{font-size:12px;font-weight:700;color:var(--text)}
+#view-stuDetail #fsColL .npar .np-section .np-row :is(#npWxNick,#npWxNote){font-weight:550;color:var(--text)}
+#view-stuDetail :is(#overviewCard,#calCard) > .card-hd,
+#view-stuDetail #overviewCard .ov-prog,
+#view-stuDetail #fsKpis > .lo-head{border-bottom:0}
+#view-stuDetail #fsKpis > .lo-head{background:transparent}
+#view-stuDetail #overviewCard #ovProg .op-n{font-size:34px;font-weight:750;color:#765819}
+#view-stuDetail #overviewCard #ovFacts .fact-v b{font-size:19px;font-weight:700}
+#view-stuDetail #stuTabs.v3-maintabs button{font-size:14px}
+#view-stuDetail #stuTabBody .v3-subnav button{font-size:13px}
+</style>
+
+<style id="lp-overall-polish">
+/* Contact actions share a visual treatment on list, profile and service cards. */
+body :is(.lp-action-decrypt,.lp-action-call):is(.btn,.icon-btn,.qa){
+  --contact-ink:var(--muted);
+  --contact-bg:var(--section);
+  gap:5px;
+  color:var(--contact-ink);
+  border-color:var(--line);
+}
+body :is(.lp-action-call):is(.btn,.icon-btn,.qa){
+  --contact-ink:var(--action);
+  --contact-bg:color-mix(in srgb,var(--action) 8%,var(--card));
+}
+body :is(.lp-action-decrypt,.lp-action-call):is(.btn,.icon-btn,.qa):hover:not(:disabled){
+  background:var(--contact-bg);color:var(--action);border-color:var(--brand-line);
+}
+body :is(.lp-action-decrypt,.lp-action-call,.node):focus-visible{
+  outline:2px solid var(--action);outline-offset:2px;
+}
+body :is(.lp-action-decrypt,.lp-action-call) svg.i{width:15px;height:15px;flex:none;stroke-linecap:round;stroke-linejoin:round}
+body .lp-action-decrypt:disabled[title="已解密"]{color:var(--ok);opacity:1}
+body :is(.stu-phone-action,.par-phone-action){width:28px;height:28px}
+body .qact .qa.pri.lp-action-call{color:white}
+.view table.tbl tbody tr:nth-child(even)>td{background:color-mix(in srgb,var(--zebra) 65%,var(--thead))!important}
+.view table.tbl tbody tr:is(:hover,:focus-within)>td{background:var(--hover-row)!important}
+.view table.tbl tbody td{line-height:1.45}
+.view table.tbl td.num{font-variant-numeric:tabular-nums}
+#view-stuDetail #taskCard .tn-meta{font-size:11.5px;line-height:1.45}
+#view-stuDetail #taskCard .tn-meta>span{margin-right:4px;font-weight:600;color:var(--text-2)}
+#view-stuDetail #taskCard .tn-r1>b{font-size:13px}
+#view-dash .v3-service-node-card .node-grid{
+  grid-template-columns:repeat(4,minmax(94px,1fr));gap:8px;
+  overflow-x:auto;padding:3px;
+}
+#view-dash .node{
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-content:start;align-items:start;
+  gap:4px 8px;min-height:68px;padding:8px 10px;font:inherit;text-align:left;cursor:pointer;
+}
+#view-dash .node .n-name{grid-area:1/1;overflow-wrap:anywhere}
+#view-dash .node .n-val{grid-column:1/-1;grid-row:2;margin:0;font-size:24px;line-height:1.15;font-variant-numeric:tabular-nums}
+#view-dash .node .v3-node-overdue{grid-area:1/2;justify-self:end}
+#view-dash .v3-service-node-card,#view-dash .v3-dashcards{margin-top:clamp(12px,1.8vh,20px)!important}
+#view-dash .v3-dashcards .card-hd,#view-dash .v3-service-node-card .card-hd{min-height:46px;padding-block:9px}
+.wrap:has(> #view-dash.on){padding-bottom:22px}
+#view-dash .v3-dashcards .card-bd{padding:6px 16px 9px}
+#view-dash .v3-service-node-card > .card-bd{padding:3px 16px 12px}
+#view-dash .v3-goal-row{padding:8px 10px}
+#view-dash .v3-goal-row:last-of-type{padding-bottom:2px}
+#view-dash .v3-goal-row+.v3-goal-row{margin-top:8px}
+#view-dash .v12-rank-me{padding:8px 10px;margin-bottom:4px}
+#view-dash .v12-rank li{padding:7px 5px}
+#view-dash .v12-rank li.me{background:var(--section)}
+#view-stuDetail #fsFollow > .card-hd,
+#view-dash .v3-service-node-card > .card-hd,
+#view-dash .v3-dashcards > .card > .card-hd{
+  border-bottom:0;background:transparent;
+}
+#view-stuDetail #fsFollow .follow-summary{
+  padding:0 0 6px;color:var(--muted);font-size:12px;line-height:1.5;
+}
+#view-dash .kpi-grid{align-items:stretch}
+#view-dash .kpi{
+  display:flex;flex-direction:column;justify-content:flex-start;
+  min-height:0;padding-block:12px;
+}
+#view-dash .kpi > .val,#view-dash .kpi:first-child > .val{margin-top:16px}
+#view-dash .v12-orders{flex:0 0 auto;gap:6px 12px}
+#view-dash .v12-orders .v11-order-states{gap:4px}
+#view-dash .v12-order-total small{align-self:auto;padding-bottom:0}
+@media(min-width:1000px){
+  #view-dash .kpi-grid{gap:11px}
+  #view-dash .kpi{padding-inline:12px}
+  #view-dash .kpi .val,#view-dash .kpi:first-child .val{font-size:clamp(21px,1.85vw,28px);margin-top:17px}
+  #view-dash .kpi .foot,#view-dash .kpi:first-child .foot{padding-top:4px}
+  #view-dash .v12-orders{margin-top:5px}
+  #view-dash .v12-order-total b{font-size:25px}
+  #view-dash .v12-orders .v11-order-states button{padding:3px 5px}
+}
+</style>
+<style id="lp-student-search-layout">
+:is(#stuFilters,#parFilters){--stu-field:210px;--stu-field-gap:12px;gap:15px}
+:is(#stuFilters,#parFilters) .stu-search-row,:is(#stuFilters,#parFilters) .stu-facet-row{
+  display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;
+}
+#stuFilters .stu-search-row .lf-inputs{
+  flex:0 1 calc(3 * var(--stu-field) + 2 * var(--stu-field-gap));
+  grid-template-columns:repeat(3,minmax(0,1fr));
+}
+#stuFilters .stu-facet-row .lf-selects{
+  flex:0 1 calc(3 * var(--stu-field) + 248px + 3 * var(--stu-field-gap));
+  grid-template-columns:minmax(0,1fr) minmax(0,248px) repeat(2,minmax(0,1fr));
+}
+#stuFilters :is(.lf-inputs,.lf-selects){min-width:0;gap:7px 10px}
+:is(#stuFilters,#parFilters) .filter-field{
+  display:grid;grid-template-columns:max-content minmax(0,1fr);align-items:center;gap:7px;
+}
+#stuFilters #stuAdvanced{
+  grid-template-columns:repeat(4,minmax(0,1fr));max-width:1020px;gap:8px 10px;
+}
+:is(#stuFilters,#parFilters) .filter-field>span{font-size:11.5px}
+#stuFilters .lf-box,:is(#stuFilters,#parFilters) .filter-field select{height:32px}
+:is(#stuFilters,#parFilters) :is(.stu-search-actions,.stu-filter-tools,.stu-table-tools){
+  border:0;padding:0;gap:6px;flex-wrap:wrap;
+}
+:is(#stuFilters,#parFilters) .lf-actions .btn{height:32px;padding:0 10px}
+:is(#stuFilters,#parFilters) .lf-query{min-width:68px}
+:is(#stuFilters,#parFilters) .stu-table-tools{margin-inline-start:auto}
+:is(#stuFilters,#parFilters) .stu-table-tools .filter-result{margin:0 4px 0 0}
+:is(#stuFilters,#parFilters) .filter-chips[hidden]{display:none}
+@media(max-width:1020px){
+  #stuFilters .stu-facet-row .lf-selects{grid-template-columns:repeat(2,minmax(0,1fr));flex-basis:min(100%,430px)}
+  #stuFilters #stuAdvanced{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:760px){
+  :is(#stuFilters,#parFilters) .filter-field{grid-template-columns:minmax(0,1fr);gap:4px}
+  :is(#stuFilters,#parFilters) .stu-search-row,:is(#stuFilters,#parFilters) .stu-facet-row{align-items:flex-end}
+}
+@media(max-width:560px){
+  #stuFilters :is(.stu-search-row .lf-inputs,.stu-facet-row .lf-selects){
+    flex-basis:100%;grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+#parFilters .lp-parent-identities{flex:0 1 830px;min-width:0}
+#parFilters .lp-parent-secondary{flex:0 1 432px;min-width:0;max-width:none;margin-top:0}
+#parFilters .lp-parent-identities input{height:32px}
+#parFilters .stu-table-tools{display:flex;align-items:center;gap:10px}
+#parFilters .filter-field select{min-width:0;width:100%}
+#parFilters #parAdvanced{max-width:1100px}
+@media(max-width:1020px){
+  #parFilters .lp-parent-identities{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  #parFilters :is(.lp-parent-identities,.lp-parent-secondary){flex-basis:100%}
+}
+</style>
+<style>
+#stuFilters .stu-purchase-month{width:100%;min-width:0;height:32px;box-sizing:border-box;padding:0 8px;border:1px solid var(--line-str);border-radius:8px;background:var(--card);color:var(--text-2);font:inherit;font-size:12.5px}
+#stuFilters .stu-purchase-month:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-weak)}
+</style>
+<style>
+#stuFilters .purchase-picker{position:relative;min-width:0}
+#stuFilters .purchase-trigger{display:flex;justify-content:space-between;align-items:center;width:100%;height:32px;padding:0 10px;border:1px solid var(--line-str);border-radius:8px;background:var(--card);color:var(--text-2);font:inherit;font-size:12.5px;cursor:pointer}
+#stuFilters .purchase-panel{position:absolute;top:calc(100% + 6px);right:0;width:238px;padding:12px;z-index:50;border:1px solid var(--line);border-radius:10px;background:var(--card);box-shadow:0 10px 28px rgba(29,43,65,.16)}
+#stuFilters .purchase-panel[hidden]{display:none}
+#stuFilters .purchase-year{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;color:var(--text);font-size:13px}
+#stuFilters .purchase-year button,#stuFilters .purchase-months button,#stuFilters .purchase-clear{border:0;background:transparent;color:var(--text-2);border-radius:6px;font:inherit;cursor:pointer}
+#stuFilters .purchase-year button{width:30px;height:28px;font-size:20px}
+#stuFilters .purchase-months{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+#stuFilters .purchase-months button{height:32px;font-size:12px}
+#stuFilters .purchase-panel button:hover{background:var(--brand-weak)}
+#stuFilters .purchase-months button.on{background:var(--action);color:white}
+#stuFilters .purchase-clear{display:block;margin:9px 0 0 auto;padding:5px 8px;color:var(--action);font-size:12px}
+#stuFilters .purchase-picker button:focus-visible{outline:2px solid var(--action);outline-offset:2px}
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
@@ -4246,6 +4435,8 @@ table.lp-unified-courses .v11-resource{font-size:11px}
 <symbol id="i-truck" viewBox="0 0 24 24"><path d="M2.8 6.4h10.4v9.2H2.8z"/><path d="M13.2 10h4l3.4 3.2v2.4h-7.4z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/></symbol>
 <symbol id="i-gift" viewBox="0 0 24 24"><rect x="3.4" y="9" width="17.2" height="11" rx="2"/><path d="M3.4 13.6h17.2M12 9v11"/><path d="M12 9C10.4 9 7.8 8 7.8 6.2A2.2 2.2 0 0112 5.6a2.2 2.2 0 014.2.6C16.2 8 13.6 9 12 9z"/></symbol>
 <symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="6" r="2.6"/><circle cx="18" cy="18" r="2.6"/><path d="M8.3 10.8l7.4-3.6M8.3 13.2l7.4 3.6"/></symbol>
+<symbol id="i-unlock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2.5"/><path d="M8.5 10V7a3.5 3.5 0 0 1 6.8-1.1M12 14.5v2"/></symbol>
+<symbol id="i-call-out" viewBox="0 0 24 24"><path d="M14 4h6v6m0-6-7 7M5.6 3.8H8l2 4.5-2.3 1.7a12.3 12.3 0 0 0 6.3 6.3l1.7-2.3 4.5 2v2.4a2 2 0 0 1-2.2 2 16 16 0 0 1-14.4-14.4 2 2 0 0 1 2-2.2z"/></symbol>
 <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.6 12S6.2 6.4 12 6.4 21.4 12 21.4 12 17.8 17.6 12 17.6 2.6 12 2.6 12z"/><circle cx="12" cy="12" r="2.9"/></symbol>
 <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5.6" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="18.4" cy="12" r="1.4"/></symbol>
 <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5.4h16v10.2h-8l-4.6 3.5v-3.5H4z"/></symbol>
@@ -4358,16 +4549,15 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
 <section class="view on" id="view-dash">
   <div class="kpi-grid">
     <div class="kpi"><div class="label"><svg class="i s" aria-hidden="true"><use href="#i-wallet"/></svg>本月续费 GMV</div>
-      <div class="val">¥128,600</div>
-      <div class="foot"><span class="up"><svg class="i xs" aria-hidden="true"><use href="#i-up"/></svg>12.8%</span> 较上月同期</div></div>
+      <div class="val">¥128,600</div></div>
     <div class="kpi"><div class="label"><svg class="i s" aria-hidden="true"><use href="#i-wallet"/></svg>本月续费净 GMV</div>
-      <div class="val">¥116,480</div><div class="foot">已扣除本月退费</div></div>
+      <div class="val">¥116,480</div></div>
     <div class="kpi"><div class="label"><svg class="i s" aria-hidden="true"><use href="#i-book"/></svg>本月人均课消</div>
-      <div class="val">3.8<small>节/人</small></div><div class="foot">3,286 节 ÷ 866 位在读学生</div></div>
+      <div class="val">3.8<small>节/人</small></div></div>
     <div class="kpi"><div class="label"><svg class="i s" aria-hidden="true"><use href="#i-phone"/></svg>今日有效通时</div>
-      <div class="val">4.2<small>h</small></div><div class="foot">用友平台回传</div></div>
+      <div class="val">252<small>分钟</small></div></div>
     <div class="kpi"><div class="label"><svg class="i s" aria-hidden="true"><use href="#i-clock"/></svg>本月累计通时</div>
-      <div class="val">72.8<small>h</small></div><div class="foot">本月有效通话时长累计</div></div>
+      <div class="val">72.8<small>h</small></div></div>
     <div class="kpi v11-orders-kpi"><div class="label"><svg class="i s" aria-hidden="true"><use href="#i-ord"/></svg>本月订单详情</div>
       <div class="v12-orders">
         <button class="v12-order-total" type="button" onclick="v3DashOrders('')" title="查看本月全部订单"><b id="v11OrderTotal">0</b><small>单</small></button>
@@ -4381,14 +4571,14 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
       <div class="right"><button class="btn sm ink" onclick="go('stuList')">查看全部</button></div></div>
     <div class="card-bd">
       <div class="node-grid">
-        <div class="node" onclick="quickFilter('待首通')"><div class="n-top"><span class="n-name">首通</span><span class="v3-node-overdue">超时 2</span></div><div class="n-val">6</div><div class="n-foot">服务时限 48 小时</div></div>
-        <div class="node" onclick="quickFilter('待首课')"><div class="n-top"><span class="n-name">首课</span><span class="v3-node-overdue">超时 1</span></div><div class="n-val">4</div><div class="n-foot">服务时限 24 小时</div></div>
-        <div class="node" onclick="quickFilter('问题课程')"><div class="n-top"><span class="n-name">问题课程</span><span class="v3-node-overdue">超时 3</span></div><div class="n-val">9</div><div class="n-foot">服务时限 24 小时</div></div>
-        <div class="node" onclick="quickFilter('课包到期')"><div class="n-top"><span class="n-name">课包到期</span></div><div class="n-val">5</div><div class="n-foot">有效期前 180 / 90 / 30 天提醒</div></div>
-        <div class="node" onclick="quickFilter('月度回访')"><div class="n-top"><span class="n-name">月度回访</span><span class="v3-node-overdue">超时 5</span></div><div class="n-val">21</div><div class="n-foot">服务时限 72 小时</div></div>
-        <div class="node" onclick="quickFilter('CF03')"><div class="n-top"><span class="n-name">CF03</span></div><div class="n-val">7</div><div class="n-foot">累计完课 3 节后待回访</div></div>
-        <div class="node" onclick="quickFilter('首单元')"><div class="n-top"><span class="n-name">首单元</span></div><div class="n-val">3</div><div class="n-foot">首单元完成后待回访</div></div>
-        <div class="node" onclick="quickFilter('补差')"><div class="n-top"><span class="n-name">补差</span></div><div class="n-val">4</div><div class="n-foot">课消进度落后计划</div></div>
+        <button type="button" class="node" onclick="quickFilter('待首通')"><span class="n-name">首通</span><span class="n-val">6</span><span class="v3-node-overdue">超时 2</span></button>
+        <button type="button" class="node" onclick="quickFilter('待首课')"><span class="n-name">首课</span><span class="n-val">4</span><span class="v3-node-overdue">超时 1</span></button>
+        <button type="button" class="node" onclick="quickFilter('问题课程')"><span class="n-name">问题课程</span><span class="n-val">9</span><span class="v3-node-overdue">超时 3</span></button>
+        <button type="button" class="node" onclick="quickFilter('课包到期')"><span class="n-name">课包到期</span><span class="n-val">5</span></button>
+        <button type="button" class="node" onclick="quickFilter('月度回访')"><span class="n-name">月度回访</span><span class="n-val">21</span><span class="v3-node-overdue">超时 5</span></button>
+        <button type="button" class="node" onclick="quickFilter('CF03')"><span class="n-name">CF03</span><span class="n-val">7</span></button>
+        <button type="button" class="node" onclick="quickFilter('首单元')"><span class="n-name">首单元</span><span class="n-val">3</span></button>
+        <button type="button" class="node" onclick="quickFilter('补差')"><span class="n-name">补差</span><span class="n-val">4</span></button>
       </div>
     </div>
   </div>
@@ -4398,11 +4588,11 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
       <div class="card-hd"><h2><svg class="i s" aria-hidden="true"><use href="#i-flag"/></svg>本月目标完成</h2></div>
       <div class="card-bd">
         <div class="v3-goal-row">
-          <div class="v3-goal-title"><b>续费 <em class="v11-net-tag">净达成</em></b><span>本月目标 <strong>¥100,000</strong></span></div>
+          <div class="v3-goal-title"><b>续费 </b><span>本月目标 <strong>¥100,000</strong></span></div>
           <div class="v3-goal-numbers"><strong>¥116,480</strong><span>净达成 · 116.5%</span></div>
           <div class="v3-goal-track" role="progressbar" aria-label="续费净达成目标进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" aria-valuetext="净达成 116.5%"><i style="width:100%"></i></div>
           <div class="v3-goal-foot"><span>净超额 ¥16,480</span><span>已扣退费 ¥12,120</span></div>
-          <div class="v11-net-formula">成交 ¥128,600 − 退费 ¥12,120 = 净达成 ¥116,480</div>
+          
         </div>
         <div class="v3-goal-row v12-consume">
           <div class="v3-goal-title"><b>课消</b><span>本月目标 <strong>180 节</strong></span></div>
@@ -4411,12 +4601,12 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
             <div class="v12-consume-rate"><b>85.6%</b><span>目标完成率</span></div>
           </div>
           <div class="v12-multibar" role="img" aria-label="已完课 154 节，已约待上 32 节，目标 180 节"><i class="done" style="width:82.8%"></i><i class="booked" style="width:17.2%"></i><span class="goal-mark" style="left:96.8%" title="目标 180 节"></span></div>
-          <div class="v12-legend"><span><i class="done"></i>已完课 <b>154</b> 节</span><span><i class="booked"></i>已约待上 <b>32</b> 节</span><span><i class="mark"></i>目标 <b>180</b> 节</span><span class="gap">距目标还差 <b>26</b> 节</span></div>
+          <div class="v12-legend"><span><i class="booked"></i>已约待上 <b>32</b> 节</span><span class="gap">距目标还差 <b>26</b> 节</span></div>
         </div>
       </div>
     </div>
     <div class="card v3-lp-podium-card">
-      <div class="card-hd"><h2><svg class="i s" aria-hidden="true"><use href="#i-trophy"/></svg>本月 LP 光荣榜</h2><span class="hint">按续费成交额排序 · Top 5</span></div>
+      <div class="card-hd"><h2><svg class="i s" aria-hidden="true"><use href="#i-trophy"/></svg>本月 LP 续费榜</h2><span class="hint">按续费成交额排序 · Top 5</span></div>
       <div class="card-bd">
         <div class="v12-rank-me" id="v12RankMe"></div>
         <ol class="v12-rank" id="v12Rank" aria-label="本月 LP 续费成交额前五名"></ol>
@@ -4430,13 +4620,27 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
   <div class="card">
     <div class="card-bd tight">
       <div class="list-filters lf2" id="stuFilters">
+        <div class="stu-search-row">
         <div class="lf-row lf-inputs">
-          <label class="filter-field"><span>关键词</span><div class="lf-box"><svg class="i s" aria-hidden="true"><use href="#i-search"/></svg><input id="kw" type="search" placeholder="英文名、家长或微信备注" aria-label="搜索学员" /></div></label>
-          <label class="filter-field"><span>SID</span><div class="lf-box"><input type="search" class="f" data-f="sid" data-label="SID" aria-label="独立筛选 SID" placeholder="输入完整 SID"></div></label>
           <label class="filter-field"><span>PID</span><div class="lf-box"><input type="search" class="f" data-f="pid" data-label="PID" aria-label="独立筛选 PID" placeholder="输入完整 PID"></div></label>
           <label class="filter-field"><span>手机号</span><div class="lf-box"><input type="search" class="f" data-f="phone" data-label="手机号" aria-label="独立筛选手机号" placeholder="输入手机号或尾号"></div></label>
+          <label class="filter-field"><span>SID</span><div class="lf-box"><input type="search" class="f" data-f="sid" data-label="SID" aria-label="独立筛选 SID" placeholder="输入完整 SID"></div></label>
         </div>
+          <div class="lf-actions stu-search-actions">
+          <button class="btn pri lf-query" type="button" onclick="v12Query('stu')"><svg class="i s" aria-hidden="true"><use href="#i-search"/></svg>查询</button>
+          <button class="btn lf-reset" type="button" onclick="resetFilter()"><svg class="i s" aria-hidden="true"><use href="#i-reset"/></svg>重置</button>
+          </div>
+          <div class="lf-actions stu-table-tools">
+            <span class="filter-result" role="status" aria-live="polite">匹配 <b id="stuResultCount">0</b> 位学员</span>
+            <button class="btn v3-column-open" type="button" onclick="openColumnSettings('students')"><svg class="i s" aria-hidden="true"><use href="#i-cog"/></svg>列设置</button>
+          </div>
+        </div>
+        <div class="stu-facet-row">
         <div class="lf-row lf-selects">
+          <label class="filter-field"><span>学员类型</span><select class="f" id="v11StudentType" data-f="studentType" data-label="学员类型">
+            <option value="">全部学员</option><option value="在读学生" selected>在读学生</option><option value="结课学生">结课学生</option><option value="退费学生">退费学生</option>
+          </select></label>
+          <div class="filter-field"><span id="purchaseLabel">最近一次购课月份</span><div class="purchase-picker" id="purchasePicker"><input type="hidden" class="f" id="stuPurchaseMonth" data-f="purchaseMonth" data-label="最近一次购课月份"><button type="button" class="purchase-trigger" id="purchaseTrigger" aria-labelledby="purchaseLabel purchaseDisplay" aria-expanded="false" aria-controls="purchasePanel"><span id="purchaseDisplay">不限</span><span aria-hidden="true">⌄</span></button><div class="purchase-panel" id="purchasePanel" hidden><div class="purchase-year"><button type="button" aria-label="上一年" onclick="purchaseChangeYear(-1)">‹</button><strong id="purchaseYear"></strong><button type="button" aria-label="下一年" onclick="purchaseChangeYear(1)">›</button></div><div class="purchase-months" id="purchaseMonths"></div><button type="button" class="purchase-clear" onclick="purchaseSelect('')">不限</button></div></div></div>
           <label class="filter-field"><span>服务节点</span><select class="f" data-f="node" data-label="服务节点" aria-label="按服务节点筛选">
             <option value="">全部服务节点</option><option value="首通">首通</option><option value="首课">首课</option>
             <option value="问题课程">问题课程</option><option value="课包到期">课包到期</option>
@@ -4447,10 +4651,11 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
             <option value="mid">16–29 节</option><option value="30to60">30–60 节</option><option value="high">&gt;60 节</option>
           </select></label>
         </div>
+        <div class="lf-actions stu-filter-tools">
+          <button class="btn filter-more" id="stuFilterMore" type="button" aria-expanded="false" aria-controls="stuAdvanced" onclick="toggleFilterPanel('stuAdvanced',this)"><svg class="i s" aria-hidden="true"><use href="#i-filter"/></svg>更多筛选<span class="filter-count" id="stuFilterCount" hidden></span></button>
+        </div>
+        </div>
         <div class="filter-advanced" id="stuAdvanced" hidden>
-          <label class="filter-field"><span>学员类型</span><select class="f" id="v11StudentType" data-f="studentType" data-label="学员类型">
-            <option value="">全部学员</option><option value="在读学生">在读学生</option><option value="结课学生">结课学生</option><option value="退费学生">退费学生</option>
-          </select></label>
           <label class="filter-field"><span>节点状态</span><select class="f" data-f="nodeState" data-label="节点状态">
             <option value="">全部节点状态</option><option value="已超时">已超时</option><option value="进行中">进行中</option>
           </select></label>
@@ -4464,15 +4669,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
             <option value="">全部约课情况</option><option value="yes">有已约待上课程</option><option value="no">暂无待上课程</option>
           </select></label>
         </div>
-        <div class="lf-actions">
-          <button class="btn pri lf-query" type="button" onclick="v12Query('stu')"><svg class="i s" aria-hidden="true"><use href="#i-search"/></svg>查询</button>
-          <button class="btn filter-more" id="stuFilterMore" type="button" aria-expanded="false" aria-controls="stuAdvanced" onclick="toggleFilterPanel('stuAdvanced',this)"><svg class="i s" aria-hidden="true"><use href="#i-filter"/></svg>更多筛选<span class="filter-count" id="stuFilterCount" hidden></span></button>
-          <button class="btn lf-reset" type="button" onclick="resetFilter()"><svg class="i s" aria-hidden="true"><use href="#i-reset"/></svg>重置</button>
-          <span class="spacer"></span>
-          <button class="btn v3-column-open" type="button" onclick="openColumnSettings('students')"><svg class="i s" aria-hidden="true"><use href="#i-cog"/></svg>列设置</button>
-        </div>
-        <div class="filter-meta"><div class="filter-chips" id="stuFilterChips" hidden></div>
-          <span class="filter-result" role="status" aria-live="polite">匹配 <b id="stuResultCount">0</b> 位学员</span></div>
+        <div class="filter-chips" id="stuFilterChips" hidden></div>
       </div>
     </div>
     <div style="padding:0 18px 18px">
@@ -4502,8 +4699,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
     <div class="card fs-follow" id="fsFollow">
       <div class="card-hd">
         <h2><svg class="i s" aria-hidden="true"><use href="#i-chat"/></svg>Follow 记录</h2>
-        <span class="hint" id="fsFollowHint"></span>
-        <div class="right"><button class="st-a" onclick="gotoDetail('logs')">操作日志</button><button class="btn xs pri" onclick="openFollowModal()">＋ 记录 Follow</button></div>
+        <div class="right"><button class="btn xs pri" onclick="openFollowModal()">＋ 记录 Follow</button></div>
       </div>
       <div class="card-bd fs-follow-bd" id="fsFollowBody"></div>
     </div>
@@ -4527,8 +4723,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
           </div>
 
           <div class="nc-own">
-            <div class="nc-ow"><span class="nc-av">LP</span><span id="ncLp">LP · 王娟</span><em>服务负责人</em></div>
-            <div class="nc-ow"><span class="nc-av">CC</span><span id="ncCc">CC · 温晓旭</span><em>课程顾问</em></div>
+            <div class="nc-ow"><span class="nc-av">LP</span><strong class="nc-owner-name" id="ncLp">王娟</strong><em>服务负责人</em></div>
+            <div class="nc-ow"><span class="nc-av">CC</span><strong class="nc-owner-name" id="ncCc">温晓旭</strong><em>课程顾问</em></div>
           </div>
 
           <div class="nc-sec">
@@ -4549,19 +4745,18 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
           <button class="st-a" onclick="openParent(curStu.pid)">家长档案<svg class="i"><use href="#i-right"/></svg></button>
         </div>
         <div class="np-top">
-          <span id="npAv" hidden></span>
           <div class="v12-parent-identity">
-            <div class="v12-parent-name"><b id="npNick"></b><span class="v12-pid"><button class="v3-link" onclick="openParent(curStu.pid)">PID <span id="npPid"></span></button><button class="v12-copy" type="button" onclick="v12Copy(curPid,&quot;PID&quot;)" title="复制 PID" aria-label="复制 PID"><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg></button></span></div>
-            <div class="v12-wx-line"><svg class="i s"><use href="#i-chat"/></svg><span id="npWxNick"></span><span class="np-wx-status" id="npWxStatus"></span></div>
+            <div class="v12-parent-name"><span class="v12-pid"><button class="v3-link" onclick="openParent(curStu.pid)">PID <span id="npPid"></span></button><button class="v12-copy" type="button" onclick="v12Copy(curPid,&quot;PID&quot;)" title="复制 PID" aria-label="复制 PID"><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg></button></span><span class="np-wx-status" id="npWxStatus"></span></div>
           </div>
         </div>
         <section class="np-section" aria-labelledby="parentContact">
           <h3 class="v12-parent-section-title" id="parentContact"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg><span>联系方式</span></h3>
           <div class="np-rows">
-          <div class="np-row"><span class="k">微信备注</span><span class="v" id="npWxNote"></span></div>
+          <div class="np-row"><span class="k">微信昵称</span><span class="v" id="npWxNick"></span></div>
+          <div class="np-row"><span class="k">微信备注名称</span><span class="v" id="npWxNote"></span></div>
           <div class="np-row v12-phone-row"><span class="k" id="npPhoneLabel">手机号</span><span class="v" id="npPhone"></span><span class="ca">
-            <button class="icon-btn" id="npDec" onclick="decrypt(this)" title="解密完整号码" aria-label="解密完整号码"><svg class="i s"><use href="#i-eye"/></svg></button>
-            <button class="icon-btn" onclick="openCall()" title="拨打家长手机" aria-label="拨打家长手机"><svg class="i s"><use href="#i-phone"/></svg></button>
+            <button class="lp-action-decrypt icon-btn" id="npDec" onclick="decrypt(this)" title="解密完整号码" aria-label="解密完整号码"><svg aria-hidden="true" class="i s"><use href="#i-unlock"/></svg></button>
+            <button class="lp-action-call icon-btn" onclick="openCall()" title="拨打家长手机" aria-label="拨打家长手机"><svg aria-hidden="true" class="i s"><use href="#i-call-out"/></svg></button>
           </span></div>
           <div class="np-row"><span class="k">备注联系</span><span class="v" id="npMemo"></span></div>
           <div class="np-row"><span class="k">登录手机</span><span class="v" id="npLoginPhone"></span></div>
@@ -4591,7 +4786,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
       <div class="card qact">
         <div class="qact-h">快捷操作</div>
         <div class="qact-g">
-          <button class="qa pri" onclick="openCall()"><svg class="i s" aria-hidden="true"><use href="#i-phone"/></svg>外呼</button>
+          <button class="lp-action-call qa pri" onclick="openCall()"><svg class="i s" aria-hidden="true"><use href="#i-call-out"/></svg>外呼</button>
           <button class="qa" onclick="gotoBook()"><svg class="i s" aria-hidden="true"><use href="#i-calplus"/></svg>约课</button>
           <button class="qa" onclick="gotoFollow()"><svg class="i s" aria-hidden="true"><use href="#i-chat"/></svg>留 Follow</button>
           <button class="qa more-qa" onclick="toggleQuickMenu()" aria-haspopup="menu" aria-expanded="false" id="moreBtn"><svg class="i s" aria-hidden="true"><use href="#i-more"/></svg>更多</button>
@@ -4608,7 +4803,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
             <button onclick="quickAction('parent')"><svg class="i s"><use href="#i-par"/></svg>家长档案</button>
             <button onclick="quickAction('export')"><svg class="i s"><use href="#i-download"/></svg>导出课表</button>
             <button onclick="quickAction('poster')"><svg class="i s"><use href="#i-share"/></svg>生成海报</button>
-            <button onclick="quickAction('history')"><svg class="i s"><use href="#i-list"/></svg>操作日志</button>
           </div>
         </div>
       </div>
@@ -4632,7 +4826,6 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
         <div class="card" id="calCard">
           <div class="card-hd">
             <h2><svg class="i s" aria-hidden="true"><use href="#i-calplus"/></svg>课程月历</h2>
-            <span class="hint" id="calHint"></span>
           </div>
           <div class="card-bd" style="padding:12px 14px 14px">
             <div id="calBar"></div>
@@ -4657,10 +4850,10 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
       <!-- 下方明细区：只有需要"往下钻"的内容才放进 Tab -->
       <div class="subsec"><h3>明细与记录</h3></div>
       <div class="dtabs v3-maintabs" id="stuTabs" role="tablist" aria-label="学员明细">
-        <button class="on" data-t="order" role="tab" aria-selected="true">订单<span class="tn" id="tnOrder"></span></button>
-        <button data-t="course" role="tab" aria-selected="false">课程与约课<span class="tn" id="tnCourse"></span></button>
+        <button class="on" data-t="order" role="tab" aria-selected="true">订单</button>
+        <button data-t="course" role="tab" aria-selected="false">课程与约课</button>
         <button data-t="assets" role="tab" aria-selected="false">课时与权益</button>
-        <button data-t="service" role="tab" aria-selected="false">服务记录<span class="tn" id="tnFollow"></span></button>
+        <button data-t="service" role="tab" aria-selected="false">服务记录</button>
         <button data-t="report" role="tab" aria-selected="false">学习报告</button>
         <button data-t="history" role="tab" aria-selected="false">活动与转介绍</button>
         <button data-t="logistics" role="tab" aria-selected="false">物流</button>
@@ -4675,12 +4868,17 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
   <div class="card">
     <div class="card-bd tight">
       <div class="list-filters lf2" id="parFilters">
+        <div class="stu-search-row">
         <div class="lf-row lp-parent-identities">
           <label class="filter-field"><span>家长 PID</span><input class="pf" data-f="pid" data-label="家长 PID" type="search" placeholder="输入完整 PID" aria-label="家长列表 PID"></label>
           <label class="filter-field"><span>学员 SID</span><input class="pf" data-f="sid" data-label="学员 SID" type="search" placeholder="输入完整 SID" aria-label="家长列表学员 SID"></label>
           <label class="filter-field"><span>家长手机号</span><input class="pf" data-f="phone" data-label="家长手机号" type="search" inputmode="tel" placeholder="输入完整手机号" aria-label="家长列表手机号"></label>
           <label class="filter-field"><span>学员姓名</span><input class="par-search" id="pkw" type="search" placeholder="中文名或英文名" aria-label="家长列表学员姓名"></label>
         </div>
+          <div class="lf-actions stu-search-actions"><button class="btn pri lf-query" type="button" onclick="v12Query('par')"><svg class="i s" aria-hidden="true"><use href="#i-search"/></svg>查询</button><button class="btn lf-reset" type="button" onclick="resetParFilter()"><svg class="i s" aria-hidden="true"><use href="#i-reset"/></svg>重置</button></div>
+          <div class="lf-actions stu-table-tools"><span class="filter-result" role="status" aria-live="polite">匹配 <b id="parResultCount">0</b> 位家长</span><button class="btn v3-column-open" type="button" onclick="openColumnSettings('parents')"><svg class="i s" aria-hidden="true"><use href="#i-cog"/></svg>列设置</button></div>
+        </div>
+        <div class="stu-facet-row">
         <div class="lf-row lp-parent-secondary">
           <label class="filter-field"><span>剩余课时</span><select class="pf" data-f="remain" data-label="剩余课时" aria-label="按家长账户剩余课时筛选">
             <option value="">全部剩余课时</option><option value="low">≤15 节 · 续费关注</option>
@@ -4689,6 +4887,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
           <label class="filter-field"><span>微信绑定</span><select class="pf" data-f="wx" data-label="微信绑定" aria-label="按微信绑定状态筛选">
             <option value="">全部微信状态</option><option value="已绑定">已绑定</option><option value="未绑定">未绑定</option>
           </select></label>
+        </div>
+          <div class="lf-actions stu-filter-tools"><button class="btn filter-more" id="parFilterMore" type="button" aria-expanded="false" aria-controls="parAdvanced" onclick="toggleFilterPanel('parAdvanced',this)"><svg class="i s" aria-hidden="true"><use href="#i-filter"/></svg>更多筛选<span class="filter-count" id="parFilterCount" hidden></span></button></div>
         </div>
         <div class="filter-advanced" id="parAdvanced" hidden>
           <label class="filter-field"><span>归属 LP</span><select class="pf" data-f="lp" data-label="归属 LP">
@@ -4707,15 +4907,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
             <option value="">全部跟进情况</option><option value="stale">距上次跟进 ≥7 天</option><option value="recent">7 天内有跟进</option>
           </select></label>
         </div>
-        <div class="lf-actions">
-          <button class="btn pri lf-query" type="button" onclick="v12Query('par')"><svg class="i s" aria-hidden="true"><use href="#i-search"/></svg>查询</button>
-          <button class="btn filter-more" id="parFilterMore" type="button" aria-expanded="false" aria-controls="parAdvanced" onclick="toggleFilterPanel('parAdvanced',this)"><svg class="i s" aria-hidden="true"><use href="#i-filter"/></svg>更多筛选<span class="filter-count" id="parFilterCount" hidden></span></button>
-          <button class="btn lf-reset" type="button" onclick="resetParFilter()"><svg class="i s" aria-hidden="true"><use href="#i-reset"/></svg>重置</button>
-          <span class="spacer"></span>
-          <button class="btn v3-column-open" type="button" onclick="openColumnSettings('parents')"><svg class="i s" aria-hidden="true"><use href="#i-cog"/></svg>列设置</button>
-        </div>
-        <div class="filter-meta"><div class="filter-chips" id="parFilterChips" hidden></div>
-          <span class="filter-result" role="status" aria-live="polite">匹配 <b id="parResultCount">0</b> 位家长</span></div>
+        <div class="filter-chips" id="parFilterChips" hidden></div>
       </div>
     </div>
     <div style="padding:0 18px 0">
@@ -4742,8 +4934,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
     <div class="card-hd"><h2><svg class="i s" aria-hidden="true"><use href="#i-info"/></svg>基本信息</h2><span class="hint">PID <b id="pIdTop">363454</b><button class="v12-copy" type="button" onclick="v12Copy(document.getElementById(&quot;pIdTop&quot;).textContent,&quot;PID&quot;)" title="复制 PID" aria-label="复制 PID"><svg class="i" aria-hidden="true"><use href="#i-copy"/></svg></button></span>
       <div class="right">
         <button class="btn sm" onclick="openModal('mContact')">＋ 增加备注联系方式</button>
-        <button class="btn sm" onclick="decryptParentPhone()">解密手机号</button>
-        <button class="btn sm" onclick="openParentCall(curPid)"><svg class="i s" aria-hidden="true"><use href="#i-phone"/></svg>外呼</button>
+        <button class="lp-action-call btn sm" onclick="openParentCall(curPid)"><svg class="i s" aria-hidden="true"><use href="#i-call-out"/></svg>外呼</button>
       </div>
     </div>
     <div class="card-bd">
@@ -5124,29 +5315,29 @@ function filterValues(selector){
 }
 function renderFilterMeta(prefix,count,advancedKeys){
   const isStu=prefix==='stu', scope=isStu?'#stuFilters':'#parFilters';
-  const keyword=$(isStu?'kw':'pkw').value.trim();
+  const keyword=isStu?'':$('pkw').value.trim();
   const chips=$(prefix+'FilterChips'), result=$(prefix+'ResultCount'), badge=$(prefix+'FilterCount');
   if(result)result.textContent=count;
   const active=[];
-  if(keyword)active.push(`<button type="button" class="filter-chip" onclick="clearListKeyword('${prefix}')" title="移除关键词筛选"><span>关键词：${htmlSafe(keyword)}</span>${ic('x','xs')}</button>`);
+  if(keyword)active.push(`<button type="button" class="filter-chip" onclick="clearListKeyword('${prefix}')" title="移除关键词筛选"><span>学员姓名：${htmlSafe(keyword)}</span>${ic('x','xs')}</button>`);
   document.querySelectorAll(`${scope} [data-f]`).forEach(el=>{
-    if(!el.value)return;
+    if(isStu&&el.dataset.f==='studentType'&&el.value==='在读学生')return;
+    if(!el.value&&!(isStu&&el.dataset.f==='studentType'))return;
     const selected=el.tagName==='SELECT'?el.options[el.selectedIndex]:{textContent:el.value};
     const title=el.dataset.label||selected.textContent.split(' · ')[0];
     active.push(`<button type="button" class="filter-chip" onclick="clearListFilter('${prefix}','${el.dataset.f}')" title="移除${htmlSafe(title)}筛选"><span>${htmlSafe(title)}：${htmlSafe(selected.textContent)}</span>${ic('x','xs')}</button>`);
   });
-  if(chips){chips.innerHTML=active.length?active.join('')+`<button type="button" class="filter-clear-all" onclick="${isStu?'resetFilter()':'resetParFilter()'}">清空全部</button>`:'';chips.hidden=!active.length;}
+  if(chips){chips.innerHTML=active.length?active.join('')+`<button type="button" class="filter-clear-all" onclick="${isStu?'resetFilter()':'resetParFilter()'}">${isStu?'恢复默认':'清空全部'}</button>`:'';chips.hidden=!active.length;}
   let selectedAdvanced=0;
   advancedKeys.forEach(key=>{const el=document.querySelector(`${scope} [data-f="${key}"]`);if(el&&el.value)selectedAdvanced++});
   if(badge){badge.textContent=selectedAdvanced;badge.hidden=!selectedAdvanced;}
 }
 function clearListKeyword(prefix){
-  $(prefix==='stu'?'kw':'pkw').value='';
-  if(prefix==='stu'){stuPage=1;renderList()}else{parPage=1;renderParList()}
+  if(prefix==='par'){$('pkw').value='';parPage=1;renderParList()}
 }
 function clearListFilter(prefix,key){
   const scope=prefix==='stu'?'#stuFilters':'#parFilters',el=document.querySelector(`${scope} [data-f="${key}"]`);
-  if(el)el.value='';
+  if(el)el.value=(prefix==='stu'&&key==='studentType')?'在读学生':'';
   if(prefix==='stu'){stuPage=1;renderList()}else{parPage=1;renderParList()}
 }
 let stuPage=1,stuPageSize=10;
@@ -5170,19 +5361,56 @@ function renderStuPagination(total,pageCount){
 }
 function goStuPage(page){stuPage=page;renderList()}
 function changeStuPage(delta){goStuPage(stuPage+delta)}
+function latestStudentPurchaseMonths(){
+  const months=new Map();
+  for(const order of ORDERS){
+    if(order.type!=='课时数量'||!['已支付','退费中','已退费'].includes(order.st))continue;
+    const month=String(order.pt||'').match(/^\d{4}-(?:0[1-9]|1[0-2])(?=-)/)?.[0];
+    if(month&&month>(months.get(order.sid)||''))months.set(order.sid,month);
+  }
+  return months;
+}
+let purchasePickerYear=new Date().getFullYear();
+function purchaseDisplayUpdate(){
+  const value=$('stuPurchaseMonth').value;
+  $('purchaseDisplay').textContent=value?value.slice(0,4)+' 年 '+Number(value.slice(5))+' 月':'不限';
+}
+function purchaseRender(){
+  $('purchaseYear').textContent=purchasePickerYear+' 年';
+  const selected=$('stuPurchaseMonth').value;
+  $('purchaseMonths').innerHTML=Array.from({length:12},(_,i)=>{
+    const value=String(purchasePickerYear)+'-'+String(i+1).padStart(2,'0');
+    return `<button type="button" class="${selected===value?'on':''}" aria-pressed="${selected===value}" onclick="purchaseSelect('${value}')">${i+1} 月</button>`;
+  }).join('');
+}
+function purchaseChangeYear(delta){purchasePickerYear+=delta;purchaseRender()}
+function purchaseSelect(value){
+  $('stuPurchaseMonth').value=value;
+  $('purchasePanel').hidden=true;$('purchaseTrigger').setAttribute('aria-expanded','false');
+  purchaseDisplayUpdate();stuPage=1;renderList();$('purchaseTrigger').focus();
+}
+$('purchaseTrigger').addEventListener('click',()=>{
+  const panel=$('purchasePanel'),opening=panel.hidden;
+  panel.hidden=!opening;$('purchaseTrigger').setAttribute('aria-expanded',String(opening));
+  if(opening){const value=$('stuPurchaseMonth').value;purchasePickerYear=value?Number(value.slice(0,4)):Number(new Intl.DateTimeFormat('en',{timeZone:'Asia/Shanghai',year:'numeric'}).format(new Date()));purchaseRender()}
+});
+document.addEventListener('click',event=>{
+  if(!$('purchasePicker').contains(event.target)){$('purchasePanel').hidden=true;$('purchaseTrigger').setAttribute('aria-expanded','false')}
+});
+document.addEventListener('keydown',event=>{
+  if(event.key==='Escape'&&!$('purchasePanel').hidden){$('purchasePanel').hidden=true;$('purchaseTrigger').setAttribute('aria-expanded','false');$('purchaseTrigger').focus()}
+});
 function getFilteredStudents(){
-  const kw=($('kw').value||'').trim().toLowerCase();
   const f=filterValues('#stuFilters .f');
+  const purchaseMonths=f.purchaseMonth?latestStudentPurchaseMonths():null;
   return STUDENTS.filter(s=>{
     const parent=PARENTS.find(p=>p.pid===s.pid)||{};
     const phoneText=`${parent.phone||''} ${parent.loginPhone||''} ${PHONE_FULL[parent.phone]||''} ${PHONE_FULL[parent.loginPhone]||''}`;
-    const wxText=`${parent.name||''} ${parent.note||''} ${parent.nick||''} ${parent.memo||''} ${parent.email||''}`;
-    const searchable=[s.name,s.en,wxText].join(' ').toLowerCase();
     if(f.sid&&s.id!==f.sid.trim())return false;
     if(f.pid&&s.pid!==f.pid.trim())return false;
     if(f.phone){const q=f.phone.replace(/\D/g,'');if(!q||!phoneText.split(/\s+/).some(x=>x.replace(/\D/g,'').includes(q)))return false;}
     if(f.studentType&&v11StudentType(s)!==f.studentType)return false;
-    if(kw&&!searchable.includes(kw))return false;
+    if(purchaseMonths&&(purchaseMonths.get(s.id)||'none')!==f.purchaseMonth)return false;
     if(f.node&&serviceNodeName(s.task)!==f.node)return false;
     if(f.remain==='low'&&s.remain>15)return false;
     if(f.remain==='mid'&&(s.remain<=15||s.remain>=30))return false;
@@ -5203,7 +5431,7 @@ function renderList(){
   const pageCount=Math.max(1,Math.ceil(rows.length/stuPageSize));
   stuPage=Math.max(1,Math.min(stuPage,pageCount));
   const visibleRows=rows.slice((stuPage-1)*stuPageSize,stuPage*stuPageSize);
-  renderFilterMeta('stu',rows.length,['studentType','nodeState','consumption','follow','booked']);
+  renderFilterMeta('stu',rows.length,['nodeState','consumption','follow','booked']);
   $('stuTbody').innerHTML=visibleRows.length?visibleRows.map(s=>{
     const parent=PARENTS.find(p=>p.pid===s.pid)||{};
     const low=s.mDone/s.mShould<0.5;
@@ -5214,8 +5442,8 @@ function renderList(){
         <span class="stu-name-stack"><span class="stu-name">${s.name}</span><span class="stu-id-age">${s.id} · ${s.age||'年龄未填写'}</span></span></button></td>
       <td><div class="stu-parent-cell"><button type="button" class="stu-pid-link" title="查看家长详情" aria-label="查看 PID ${s.pid} 的家长详情" onclick="event.stopPropagation();openParent('${s.pid}')">${s.pid}</button>
         <div class="stu-phone-row"><span class="stu-phone-value">${parent.phone||'未填写'}</span>
-          <button class="icon-btn stu-phone-action" title="解密手机号" aria-label="解密 PID ${s.pid} 的手机号" onclick="event.stopPropagation();decrypt(this)" ${parent.phone?'':'disabled'}><svg class="i s" aria-hidden="true"><use href="#i-eye"/></svg></button>
-          <button class="icon-btn stu-phone-action" title="外呼家长" aria-label="外呼 PID ${s.pid} 的家长" onclick="event.stopPropagation();openStudentParentCall('${s.id}')" ${parent.phone?'':'disabled'}><svg class="i s" aria-hidden="true"><use href="#i-phone"/></svg></button></div></div></td>
+          <button class="lp-action-decrypt icon-btn stu-phone-action" title="解密手机号" aria-label="解密 PID ${s.pid} 的手机号" onclick="event.stopPropagation();decrypt(this)" ${parent.phone?'':'disabled'}><svg class="i s" aria-hidden="true"><use href="#i-unlock"/></svg></button>
+          <button class="lp-action-call icon-btn stu-phone-action" title="外呼家长" aria-label="外呼 PID ${s.pid} 的家长" onclick="event.stopPropagation();openStudentParentCall('${s.id}')" ${parent.phone?'':'disabled'}><svg class="i s" aria-hidden="true"><use href="#i-call-out"/></svg></button></div></div></td>
       <td><div class="stu-course-cell"><div class="course-name">${s.course}</div><div class="course-standard" title="下次课标：${s.next||'未填写'}">${s.next||'未填写'}</div></div></td>
       <td class="num"><div class="stu-hours">
         <div class="stu-hours-line"><strong class="${s.remain<=15?'low':''}">${s.remain} 节</strong><span class="remain-label">剩余</span><span class="total-label">/ ${s.total} 节总课时</span></div>
@@ -5247,14 +5475,14 @@ function exportStudentList(){
     rows.map(s=>{const p=PARENTS.find(x=>x.pid===s.pid)||{};return [s.id,s.en||s.name,s.age,s.pid,p.phone||'',s.course,s.next,s.total,s.remain,s.valid,s.bookedPending,`${s.mDone}/${s.mShould}`,`${s.cover} 天`,serviceNodeName(s.task)]}));
   toast(`已导出 ${rows.length} 位学员`);
 }
-function resetFilter(){$('kw').value='';document.querySelectorAll('#stuFilters .f').forEach(s=>s.value='');stuPage=1;renderList()}
+function resetFilter(){document.querySelectorAll('#stuFilters .f').forEach(s=>s.value='');$('v11StudentType').value='在读学生';stuPage=1;renderList()}
 function quickFilter(node){
   document.querySelector('#stuFilters .f[data-f="node"]').value=serviceNodeName(node);
   stuPage=1;go('stuList'); renderList(); toast('已筛选：'+serviceNodeName(node));
 }
-$('kw').addEventListener('keydown',e=>{if(e.key==='Enter'){stuPage=1;renderList()}});
 document.querySelectorAll('#stuFilters input.f').forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter'){stuPage=1;renderList()}}));
 document.querySelectorAll('#stuFilters select.f').forEach(s=>s.addEventListener('change',()=>{stuPage=1;renderList()}));
+
 $('stuPageSize').addEventListener('change',e=>{stuPageSize=Number(e.target.value)||10;stuPage=1;renderList()});
 function openStu(id){curStu=STUDENTS.find(s=>s.id===id)||STUDENTS[0];go('stuDetail')}
 
@@ -5318,14 +5546,13 @@ function renderStudentLegacy(s){
   $('ncCourse').textContent=s.course;
   $('ncNext').textContent='下次课标 · '+s.next;
   $('ncLv').textContent=(s.next.match(/^OW-?(L\d+)/)||[,'—'])[1];
-  $('ncLp').textContent='LP · '+s.lp;
-  $('ncCc').textContent='CC · '+s.cc;
+  $('ncLp').textContent=s.lp||'未分配';
+  $('ncCc').textContent=s.cc||'未分配';
 
   /* ---- 家长卡：联系方式集中展示 ---- */
   const p=PARENTS.find(x=>x.pid===s.pid)||PARENTS[0];
   curPid=p.pid;
-  $('npAv').textContent=p.nick.slice(0,1);
-  $('npNick').textContent=p.name||'未填写'; $('npWxNick').textContent=p.nick||'未填写';
+  $('npWxNick').textContent=p.nick||'未填写';
   $('npWxStatus').textContent=p.wxStatus||'未填写';
   $('npWxStatus').style.cssText=(p.wxStatus==='未绑定'?'background:color-mix(in srgb,var(--amber) 11%,#fff);color:var(--amber)':'');
   $('npPid').textContent=p.pid;
@@ -5340,15 +5567,12 @@ function renderStudentLegacy(s){
   const lexileRemaining=$('npLexileRemaining');
   lexileRemaining.textContent=p.lexileRemaining==null?'未填写':`${p.lexileRemaining} 次`;
   lexileRemaining.className='v'+(p.lexileRemaining==null?' np-none':'');
-  /* 明细 Tab 计数：不点进去也知道那一页有多少东西 */
-  const tnC=COURSES_ALL.filter(c=>c.sid===s.id).length;
-  if($('tnCourse')) $('tnCourse').textContent=tnC||'';
-  if($('tnFollow')) $('tnFollow').textContent=followRecords(s.id).length||'';
   const dec=$('npDec');
   if(dec){
+    dec.setAttribute('aria-label','解密完整号码');
     const raw=p.phone, full=PHONE_FULL[raw];
     if(full&&raw.indexOf('*')<0){dec.disabled=true;dec.title='该号码未脱敏';}
-    else{dec.disabled=false;dec.textContent='';dec.title='解密完整号码';dec.innerHTML='<svg class="i s" aria-hidden="true"><use href="#i-eye"/></svg>';}
+    else{dec.disabled=false;dec.textContent='';dec.title='解密完整号码';dec.innerHTML='<svg class="i s" aria-hidden="true"><use href="#i-unlock"/></svg>';}
   }
   /* LP 填写的备注联系方式：没填就明说「未填写」，不造数据 */
   const memo=$('npMemo'), mv=(p.memo||'').trim();
@@ -5654,11 +5878,7 @@ function decrypt(btn){
     const raw=n.nodeValue.trim();
     n.nodeValue=PHONE_FULL[raw]||raw.replace('****','9986'); break; } }
   btn.innerHTML='<svg class="i s" aria-hidden="true"><use href="#i-check"/></svg>';
-  btn.disabled=true; btn.title='已解密';
-}
-function decryptParentPhone(){
-  const btn=document.querySelector('#pInfo [data-phone-decrypt]');
-  if(btn)decrypt(btn); else toast('当前没有可解密的手机号');
+  btn.disabled=true; btn.title='已解密'; btn.setAttribute('aria-label','手机号已解密');
 }
 let tkTab='cur';
 let TASK_DONE={};   /* key = 学员ID + 类型，记录本次会话里已处理掉的 */
@@ -5799,7 +6019,6 @@ function addFollow(res,txt,ch){
     who:'王娟',kind:'man',txt:txt,ch:ch||'工作手机',res:res,voice:''});
   curStu.cover=0;curStu.last=`${p2(d.getMonth()+1)}-${p2(d.getDate())}`;
   LAST_FOLLOW[curStu.id]={t:stamp,res:res,txt:txt};
-  if($('tnFollow')) $('tnFollow').textContent=followRecords(curStu.id).length||'';
   if(stuTab==='follow') renderFollow();
 }
 
@@ -5849,9 +6068,6 @@ function renderCalPanel(){
        <div class="wk7" id="wk7"></div>`
     : `<div id="calGrid"></div>`;
   if(calView==='week'){ renderTrend(); renderWeek7(); } else renderCalendar();
-  if($('calHint')) $('calHint').textContent=calView==='week'
-    ? '本周排课 · 悬停柱子看近四周明细'
-    : '点有课的日期看当天清单，点空白日期直接约课';
 }
 function renderWeek7(){
   const box=$('wk7'); if(!box)return;
@@ -6275,7 +6491,6 @@ function quickFollow(){
   let done='';
   if(top&&res==='已接通'){ done=` · ${top.type} 已标记完成`; finishTask(top.type); }
   renderFacts(curStu); renderTasks(); renderFollow();
-  if($('tnFollow')) $('tnFollow').textContent=followRecords(curStu.id).length||'';
   toast(res==='已接通'?`已归档${done} · 覆盖归零`:'已记录未接通，覆盖时间已更新');
 }
 
@@ -6353,8 +6568,8 @@ function renderParList(){
         <span class="par-wx-status ${wxBound?'bound':'unbound'}" role="img" aria-label="${wxStatus}" title="${wxStatus}">
           <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg><i class="mark"><svg class="i" aria-hidden="true"><use href="${wxBound?'#i-check':'#i-x'}"/></svg></i></span></div></td>
       <td><div class="par-phone-row"><span class="par-phone-value">${htmlSafe(p.phone||'未填写')}</span>
-          <button class="icon-btn par-phone-action" title="解密手机号" aria-label="解密 PID ${p.pid} 的手机号" onclick="event.stopPropagation();decrypt(this)" ${p.phone?'':'disabled'}><svg class="i s" aria-hidden="true"><use href="#i-eye"/></svg></button>
-          <button class="icon-btn par-phone-action" title="外呼家长" aria-label="外呼 PID ${p.pid} 的家长" onclick="event.stopPropagation();openParentCall('${p.pid}')" ${p.phone?'':'disabled'}><svg class="i s" aria-hidden="true"><use href="#i-phone"/></svg></button></div></td>
+          <button class="lp-action-decrypt icon-btn par-phone-action" title="解密手机号" aria-label="解密 PID ${p.pid} 的手机号" onclick="event.stopPropagation();decrypt(this)" ${p.phone?'':'disabled'}><svg class="i s" aria-hidden="true"><use href="#i-unlock"/></svg></button>
+          <button class="lp-action-call icon-btn par-phone-action" title="外呼家长" aria-label="外呼 PID ${p.pid} 的家长" onclick="event.stopPropagation();openParentCall('${p.pid}')" ${p.phone?'':'disabled'}><svg class="i s" aria-hidden="true"><use href="#i-call-out"/></svg></button></div></td>
       <td><div class="par-student-list">${kidsHtml}</div></td>
       <td><div class="par-remain${p.remain<=15?' low':''}">${p.remain}<span> 节</span></div></td>
       <td><span class="par-payment-date" title="最近支付 ${p.pay||'—'}">${p.pay||'—'}</span></td>
@@ -6400,7 +6615,7 @@ function renderParent(pid){
   const samePhone=(p.phone||'').replace(/\D/g,'')===(p.loginPhone||'').replace(/\D/g,'');
   const info=[
     ['微信绑定状态',p.wxStatus],['微信备注名称',p.note||'未填写'],
-    [samePhone?'联系方式 / 登录手机号':'联系方式',`${p.phone||'未填写'} <button class="btn xs" data-phone-decrypt onclick="decrypt(this)">解密</button>${samePhone?'<div class="small muted">与登录手机号相同，合并展示</div>':''}`],
+    [samePhone?'联系方式 / 登录手机号':'联系方式',`${p.phone||'未填写'} <button class="lp-action-decrypt btn xs" data-phone-decrypt onclick="decrypt(this)"><svg class="i s" aria-hidden="true"><use href="#i-unlock"/></svg>解密</button>`],
     ...(!samePhone?[['登录手机号',p.loginPhone||'未填写']]:[]),
     ['备注联系方式',p.memo||'未填写'],['登录邮箱',p.email||'未填写'],['最近支付时间',p.pay||'未填写'],
     ['上次登录时间',p.login||'未填写'],['剩余主修课课时',`${p.remain} 节`],['注册时间',p.registered],
@@ -6796,7 +7011,7 @@ function v3FollowForm(){
  </div>`
 }
 function v3FollowHistory(){
- return `<div class="v3-followhistory"><div class="v3-toolbar"><b style="font-size:13px">Follow 时间线</b><span class="v3-caption" id="tlBar"></span></div><div class="tl" id="fwList"></div></div>`
+ return `<div class="v3-followhistory"><div class="follow-summary" id="tlBar"></div><div class="tl" id="fwList"></div></div>`
 }
 function v3FollowResults(){const current=$('qRes').value;const options=['未接通','沟通完成','稍后联系','已接通','微信已回复','待家长回复'];$('qRes').innerHTML=options.map(x=>`<option ${x===current?'selected':''}>${x}</option>`).join('')}
 function addFollow(res,txt,ch,extra){const stamp=v3Now();const record={sid:curStu.id,id:'F'+(++V3.serial),t:stamp,who:'王娟',kind:'man',txt,ch:ch||'工作手机',res,voice:'',...(extra||{})};FOLLOWS.unshift(record);curStu.cover=0;curStu.last=stamp.slice(5,10);LAST_FOLLOW[curStu.id]={t:stamp.slice(5,10),res,txt};if($('tnFollow'))$('tnFollow').textContent=followRecords(curStu.id).length||'';return record}
@@ -6811,7 +7026,7 @@ function quickFollow(){
  v3Log(curStu.id,'新增 Follow',`${f.type}${f.subtype?' · '+f.subtype:''} · ${f.ch} · ${f.res}`);
  V3.pendingNode='';closeAll();renderFacts(curStu);renderTasks();renderList();renderParList();renderStuTab();renderFollow();toast('Follow 已保存')
 }
-function renderFollow(){const box=$('fwList');if(!box)return;const records=followRecords(curStu.id);const gapTxt=curStu&&curStu.cover!=null?` · 距上次跟进 ${curStu.cover===0?'今天':curStu.cover+' 天'}`:'';if($('tlBar'))$('tlBar').textContent=`共 ${records.length} 条${gapTxt}`;if(!records.length){box.innerHTML=v3Empty('暂无跟进记录','可以在上方记录本次沟通。');return}
+function renderFollow(){const box=$('fwList');if(!box)return;const records=followRecords(curStu.id);const gapTxt=records.length&&curStu.cover!=null?(curStu.cover===0?' · 今天已跟进':` · 距上次跟进 ${curStu.cover} 天`):'';if($('tlBar'))$('tlBar').textContent=`共 ${records.length} 条${gapTxt}`;if(!records.length){box.innerHTML=v3Empty('暂无跟进记录','可以在上方记录本次沟通。');return}
 box.innerHTML=records.map(f=>{const full=v3FollowStamp(f.t),type=[f.type,f.subtype].filter(Boolean).join('-')||'日常服务';const call=f.call||null;
 return `<div class="fr-item">
   <div class="fr-top"><b class="fr-who">${v3E(f.who||'系统')}</b>${f.whoId?`<span class="fr-uid">(${v3E(f.whoId)})</span>`:''}<span class="fr-t">${v3E(full.slice(0,16))}</span></div>
@@ -6925,13 +7140,12 @@ function v11LogisticsHtml(pid,key='gift'){return typeof lpRenderFulfillment==='f
 
 const V3_COLUMN_DEFAULTS={
  students:[
-  {key:'student',label:'学员 / SID',width:150,visible:true},
-  {key:'parent',label:'PID / 手机号',width:180,visible:true},
-  {key:'course',label:'课程与课标',width:135,visible:true},
-  {key:'remain',label:'剩余课时',width:112,visible:true},
-  {key:'booked',label:'已约待上',width:95,visible:true},
+  {key:'student',label:'学员',width:150,visible:true},
+  {key:'parent',label:'PID',width:180,visible:true},
   {key:'consumption',label:'本月课消',width:90,visible:true},
-  {key:'moments',label:'本月发圈 (已发/任务)',width:130,visible:true},
+  {key:'remain',label:'剩余课时',width:112,visible:true},
+  {key:'course',label:'课程与课标',width:135,visible:true},
+  {key:'moments',label:'本月发圈',width:130,visible:true},
   {key:'follow',label:'跟进情况',width:140,visible:true},
   {key:'followTime',label:'跟进时间',width:110,visible:true},
   {key:'task',label:'待办服务节点',width:125,visible:true},
@@ -6948,9 +7162,10 @@ const V3_COLUMN_DEFAULTS={
  ]
 };
 function v3CloneColumns(list){return list.map(x=>({...x}))}
+function v3ColumnStorageKey(scope){return scope==='students'?'lp-columns-students-v2':'lp-columns-'+scope}
 function v3LoadColumns(scope){
  const defaults=V3_COLUMN_DEFAULTS[scope];let saved=null;
- try{saved=JSON.parse(localStorage.getItem('lp-columns-'+scope)||'null')}catch{}
+ try{saved=JSON.parse(localStorage.getItem(v3ColumnStorageKey(scope))||'null')}catch{}
  if(!Array.isArray(saved))return v3CloneColumns(defaults);
  const byKey=new Map(saved.map(x=>[x.key,x]));
  const ordered=saved.map(x=>defaults.find(d=>d.key===x.key)).filter(Boolean);
@@ -6960,7 +7175,7 @@ function v3LoadColumns(scope){
 const V3_COLUMN_SETTINGS={students:v3LoadColumns('students'),parents:v3LoadColumns('parents')};
 const V11_MOMENTS={'315014':{tasks:6,posted:4},'315088':{tasks:4,posted:0},'315102':{tasks:6,posted:3},'315233':{tasks:4,posted:4},'315287':{tasks:4,posted:1},'315340':{tasks:4,posted:0},'315411':{tasks:6,posted:5},'315466':{tasks:4,posted:0},'315502':{tasks:6,posted:2}};
 const V3_FOLLOW_CLOCK={'315088':'19:45','315102':'20:10','315233':'20:30','315287':'20:10','315340':'19:22','315411':'19:00','315466':'10:02','315502':'20:15'};
-function v3PersistColumns(scope){try{localStorage.setItem('lp-columns-'+scope,JSON.stringify(V3_COLUMN_SETTINGS[scope]))}catch{}}
+function v3PersistColumns(scope){try{localStorage.setItem(v3ColumnStorageKey(scope),JSON.stringify(V3_COLUMN_SETTINGS[scope]))}catch{}}
 function v3VisibleColumns(scope){return V3_COLUMN_SETTINGS[scope].filter(c=>c.visible)}
 function v3CurrentPageSize(scope){const el=$(scope==='students'?'stuPageSize':'parPageSize');return Number(el?.value)||10}
 function v3SetPageSize(scope,value){const el=$(scope==='students'?'stuPageSize':'parPageSize');if(!el)return;el.value=String(value);el.dispatchEvent(new Event('change',{bubbles:true}))}
@@ -6975,7 +7190,7 @@ function v3RefreshColumnSettings(scope){openColumnSettings(scope)}
 function v3SetColumnVisible(scope,key,visible){const list=V3_COLUMN_SETTINGS[scope],column=list.find(c=>c.key===key);if(!column)return;if(!visible&&list.filter(c=>c.visible).length<=1){toast('至少保留一列');return}column.visible=!!visible;v3PersistColumns(scope);scope==='students'?renderList():renderParList();v3RefreshColumnSettings(scope)}
 function v3SetColumnWidth(scope,key,width){const column=V3_COLUMN_SETTINGS[scope].find(c=>c.key===key);if(!column)return;column.width=Math.max(80,Math.min(520,Number(width)||column.width));v3PersistColumns(scope);scope==='students'?renderList():renderParList();v3RefreshColumnSettings(scope)}
 function v3MoveColumn(scope,key,direction){const list=V3_COLUMN_SETTINGS[scope],i=list.findIndex(c=>c.key===key),j=i+direction;if(i<0||j<0||j>=list.length)return;[list[i],list[j]]=[list[j],list[i]];v3PersistColumns(scope);scope==='students'?renderList():renderParList();v3RefreshColumnSettings(scope)}
-function v3ResetColumnSettings(scope){V3_COLUMN_SETTINGS[scope]=v3CloneColumns(V3_COLUMN_DEFAULTS[scope]);try{localStorage.removeItem('lp-columns-'+scope)}catch{}v3SetPageSize(scope,10);scope==='students'?renderList():renderParList();v3RefreshColumnSettings(scope);toast('已恢复默认列设置')}
+function v3ResetColumnSettings(scope){V3_COLUMN_SETTINGS[scope]=v3CloneColumns(V3_COLUMN_DEFAULTS[scope]);try{localStorage.removeItem(v3ColumnStorageKey(scope))}catch{}v3SetPageSize(scope,10);scope==='students'?renderList():renderParList();v3RefreshColumnSettings(scope);toast('已恢复默认列设置')}
 function v3SyncListTable(scope){
  const columns=v3VisibleColumns(scope),isStudents=scope==='students',table=$(isStudents?'stuListTable':'parListTable'),colgroup=$(isStudents?'stuColgroup':'parColgroup'),head=$(isStudents?'stuHead':'parHead');
  if(!table||!colgroup||!head)return columns;
@@ -7012,7 +7227,7 @@ function v3FollowCell(f){const full=f?.txt||'暂无 Follow';return `<span class=
 function v3FollowTimeCell(f){if(!f?.time)return'<span class="v3-follow-time">—</span>';const iso=f.time.replace(' ','T');return`<time class="v3-follow-time v12-ft" datetime="${v3E(iso)}"><span class="d">${v3E(f.time.slice(0,10))}</span><span class="t">${v3E(f.time.slice(11,16))}</span></time>`}
 function v3ParentRemaining(parent){return parent.kids.map(id=>STUDENTS.find(s=>s.id===id)).filter(Boolean).reduce((sum,s)=>{const totals=v3Totals(s.id);sum.paid+=totals.paid;sum.gift+=totals.gift;return sum},{paid:0,gift:0})}
 function v3StudentCell(s){const st=(typeof v11StudentType==='function')?v11StudentType(s):'在读学生';const tag=st==='结课学生'?'<span class="v12-stag end">已结课</span>':st==='退费学生'?'<span class="v12-stag refund">已退费</span>':'';return`<div class="stu-student-cell"><div class="stu-name-line"><span class="stu-name">${v3E(s.name)}</span>${tag}</div><div class="stu-id-age"><a class="v12-sid-link" href="javascript:void(0)" title="打开学员详情页" aria-label="打开 SID ${v3E(s.id)} 的学员详情" onclick="event.stopPropagation();openStu('${s.id}')">${v3E(s.id)}</a><span class="sep">·</span><span>${v3E(s.age||'年龄未填写')}</span></div></div>`}
-function v3StudentParentCell(s,parent){return`<div class="stu-parent-cell"><button type="button" class="stu-pid-link" title="查看家长详情" onclick="event.stopPropagation();openParent('${s.pid}')">${v3E(s.pid)}</button><div class="stu-phone-row"><span class="stu-phone-value">${v3E(parent.phone||'未填写')}</span><button class="icon-btn stu-phone-action" title="解密手机号" aria-label="解密 PID ${v3E(s.pid)} 的手机号" onclick="event.stopPropagation();decrypt(this)" ${parent.phone?'':'disabled'}><svg class="i s"><use href="#i-eye"/></svg></button><button class="icon-btn stu-phone-action" title="外呼家长" aria-label="外呼 PID ${v3E(s.pid)} 的家长" onclick="event.stopPropagation();openStudentParentCall('${s.id}')" ${parent.phone?'':'disabled'}><svg class="i s"><use href="#i-phone"/></svg></button></div></div>`}
+function v3StudentParentCell(s,parent){return`<div class="stu-parent-cell"><button type="button" class="stu-pid-link" title="查看家长详情" onclick="event.stopPropagation();openParent('${s.pid}')">${v3E(s.pid)}</button><div class="stu-phone-row"><span class="stu-phone-value">${v3E(parent.phone||'未填写')}</span><button class="lp-action-decrypt icon-btn stu-phone-action" title="解密手机号" aria-label="解密 PID ${v3E(s.pid)} 的手机号" onclick="event.stopPropagation();decrypt(this)" ${parent.phone?'':'disabled'}><svg aria-hidden="true" class="i s"><use href="#i-unlock"/></svg></button><button class="lp-action-call icon-btn stu-phone-action" title="外呼家长" aria-label="外呼 PID ${v3E(s.pid)} 的家长" onclick="event.stopPropagation();openStudentParentCall('${s.id}')" ${parent.phone?'':'disabled'}><svg aria-hidden="true" class="i s"><use href="#i-call-out"/></svg></button></div></div>`}
 function v3StudentColumnValue(s,parent,key){
  const totals=v3Totals(s.id),follow=v3LatestFollow(s.id),moments=V11_MOMENTS[s.id]||{tasks:0,posted:0};
  if(key==='student')return v3StudentCell(s);
@@ -7028,15 +7243,16 @@ function v3StudentColumnValue(s,parent,key){
  return'—';
 }
 function renderList(){
+ purchaseDisplayUpdate();
  v11RenderStudentTypes();
  const rows=getFilteredStudents(),pageCount=Math.max(1,Math.ceil(rows.length/stuPageSize));stuPage=Math.max(1,Math.min(stuPage,pageCount));
  const visibleRows=rows.slice((stuPage-1)*stuPageSize,stuPage*stuPageSize),columns=v3SyncListTable('students');
- renderFilterMeta('stu',rows.length,['studentType','nodeState','consumption','follow','booked']);
+ renderFilterMeta('stu',rows.length,['nodeState','consumption','follow','booked']);
  $('stuTbody').innerHTML=visibleRows.length?visibleRows.map(s=>{const parent=PARENTS.find(p=>p.pid===s.pid)||{};return`<tr style="cursor:pointer" onclick="openStu('${s.id}')">${columns.map(c=>`<td data-column="${c.key}">${v3StudentColumnValue(s,parent,c.key)}</td>`).join('')}</tr>`}).join(''):`<tr><td colspan="${Math.max(1,columns.length)}"><div class="empty"><svg class="i s"><use href="#i-inbox"/></svg>没有符合条件的学员<div class="small">可调整或清空筛选条件后再试</div><button class="btn sm" onclick="resetFilter()">重置筛选</button></div></td></tr>`;
  renderStuPagination(rows.length,pageCount);
 }
 function v3ParentIdCell(parent){const bound=parent.wxStatus==='已绑定',label=bound?'已绑定家长微信':'未绑定家长微信';return`<div class="par-id-cell"><button class="par-pid-link" title="查看家长详情" onclick="event.stopPropagation();openParent('${parent.pid}')">${v3E(parent.pid)}</button><span class="v12-wx ${bound?'bound':'unbound'}" role="img" aria-label="${label}" title="${label}"><svg class="i" aria-hidden="true"><use href="#i-wechat"/></svg>${bound?'已绑定':'未绑定'}</span></div>`}
-function v3ParentPhoneCell(parent){return`<div class="par-phone-row"><span class="par-phone-value">${v3E(parent.phone||'未填写')}</span><button class="icon-btn par-phone-action" title="解密手机号" aria-label="解密 PID ${v3E(parent.pid)} 的手机号" onclick="event.stopPropagation();decrypt(this)" ${parent.phone?'':'disabled'}><svg class="i s"><use href="#i-eye"/></svg></button><button class="icon-btn par-phone-action" title="外呼家长" aria-label="外呼 PID ${v3E(parent.pid)} 的家长" onclick="event.stopPropagation();openParentCall('${parent.pid}')" ${parent.phone?'':'disabled'}><svg class="i s"><use href="#i-phone"/></svg></button></div>`}
+function v3ParentPhoneCell(parent){return`<div class="par-phone-row"><span class="par-phone-value">${v3E(parent.phone||'未填写')}</span><button class="lp-action-decrypt icon-btn par-phone-action" title="解密手机号" aria-label="解密 PID ${v3E(parent.pid)} 的手机号" onclick="event.stopPropagation();decrypt(this)" ${parent.phone?'':'disabled'}><svg aria-hidden="true" class="i s"><use href="#i-unlock"/></svg></button><button class="lp-action-call icon-btn par-phone-action" title="外呼家长" aria-label="外呼 PID ${v3E(parent.pid)} 的家长" onclick="event.stopPropagation();openParentCall('${parent.pid}')" ${parent.phone?'':'disabled'}><svg aria-hidden="true" class="i s"><use href="#i-call-out"/></svg></button></div>`}
 function v3ParentChildrenCell(parent){const children=parent.kids.map(id=>STUDENTS.find(s=>s.id===id)).filter(Boolean);return children.length?`<div class="par-student-list">${children.map(s=>`<button class="par-student-link" title="查看 ${v3E(s.name)} 的学员详情" onclick="event.stopPropagation();openStu('${s.id}')">${v3E(s.name)} · ${v3E(s.id)}</button>`).join('')}</div>`:'—'}
 function v3ParentColumnValue(parent,key){
  const follow=v3LatestParentFollow(parent),remain=v3ParentRemaining(parent),children=parent.kids.map(id=>STUDENTS.find(s=>s.id===id)).filter(Boolean),lp=[...new Set(children.map(s=>s.lp).filter(Boolean))].join('、')||'—',cc=[...new Set(children.map(s=>s.cc).filter(Boolean))].join('、')||'—';
@@ -7328,8 +7544,8 @@ function renderFsStrip(){
         <span class="muted">微信 ${htmlSafe(p.nick||'—')}</span><span class="tag ${p.wxStatus==='未绑定'?'y':'g'}">${htmlSafe(p.wxStatus||'未绑定')}</span></div>
       <div class="fs-val np-row"><span id="fsPhone">${htmlSafe(p.phone||'未填写')}</span>
         <span class="ca">
-          <button class="icon-btn" onclick="decrypt(this)" title="解密完整号码" aria-label="解密完整号码"><svg class="i s" aria-hidden="true"><use href="#i-eye"/></svg></button>
-          <button class="icon-btn" onclick="openCall()" title="拨打家长手机" aria-label="拨打家长手机"><svg class="i s" aria-hidden="true"><use href="#i-phone"/></svg></button>
+          <button class="lp-action-decrypt icon-btn" onclick="decrypt(this)" title="解密完整号码" aria-label="解密完整号码"><svg class="i s" aria-hidden="true"><use href="#i-unlock"/></svg></button>
+          <button class="lp-action-call icon-btn" onclick="openCall()" title="拨打家长手机" aria-label="拨打家长手机"><svg class="i s" aria-hidden="true"><use href="#i-call-out"/></svg></button>
         </span>
         <span class="muted" style="font-size:11px">微信备注 ${htmlSafe((p.note||'').trim()||'未填写')}</span></div>
     </div>
@@ -7407,7 +7623,6 @@ if(location.hash.indexOf('#stuDetail')===0){
 </script>
 <script id="layout-v4">
 /* ==================== v4：首屏三列自然高度对齐 + 服务节点新卡片 ==================== */
-const TK_SLA={'首通':{h:48,l:'48h'},'首课':{h:24,l:'24h'},'问题课程':{h:24,l:'24h'},'月度回访':{h:72,l:'72h'}};
 let tkLastTab='';
 tkTab='cur';
 function tkParse(due){
@@ -7418,28 +7633,26 @@ function tkParse(due){
 }
 function tkModel(s){
   const cur=buildTodo(s).map(t=>{
-    const p=tkParse(t.due),over=t.state==='已超时'||!!t.urgent,sla=TK_SLA[t.type]||null;
-    return Object.assign({},t,{over,p,sla,sort:over?-1e6-(p?p.hours:0):(p?p.hours:1e5)});
+    const p=tkParse(t.due),over=t.state==='已超时'||!!t.urgent;
+    return Object.assign({},t,{over,p,sort:over?-1e6-(p?p.hours:0):(p?p.hours:1e5)});
   }).sort((a,b)=>a.sort-b.sort);
   const sess=Object.keys(TASK_DONE).filter(k=>k.indexOf(s.id+'|')===0).map(k=>TASK_DONE[k]);
   const done=[...sess,...(s.id==='315014'?TASKS_DONE:[])];
-  return {cur,done,over:cur.filter(t=>t.over),week:cur.filter(t=>!t.over&&t.p&&t.p.hours<=168)};
+  return {cur,done,over:cur.filter(t=>t.over)};
 }
 function tkSet(tab){tkTab=tab;renderTasks()}
 function tkItem(t,first){
   const e=htmlSafe,st=t.p?t.p.text:(t.due||'进行中');
   return `<div class="tn-item ${t.over?'over':''}"><span class="tn-rail"></span><div class="tn-main">
-    <div class="tn-r1"><b>${e(t.type)}</b><span class="tn-st ${t.over?'over':''}">${e(st)}</span>${t.sla?`<span class="tn-sla">服务时限 ${t.sla.l}</span>`:''}</div>
-    <div class="tn-t" title="${e(t.title)}">${e(t.title)}</div>
-    ${t.trig?`<div class="tn-meta">${e(t.trig)}</div>`:''}
+    <div class="tn-r1"><b>${e(t.type)}</b><span class="tn-st ${t.over?'over':''}">${e(st)}</span></div>
+    ${t.trig?`<div class="tn-meta"><span>触发事件</span> ${e(t.trig)}</div>`:''}
     </div>
-    <div class="tn-ops"><button class="btn sm ${first?'pri':''}" onclick="taskOp('留 Follow','${t.type}')">处理</button><button class="btn sm tn-ib" title="外呼" aria-label="外呼" onclick="taskOp('外呼','${t.type}')">${ic('phone','s')}</button><button class="btn sm tn-ib" aria-label="更多操作" onclick="tkMore(event,'${t.type}')">${ic('more','s')}</button></div></div>`;
+    <div class="tn-ops"><button class="btn sm ${first?'pri':''}" onclick="taskOp('留 Follow','${t.type}')">处理</button><button class="lp-action-call btn sm tn-ib" title="外呼" aria-label="外呼" onclick="taskOp('外呼','${t.type}')">${ic('call-out','s')}</button><button class="btn sm tn-ib" aria-label="更多操作" onclick="tkMore(event,'${t.type}')">${ic('more','s')}</button></div></div>`;
 }
 function tkDoneItem(t){
   const e=htmlSafe,when=t.completedAt?('完成于 '+t.completedAt):(t.time||'—');
   return `<div class="tn-item done"><span class="tn-rail"></span><div class="tn-main">
     <div class="tn-r1"><b>${e(t.type)}</b><span class="tn-st ok">已完成</span>${t.wasOverdue?'<span class="tn-st over">逾期完成</span>':''}</div>
-    <div class="tn-t" title="${e(t.title)}">${e(t.title)}</div>
     <div class="tn-meta">${e(when)}</div></div>
     <div class="tn-ops"><button class="btn sm" onclick="taskOp('查看记录','${t.type}')">查看记录</button></div></div>`;
 }
@@ -7448,12 +7661,11 @@ function renderTasks(){
   const prev=$('taskList'),keep=prev?prev.scrollTop:0;
   const m=tkModel(curStu);
   const tab=['cur','over','done'].includes(tkTab)?tkTab:'cur';
-  const chips=[m.over.length?`<span class="tn-chip over">${m.over.length} 件已超时</span>`:'',m.week.length?`<span class="tn-chip warn">本周 ${m.week.length} 件到期</span>`:'',!m.cur.length?'<span class="tn-chip ok">状态健康</span>':''].join('');
   const tabs=[['cur','待处理',m.cur.length],['over','已超时',m.over.length],['done','已完成',m.done.length]];
   const first=m.cur[0];
   const html=tab==='cur'?m.cur.map(t=>tkItem(t,t===first)).join(''):tab==='over'?m.over.map(t=>tkItem(t,t===first)).join(''):m.done.map(tkDoneItem).join('');
-  const empty=`<div class="empty sm">${ic('check','s')}${({cur:'没有待处理节点，状态健康',over:'没有已超时的节点',done:'还没有已完成的节点'})[tab]}</div>`;
-  card.innerHTML=`<div class="tn-hd"><span class="tn-ico ${m.over.length?'over':''}">${ic('bell','s')}</span><div class="tn-ttl">待办服务节点</div>${chips}<button class="tn-link" onclick="tkRules()">节点规则</button></div>
+  const empty=`<div class="empty sm">${ic('check','s')}${({cur:'没有待处理节点',over:'没有已超时的节点',done:'还没有已完成的节点'})[tab]}</div>`;
+  card.innerHTML=`<div class="tn-hd"><span class="tn-ico ${m.over.length?'over':''}">${ic('bell','s')}</span><div class="tn-ttl">待办服务节点</div><button class="tn-link" onclick="tkRules()">节点规则</button></div>
     <div class="tn-tabs" role="tablist" aria-label="服务节点分类">${tabs.map(([k,l,n])=>`<button class="tn-tab ${k===tab?'on':''} ${k==='over'&&n?'hot':''}" role="tab" aria-selected="${k===tab}" onclick="tkSet('${k}')">${l}<b>${n}</b></button>`).join('')}<button class="tn-link all" onclick="gotoDetail('tasklist')">全部节点 ${ic('right','xs')}</button></div>
     <div id="taskList" class="tn-list">${html||empty}</div>`;
   const list=$('taskList');if(list&&tab===tkLastTab)list.scrollTop=keep;
